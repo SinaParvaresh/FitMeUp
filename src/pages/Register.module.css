@@ -1,0 +1,26 @@
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: #525252;
+  border-radius: 10px;
+}
+
+.input:hover,
+.input:active {
+  background: #d8dbec;
+}
+
+.signIn {
+  color: #a7a5a5;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.signInLink {
+  color: #525252;
+  text-decoration: none;
+  font-size: 20x;
+  margin-left: 0.5em;
+}

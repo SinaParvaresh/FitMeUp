@@ -1,0 +1,47 @@
+.Login {
+  box-shadow: rgba(245, 240, 240, 0.136) 0px 8px 32px;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 80px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 520px;
+  max-width: 100%;
+  background-color: #323741;
+}
+
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: #fff;
+  background-color: #2a2f3b;
+  border-radius: 10px;
+}
+
+.input:hover,
+.input:active {
+  background: #23242a;
+}
+
+.signingActivity {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.signUp {
+  color: #525252;
+  text-decoration: none;
+  font-size: 19px;
+}
+
+.forgotPass {
+  color: #525252;
+  text-decoration: none;
+  font-size: 19px;
+}
