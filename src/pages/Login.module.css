@@ -1,4 +1,4 @@
-.Login {
+/* .Login {
   box-shadow: rgba(245, 240, 240, 0.136) 0px 8px 32px;
   border-radius: 15px;
   position: absolute;
@@ -21,14 +21,28 @@
   color: #fff;
   background-color: #2a2f3b;
   border-radius: 10px;
-}
+} 
 
 .input:hover,
 .input:active {
   background: #23242a;
 }
+*/
 
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: #525252;
+  border-radius: 10px;
+}
+
+.input:hover,
+.input:active {
+  background: #d8dbec;
+}
 .signingActivity {
+  color: #a7a5a5;
   display: flex;
   justify-content: space-between;
   margin-top: 10px;

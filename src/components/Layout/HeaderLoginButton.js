@@ -4,7 +4,12 @@ import classes from "./HeaderLoginButton.module.css";
 
 const HeaderLoginButton = (props) => {
   return (
-    <button className={classes.button}>
+    <button
+      type={props.type || "button"}
+      className={classes.button}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
       <Link className={classes.logIn} to="/login">
         Log in
       </Link>

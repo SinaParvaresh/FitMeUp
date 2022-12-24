@@ -2,14 +2,15 @@
   cursor: pointer;
   font: inherit;
   border: none;
-  background-color: #2a2f3b;
+  background-color: #323741;
   color: white;
-  padding: 0.75rem 3rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   border-radius: 25px;
+  display: flex;
+  align-items: center;
   font-weight: bold;
+  justify-content: space-around;
+  padding: 10px 16px;
+  margin: 0.5em;
 }
 
 .button:hover,
@@ -20,26 +21,4 @@
 .logIn {
   color: white;
   text-decoration: none;
-}
-
-.bump {
-  animation: bump 300ms ease-out;
-}
-
-@keyframes bump {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(0.9);
-  }
-  30% {
-    transform: scale(1.1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
 }

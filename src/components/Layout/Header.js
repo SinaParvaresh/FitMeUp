@@ -7,7 +7,9 @@ const Header = (props) => {
     <Fragment>
       <header className={classes.header}>
         <h1>Workout App</h1>
-        <HeaderLoginButton />
+        <div>
+          <HeaderLoginButton />
+        </div>
       </header>
     </Fragment>
   );
