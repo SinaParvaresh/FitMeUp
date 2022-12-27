@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Registration render Page Render the Registration Page 1`] = `
+Array [
+  <header
+    className="header"
+  >
+    <h1>
+      Workout App
+    </h1>
+    <div>
+      <button
+        className="button"
+        type="button"
+      >
+        <a
+          className="logIn"
+          href="/login"
+          onClick={[Function]}
+        >
+          Log in
+        </a>
+      </button>
+    </div>
+  </header>,
+  <form
+    className="card undefined"
+    onSubmit={[Function]}
+  >
+    <div>
+      <div
+        className=""
+      />
+      <div
+        className=""
+      />
+      <div
+        className=""
+      />
+      <div
+        className=""
+      />
+    </div>
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="First Name"
+      type="firstName"
+    />
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="Last Name"
+      type="lastName"
+    />
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="E-Mail"
+      type="email"
+      value=""
+    />
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+    />
+    <button
+      className="button"
+      disabled={false}
+      type="submit"
+    >
+      Sign Up
+    </button>
+    <div
+      className="signIn"
+    >
+      Have an account?
+      <a
+        className="signInLink"
+        href="/login"
+        onClick={[Function]}
+      >
+        Sign in
+      </a>
+    </div>
+  </form>,
+]
+`;

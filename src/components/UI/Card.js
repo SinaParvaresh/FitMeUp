@@ -3,7 +3,9 @@ import classes from "./Card.module.css";
 
 const Card = (props) => {
   return (
-    <form onSubmit={props.onSubmit} className={`${classes.card} ${props.className}`}>{props.children}</form>
+    <form onSubmit={props.onSubmit} className={`${classes.card} ${props.className}`}>
+      {props.children}
+    </form>
   );
 };
 
