@@ -17,6 +17,7 @@ const Register = () => {
   // const [missingEmail, setMissingEmail] = useState(false);
   // const [weakPassword, setWeakPassword] = useState(false);
   // const [missingPassword, setMissingPassword] = useState(false);
+
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
