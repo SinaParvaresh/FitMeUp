@@ -28,7 +28,7 @@ const Register = () => {
       if (res.ok) {
         setEmailFound(true);
         setEmailSent(true);
-        //add success message
+
         return;
       } else {
         return res.json().then((data) => {

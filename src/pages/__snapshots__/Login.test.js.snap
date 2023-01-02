@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Registration Page Component routes Sign in link to Log in component 1`] = `
+exports[`Login page Component routes Forgot Password link to PasswordReset component 1`] = `
 Array [
   <header
     className="header"
@@ -27,50 +27,28 @@ Array [
     className="card undefined"
     onSubmit={[Function]}
   >
+    <label>
+      Forgot Password?
+    </label>
     <input
       className="input"
       onChange={[Function]}
-      placeholder="E-mail.com"
+      placeholder="Email Address"
       type="email"
-      value=""
-    />
-    <input
-      className="input"
-      onChange={[Function]}
-      placeholder="Password"
-      type="password"
       value=""
     />
     <button
       className="button"
-      disabled={false}
+      disabled={true}
       type="submit"
     >
-      Log In
+      Submit
     </button>
-    <div
-      className="signingActivity"
-    >
-      <a
-        className="forgotPass"
-        href="/forgot-password"
-        onClick={[Function]}
-      >
-        Forgot Password?
-      </a>
-      <a
-        className="signUp"
-        href="/register"
-        onClick={[Function]}
-      >
-        Sign up
-      </a>
-    </div>
   </form>,
 ]
 `;
 
-exports[`Registration Page Render the Registration Page 1`] = `
+exports[`Login page Component routes Sign up link to Register component 1`] = `
 Array [
   <header
     className="header"
@@ -163,6 +141,76 @@ Array [
         onClick={[Function]}
       >
         Sign in
+      </a>
+    </div>
+  </form>,
+]
+`;
+
+exports[`Login page Login Page renders correctly 1`] = `
+Array [
+  <header
+    className="header"
+  >
+    <h1>
+      Workout App
+    </h1>
+    <div>
+      <button
+        className="button"
+        type="button"
+      >
+        <a
+          className="logIn"
+          href="/login"
+          onClick={[Function]}
+        >
+          Log in
+        </a>
+      </button>
+    </div>
+  </header>,
+  <form
+    className="card undefined"
+    onSubmit={[Function]}
+  >
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="E-mail.com"
+      type="email"
+      value=""
+    />
+    <input
+      className="input"
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+    <button
+      className="button"
+      disabled={false}
+      type="submit"
+    >
+      Log In
+    </button>
+    <div
+      className="signingActivity"
+    >
+      <a
+        className="forgotPass"
+        href="/forgot-password"
+        onClick={[Function]}
+      >
+        Forgot Password?
+      </a>
+      <a
+        className="signUp"
+        href="/register"
+        onClick={[Function]}
+      >
+        Sign up
       </a>
     </div>
   </form>,

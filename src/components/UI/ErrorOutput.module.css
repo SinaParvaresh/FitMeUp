@@ -1,3 +1,7 @@
+.noAlert {
+  display: none;
+}
+
 .muiAlert {
   color: #d63301;
   background-color: #ffccba;

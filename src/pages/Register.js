@@ -12,7 +12,7 @@ const Register = () => {
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  //const [credentialError, setCredentialError] = useState(false);
+  // const [credentialError, setCredentialError] = useState(false);
   // const [emailExists, setEmailExists] = useState(false);
   // const [missingEmail, setMissingEmail] = useState(false);
   // const [weakPassword, setWeakPassword] = useState(false);
@@ -75,6 +75,7 @@ const Register = () => {
 
           if (errorMessage === "EMAIL_EXISTS") {
             // setEmailExists(true);
+
             setErrorValidations((prevState) => {
               return { ...prevState, emailExists: true };
             });
@@ -100,20 +101,22 @@ const Register = () => {
   };
 
   const firstNameHandler = (event) => {
-    console.log(enteredFirstName);
     setFirstName(event.target.value.trim());
   };
 
   const lastNameHandler = (event) => {
     setLastName(event.target.value.trim());
+    console.log("Entered Last name:", enteredLastName);
   };
 
   const emailHandler = (event) => {
     setEmail(event.target.value.trim());
+    console.log("Entered Email:", enteredEmail);
   };
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
+    console.log("Entered Password:", enteredPassword);
   };
 
   return (
@@ -121,16 +124,30 @@ const Register = () => {
       <Header></Header>
       <Card onSubmit={submitHandler}>
         <ErrorOutput validationCheck={errorValidations} />
-        <input className={classes.input} type="firstName" placeholder="First Name" onChange={firstNameHandler} />
+        {enteredFirstName.trim().length === 0 && <span>invalid name</span>}
+        <input
+          className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
+          type="firstName"
+          placeholder="First Name"
+          onChange={firstNameHandler}
+        />
         <input className={classes.input} type="lastName" placeholder="Last Name" onChange={lastNameHandler} />
         <input
-          className={classes.input}
+          className={`${classes.input} ${
+            (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
+          }`}
           type="email"
           placeholder="E-Mail"
-          value={enteredEmail}
           onChange={emailHandler}
         />
-        <input className={classes.input} type="password" placeholder="Password" onChange={passwordHandler} />
+        <input
+          className={`${classes.input} ${
+            (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
+          }`}
+          type="password"
+          placeholder="Password"
+          onChange={passwordHandler}
+        />
         <Button type="submit" disabled={isLoading ? true : false}>
           Sign Up
         </Button>
