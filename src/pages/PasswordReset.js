@@ -9,12 +9,14 @@ const Register = () => {
   const [emailFound, setEmailFound] = useState(true);
   const [emailSent, setEmailSent] = useState(false);
 
-  const resetPasswordHandler = (event) => {
+  const url =
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
+
+  const resetPasswordHandler = async (event) => {
     event.preventDefault();
 
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-      {
+    try {
+      const request = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           requestType: "PASSWORD_RESET",
@@ -23,21 +25,24 @@ const Register = () => {
         headers: {
           "Content-Type": "applicaton/json",
         },
-      }
-    ).then((res) => {
-      if (res.ok) {
+      });
+      const response = await request.json();
+
+      if (!response.error) {
         setEmailFound(true);
         setEmailSent(true);
 
         return;
       } else {
-        return res.json().then((data) => {
-          if (data.error.message === "EMAIL_NOT_FOUND") {
-            setEmailFound(false);
-          }
-        });
+        let errorMessage = response.error.message;
+
+        if (errorMessage === "EMAIL_NOT_FOUND") {
+          setEmailFound(false);
+        }
       }
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const emailHandler = (event) => {

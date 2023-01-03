@@ -27,8 +27,9 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
+  const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (enteredFirstName.trim().length === 0 || enteredLastName.trim().length === 0) {
@@ -38,66 +39,51 @@ const Register = () => {
 
     setIsLoading(true);
 
-    fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE", {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    }).then((res) => {
-      setIsLoading(false);
-      // setEmailExists(false);
-      // setWeakPassword(false);
-      // setMissingEmail(false);
-      // setMissingPassword(false);
+    try {
+      const request = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        }),
+      });
 
-      if (res.ok) {
-        // setCredentialError(false);
+      const response = await request.json();
+      setIsLoading(false);
+      if (!response.error) {
         setErrorValidations({
           credentialError: false,
         });
 
         navigate("/login");
       } else {
-        return res.json().then((data) => {
-          let errorMessage = data.error.message;
-          console.log(data.error.message);
-
-          // setCredentialError(true);
-
-          setErrorValidations({
-            credentialError: true,
-          });
-
-          if (errorMessage === "EMAIL_EXISTS") {
-            // setEmailExists(true);
-
-            setErrorValidations((prevState) => {
-              return { ...prevState, emailExists: true };
-            });
-          } else if (errorMessage === "MISSING_EMAIL" || errorMessage === "INVALID_EMAIL") {
-            // setMissingEmail(true);
-            setErrorValidations((prevState) => {
-              return { ...prevState, missingEmail: true };
-            });
-          } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "WEAK_PASSWORD") {
-            // setWeakPassword(true);
-            setErrorValidations((prevState) => {
-              return { ...prevState, weakPassword: true };
-            });
-          } else if (errorMessage === "MISSING_PASSWORD") {
-            // setMissingPassword(true);
-            setErrorValidations((prevState) => {
-              return { ...prevState, missingPassword: true };
-            });
-          }
+        let errorMessage = response.error.message;
+        setErrorValidations({
+          credentialError: true,
         });
+
+        if (errorMessage === "EMAIL_EXISTS") {
+          setErrorValidations((prevState) => {
+            return { ...prevState, emailExists: true };
+          });
+        } else if (errorMessage === "MISSING_EMAIL" || errorMessage === "INVALID_EMAIL") {
+          setErrorValidations((prevState) => {
+            return { ...prevState, missingEmail: true };
+          });
+        } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "WEAK_PASSWORD") {
+          setErrorValidations((prevState) => {
+            return { ...prevState, weakPassword: true };
+          });
+        } else if (errorMessage === "MISSING_PASSWORD") {
+          setErrorValidations((prevState) => {
+            return { ...prevState, missingPassword: true };
+          });
+        }
       }
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const firstNameHandler = (event) => {
