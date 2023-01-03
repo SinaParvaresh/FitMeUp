@@ -17,14 +17,14 @@ const Login = (props) => {
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (enteredEmail.trim().length === 0 || enteredPassword.trim().length < 6) {
       return;
     }
 
-    //reset states
+    // Reset states
     setIsLoading(true);
     setValidPassword(true);
     setEmailExists(true);
@@ -32,39 +32,36 @@ const Login = (props) => {
     console.log(enteredEmail);
     console.log(enteredPassword);
 
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      }),
-    })
-      .then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          navigate("/home-page");
-          console.log(res.json());
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = data.error.message;
-            console.log(errorMessage);
-
-            if (errorMessage === "EMAIL_NOT_FOUND") {
-              setEmailExists(false);
-            } else if (errorMessage === "INVALID_PASSWORD") {
-              setValidPassword(false);
-            } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "TOO_MANY_ATTEMPTS_TRY_LATER") {
-              setTooManyRequests(true);
-            }
-          });
-        }
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log("error caught");
-        alert(err.message);
+    try {
+      const request = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        }),
       });
+
+      const response = await request.json();
+      setIsLoading(false);
+      if (!response.error) {
+        navigate("/home-page");
+      } else {
+        let errorMessage = response.error.message;
+        console.log(errorMessage);
+
+        if (errorMessage === "EMAIL_NOT_FOUND") {
+          setEmailExists(false);
+        } else if (errorMessage === "INVALID_PASSWORD") {
+          setValidPassword(false);
+        } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "TOO_MANY_ATTEMPTS_TRY_LATER") {
+          setTooManyRequests(true);
+        }
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const emailHandler = (event) => {

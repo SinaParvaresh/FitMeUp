@@ -14,6 +14,7 @@ describe("Forgot Password Page Component", () => {
       </MemoryRouter>
     );
   });
+
   test("Invalid Email Address Validation (POST request)", async () => {
     const user = userEvent.setup();
     const textbox = component.getByRole("textbox");
