@@ -12,12 +12,6 @@ const Register = () => {
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const [credentialError, setCredentialError] = useState(false);
-  // const [emailExists, setEmailExists] = useState(false);
-  // const [missingEmail, setMissingEmail] = useState(false);
-  // const [weakPassword, setWeakPassword] = useState(false);
-  // const [missingPassword, setMissingPassword] = useState(false);
-
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
@@ -55,7 +49,6 @@ const Register = () => {
         setErrorValidations({
           credentialError: false,
         });
-
         navigate("/login");
       } else {
         let errorMessage = response.error.message;

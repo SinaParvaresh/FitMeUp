@@ -2,19 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classes from "./HeaderButton.module.css";
 
-const HeaderLoginButton = (props) => {
+const HeaderSignUpButton = (props) => {
   return (
-    <Link className={classes.link} to="/login">
+    <Link className={classes.link} to="/register">
       <button
         type={props.type || "button"}
         className={classes.button}
         onClick={props.onClick}
         disabled={props.disabled}
       >
-        Log in
+        Sign Up
       </button>
     </Link>
   );
 };
 
-export default HeaderLoginButton;
+export default HeaderSignUpButton;
