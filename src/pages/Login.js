@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/UI/Button";
 import Header from "../components/Layout/Header";
 import classes from "./Login.module.css";
 import Card from "../components/UI/Card";
+import AuthContext from "../components/store/auth-context";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -13,6 +14,8 @@ const Login = (props) => {
   const [emailExists, setEmailExists] = useState(true);
   const [tooManyRequests, setTooManyRequests] = useState(false);
   const navigate = useNavigate();
+
+  const authCtx = useContext(AuthContext);
 
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
@@ -45,6 +48,7 @@ const Login = (props) => {
       const response = await request.json();
       setIsLoading(false);
       if (!response.error) {
+        authCtx.login(response.idToken);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
