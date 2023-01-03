@@ -1,15 +1,15 @@
 .button {
-  cursor: pointer;
   font: inherit;
+  cursor: pointer;
   border: none;
-  background-color: #323741;
+  background-color: #2b2e36;
   color: white;
-  border-radius: 25px;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  justify-content: space-around;
   padding: 10px 16px;
+  border-radius: 25px;
+  font-weight: bold;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
   margin: 0.5em;
 }
 
@@ -18,7 +18,7 @@
   background-color: #23242a;
 }
 
-.logIn {
+.link {
   color: white;
   text-decoration: none;
 }

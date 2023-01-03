@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classes from "./HeaderButton.module.css";
 
-const HeaderLoginButton = (props) => {
+const HeaderLogoutButton = (props) => {
   return (
     <Link className={classes.link} to="/login">
       <button
@@ -11,10 +11,10 @@ const HeaderLoginButton = (props) => {
         onClick={props.onClick}
         disabled={props.disabled}
       >
-        Log in
+        Log Out
       </button>
     </Link>
   );
 };
 
-export default HeaderLoginButton;
+export default HeaderLogoutButton;
