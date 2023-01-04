@@ -48,7 +48,7 @@ const Login = (props) => {
       const response = await request.json();
       setIsLoading(false);
       if (!response.error) {
-        authCtx.login(response.idToken);
+        authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
