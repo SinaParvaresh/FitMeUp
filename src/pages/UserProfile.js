@@ -7,7 +7,13 @@ const UserProfile = (props) => {
   return (
     <Fragment>
       <Header></Header>
-      <Card></Card>
+      <Card>
+        <label>First Name</label>
+        <input className={classes.input}></input>
+        <label>Last Name</label>
+        <input className={classes.input}></input>
+        <select className={classes.input}></select>
+      </Card>
     </Fragment>
   );
 };

@@ -102,6 +102,7 @@ const Register = () => {
     <Fragment>
       <Header></Header>
       <Card onSubmit={submitHandler}>
+        <h2>Register</h2>
         <ErrorOutput validationCheck={errorValidations} />
         {enteredFirstName.trim().length === 0 && <span>invalid name</span>}
         <input
