@@ -1,0 +1,16 @@
+.input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  flex-wrap: wrap;
+  color: #525252;
+  border-radius: 10px;
+}
+
+.input:hover {
+  background: #d8dbec;
+}
+
+.input.invalid {
+  border: 2px solid #d63301;
+  background: #ffd7d7;
+}

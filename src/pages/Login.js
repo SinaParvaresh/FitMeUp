@@ -80,6 +80,7 @@ const Login = (props) => {
     <Fragment>
       <Header></Header>
       <Card onSubmit={submitHandler}>
+        <h2>Login</h2>
         {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
         {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
         {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}

@@ -19,7 +19,9 @@ const retrieveStoredToken = () => {
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
-  if (remainingTime <= 60000) {
+  // If 5 minutes or less remaining, refresh token.
+  if (remainingTime <= 300000) {
+    console.log("Logout!");
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
     return null;
@@ -64,7 +66,6 @@ export const AuthContextProvider = (props) => {
   // Sets logout handler to the remaining time, if we Auto-log in the user
   useEffect(() => {
     if (tokenData) {
-      console.log(tokenData.duration);
       logoutTimer = setTimeout(logoutHandler, tokenData.duration);
     }
   }, [tokenData, logoutHandler]);
