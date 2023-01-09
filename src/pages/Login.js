@@ -5,6 +5,7 @@ import classes from "./Login.module.css";
 import Card from "../components/UI/Card";
 import AuthContext from "../components/store/auth-context";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -24,6 +25,7 @@ const Login = (props) => {
     event.preventDefault();
 
     if (enteredEmail.trim().length === 0 || enteredPassword.trim().length < 6) {
+      console.log("Email or Password is too short!");
       return;
     }
 
@@ -68,11 +70,11 @@ const Login = (props) => {
   };
 
   const emailHandler = (event) => {
-    setEmail(event.target.value.trim());
+    setEmail(event);
   };
 
   const passwordHandler = (event) => {
-    setPassword(event.target.value);
+    setPassword(event);
   };
 
   return (
@@ -83,20 +85,10 @@ const Login = (props) => {
         {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
         {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
         {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
-        <input
-          className={classes.input}
-          value={enteredEmail}
-          onChange={emailHandler}
-          type="email"
-          placeholder="E-mail.com"
-        />
-        <input
-          className={classes.input}
-          value={enteredPassword}
-          onChange={passwordHandler}
-          type="password"
-          placeholder="Password"
-        />
+
+        <FloatingLabelInput onChangeHandler={emailHandler} type="email" placeholder="placeholder" label="Email" />
+        <FloatingLabelInput onChangeHandler={passwordHandler} type="password" placeholder="Password" label="Password" />
+
         <Button type="submit" disabled={isLoading ? true : false}>
           Log In
         </Button>

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { TextInput, createStyles } from "@mantine/core";
 
-const useStyles = createStyles((theme, { floating }) => ({
+const useStyles = createStyles((theme, { floating }, props) => ({
   root: {
     position: "relative",
+    margin: 16,
   },
 
   label: {
@@ -41,16 +42,21 @@ const useStyles = createStyles((theme, { floating }) => ({
 export function FloatingLabelInput(props) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
-  const { classes } = useStyles({ floating: value.trim().length !== 0 || focused });
+  const { classes } = useStyles({ floating: value.trim().length !== 0 || focused }, props);
+
+  const onChangeInputHandler = (event) => {
+    props.onChangeHandler(event.target.value.trim());
+    setValue(event.currentTarget.value);
+  };
 
   return (
     <TextInput
       label={props.label}
-      placeholder="OMG, it also has a placeholder"
+      placeholder={props.placeholder}
+      type={props.type}
       required
       classNames={classes}
-      value={value}
-      onChange={(event) => setValue(event.currentTarget.value)}
+      onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       mt="md"
