@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/UI/Button";
-import Header from "../components/Layout/Header";
 import classes from "./Login.module.css";
 import Card from "../components/UI/Card";
 import AuthContext from "../components/store/auth-context";
+import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -52,7 +52,6 @@ const Login = (props) => {
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
-        console.log(errorMessage);
 
         if (errorMessage === "EMAIL_NOT_FOUND") {
           setEmailExists(false);
@@ -78,7 +77,7 @@ const Login = (props) => {
 
   return (
     <Fragment>
-      <Header></Header>
+      <HeaderMegaMenu />
       <Card onSubmit={submitHandler}>
         <h2>Login</h2>
         {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}

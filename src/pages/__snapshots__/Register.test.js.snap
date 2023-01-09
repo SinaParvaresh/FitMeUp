@@ -8,25 +8,56 @@ Array [
     <h1>
       Workout App
     </h1>
-    <div>
-      <button
-        className="button"
-        type="button"
+    <div
+      className="headerButton"
+    >
+      <a
+        className="link"
+        href="/login"
+        onClick={[Function]}
       >
-        <a
-          className="logIn"
-          href="/login"
-          onClick={[Function]}
+        <button
+          className="mantine-UnstyledButton-root mantine-Button-root button mantine-8nr514"
+          data-button={true}
+          type="button"
         >
-          Log in
-        </a>
-      </button>
+          <div
+            className="mantine-3xbgk5 mantine-Button-inner"
+          >
+            <span
+              className="mantine-qo1k2 mantine-Button-label"
+              style={
+                Object {
+                  "textTransform": undefined,
+                }
+              }
+            >
+              Log in
+            </span>
+          </div>
+        </button>
+      </a>
+      <a
+        className="link"
+        href="/register"
+        onClick={[Function]}
+      >
+        <button
+          className="button"
+          type="button"
+        >
+          Sign Up
+        </button>
+      </a>
     </div>
   </header>,
   <form
     className="card undefined"
     onSubmit={[Function]}
   >
+    <h2>
+      Login
+    </h2>
     <input
       className="input"
       onChange={[Function]}
@@ -78,25 +109,56 @@ Array [
     <h1>
       Workout App
     </h1>
-    <div>
-      <button
-        className="button"
-        type="button"
+    <div
+      className="headerButton"
+    >
+      <a
+        className="link"
+        href="/login"
+        onClick={[Function]}
       >
-        <a
-          className="logIn"
-          href="/login"
-          onClick={[Function]}
+        <button
+          className="mantine-UnstyledButton-root mantine-Button-root button mantine-8nr514"
+          data-button={true}
+          type="button"
         >
-          Log in
-        </a>
-      </button>
+          <div
+            className="mantine-3xbgk5 mantine-Button-inner"
+          >
+            <span
+              className="mantine-qo1k2 mantine-Button-label"
+              style={
+                Object {
+                  "textTransform": undefined,
+                }
+              }
+            >
+              Log in
+            </span>
+          </div>
+        </button>
+      </a>
+      <a
+        className="link"
+        href="/register"
+        onClick={[Function]}
+      >
+        <button
+          className="button"
+          type="button"
+        >
+          Sign Up
+        </button>
+      </a>
     </div>
   </header>,
   <form
     className="card undefined"
     onSubmit={[Function]}
   >
+    <h2>
+      Register
+    </h2>
     <div>
       <div
         className="noAlert"

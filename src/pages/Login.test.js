@@ -44,7 +44,7 @@ describe("Login page", () => {
     });
   });
 
-  test("Component routes Sign up link to Register component", async () => {
+  test("Component routes Sign up button to Register component", async () => {
     const user = userEvent.setup();
 
     render(
@@ -60,7 +60,7 @@ describe("Login page", () => {
     ).toJSON();
 
     user.click(
-      screen.getByRole("link", {
+      screen.getByRole("button", {
         name: /sign up/i,
       })
     );

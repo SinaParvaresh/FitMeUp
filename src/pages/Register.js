@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from "../components/UI/Card";
 import classes from "./Register.module.css";
 import Button from "../components/UI/Button";
-import Header from "../components/Layout/Header";
 import ErrorOutput from "../components/UI/ErrorOutput";
+import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 
 const Register = () => {
   const [enteredFirstName, setFirstName] = useState("");
@@ -100,7 +100,7 @@ const Register = () => {
 
   return (
     <Fragment>
-      <Header></Header>
+      <HeaderMegaMenu />
       <Card onSubmit={submitHandler}>
         <h2>Register</h2>
         <ErrorOutput validationCheck={errorValidations} />

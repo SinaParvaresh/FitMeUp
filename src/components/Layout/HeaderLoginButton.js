@@ -1,18 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import classes from "./HeaderButton.module.css";
+import { Button } from "@mantine/core";
 
 const HeaderLoginButton = (props) => {
   return (
-    <Link className={classes.link} to="/login">
-      <button
-        type={props.type || "button"}
-        className={classes.button}
-        onClick={props.onClick}
-        disabled={props.disabled}
-      >
-        Log in
-      </button>
+    <Link to="/login">
+      <Button variant="default">Log in</Button>
     </Link>
   );
 };
