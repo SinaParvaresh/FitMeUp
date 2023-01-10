@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import Card from "../components/UI/Card";
+//import Card from "../components/UI/Card";
+import { Card } from "@mantine/core";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 

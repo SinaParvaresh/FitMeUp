@@ -1,11 +1,13 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/UI/Button";
+//import Button from "../components/UI/Button";
+import { Button, Center, Flex, Group } from "@mantine/core";
 import classes from "./Login.module.css";
-import Card from "../components/UI/Card";
+import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
+import { Title } from "@mantine/core";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -14,10 +16,11 @@ const Login = (props) => {
   const [validPassword, setValidPassword] = useState(true);
   const [emailExists, setEmailExists] = useState(true);
   const [tooManyRequests, setTooManyRequests] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext);
-
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
 
@@ -49,6 +52,7 @@ const Login = (props) => {
 
       const response = await request.json();
       setIsLoading(false);
+
       if (!response.error) {
         authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
         navigate("/home-page");
@@ -70,37 +74,57 @@ const Login = (props) => {
   };
 
   const emailHandler = (event) => {
-    setEmail(event);
+    setEmail(event.target.value.trim());
   };
 
   const passwordHandler = (event) => {
-    setPassword(event);
+    setPassword(event.target.value);
   };
 
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Card onSubmit={submitHandler}>
-        <h2>Login</h2>
-        {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
-        {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
-        {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
+      <Center>
+        <FormCard onSubmit={submitHandler}>
+          <Flex direction="column" gap="xs">
+            <Group position="center">
+              <Title order={2}>Login</Title>
+            </Group>
 
-        <FloatingLabelInput onChangeHandler={emailHandler} type="email" placeholder="placeholder" label="Email" />
-        <FloatingLabelInput onChangeHandler={passwordHandler} type="password" placeholder="Password" label="Password" />
+            {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
+            {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
+            {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
 
-        <Button type="submit" disabled={isLoading ? true : false}>
-          Log In
-        </Button>
-        <div className={classes.signingActivity}>
-          <Link className={classes.forgotPass} to="/forgot-password">
-            Forgot Password?
-          </Link>
-          <Link className={classes.signUp} to="/register">
-            Sign up
-          </Link>
-        </div>
-      </Card>
+            <FloatingLabelInput
+              type="email"
+              placeholder="Email"
+              label="Email"
+              onChangeHandler={emailHandler}
+              innerRef={emailRef}
+            />
+            <FloatingLabelInput
+              type="password"
+              placeholder="Password"
+              label="Password"
+              onChangeHandler={passwordHandler}
+              innerRef={passwordRef}
+            />
+
+            <Button type="submit" disabled={isLoading ? true : false}>
+              Log In
+            </Button>
+
+            <div className={classes.signingActivity}>
+              <Link className={classes.forgotPass} to="/forgot-password">
+                Forgot Password?
+              </Link>
+              <Link className={classes.signUp} to="/register">
+                Sign up
+              </Link>
+            </div>
+          </Flex>
+        </FormCard>
+      </Center>
     </Fragment>
   );
 };

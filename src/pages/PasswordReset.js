@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from "react";
-import Card from "../components/UI/Card";
-import Header from "../components/Layout/Header";
+import React, { Fragment, useState, useRef } from "react";
+import FormCard from "../components/UI/FormCard";
 import classes from "./PasswordReset.module.css";
-import Button from "../components/UI/Button";
+import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
+import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 
 const Register = () => {
+  const forgotPassRef = useRef();
   const [enteredEmail, setEmail] = useState("");
   const [emailFound, setEmailFound] = useState(true);
   const [emailSent, setEmailSent] = useState(false);
@@ -51,24 +53,31 @@ const Register = () => {
 
   return (
     <Fragment>
-      <Header></Header>
-      <Card onSubmit={resetPasswordHandler}>
-        {!emailFound && <span className={classes.failed}>Email not found</span>}
-        {!emailSent && <label>Forgot Password?</label>}
-        {!emailSent && (
-          <input
-            type="email"
-            placeholder="Email Address"
-            className={classes.input}
-            value={enteredEmail}
-            onChange={emailHandler}
-          />
-        )}
-        {emailSent && <span className={classes.success}>Password reset request sent! </span>}
-        <Button type="submit" disabled={!enteredEmail || emailSent}>
-          Submit
-        </Button>
-      </Card>
+      <HeaderMegaMenu></HeaderMegaMenu>
+      <Center>
+        <FormCard onSubmit={resetPasswordHandler}>
+          <Stack align="center">
+            {!emailSent && <Title order={3}>Forgot Password?</Title>}
+            <Text c="dimmed">Please enter the email address associated with your account.</Text>
+          </Stack>
+          {!emailFound && <span className={classes.failed}>Email not found</span>}
+          {!emailSent && (
+            <FloatingLabelInput
+              type="email"
+              placeholder="Email"
+              label="Email"
+              className={classes.input}
+              value={enteredEmail}
+              onChangeHandler={emailHandler}
+              innerRef={forgotPassRef}
+            />
+          )}
+          {emailSent && <span className={classes.success}>Password reset request sent! </span>}
+          <Button type="submit" disabled={!enteredEmail || emailSent}>
+            Submit
+          </Button>
+        </FormCard>
+      </Center>
     </Fragment>
   );
 };

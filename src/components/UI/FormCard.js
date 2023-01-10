@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Card.module.css";
+import classes from "./FormCard.module.css";
 
 const Card = (props) => {
   return (

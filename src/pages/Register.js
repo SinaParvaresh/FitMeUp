@@ -1,12 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Card from "../components/UI/Card";
+import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
-import Button from "../components/UI/Button";
+import { Button, Center, Flex, Group } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
+import { Title } from "@mantine/core";
 
 const Register = () => {
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const [enteredFirstName, setFirstName] = useState("");
   const [enteredLastName, setLastName] = useState("");
   const [enteredEmail, setEmail] = useState("");
@@ -81,63 +87,83 @@ const Register = () => {
 
   const firstNameHandler = (event) => {
     setFirstName(event.target.value.trim());
+    console.log("First name: ");
   };
 
   const lastNameHandler = (event) => {
     setLastName(event.target.value.trim());
-    console.log("Entered Last name:", enteredLastName);
+    console.log("Entered Last name: ", enteredLastName);
   };
 
   const emailHandler = (event) => {
     setEmail(event.target.value.trim());
-    console.log("Entered Email:", enteredEmail);
+    console.log("Entered Email: ", enteredEmail);
   };
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
-    console.log("Entered Password:", enteredPassword);
+    console.log("Entered Password: ", enteredPassword);
   };
 
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Card onSubmit={submitHandler}>
-        <h2>Register</h2>
-        <ErrorOutput validationCheck={errorValidations} />
-        {enteredFirstName.trim().length === 0 && <span>invalid name</span>}
-        <input
-          className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
-          type="firstName"
-          placeholder="First Name"
-          onChange={firstNameHandler}
-        />
-        <input className={classes.input} type="lastName" placeholder="Last Name" onChange={lastNameHandler} />
-        <input
-          className={`${classes.input} ${
-            (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
-          }`}
-          type="email"
-          placeholder="E-Mail"
-          onChange={emailHandler}
-        />
-        <input
-          className={`${classes.input} ${
-            (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-          }`}
-          type="password"
-          placeholder="Password"
-          onChange={passwordHandler}
-        />
-        <Button type="submit" disabled={isLoading ? true : false}>
-          Sign Up
-        </Button>
-        <div className={classes.signIn}>
-          Have an account?
-          <Link className={classes.signInLink} to="/login">
-            Sign in
-          </Link>
-        </div>
-      </Card>
+      <Center>
+        <FormCard onSubmit={submitHandler}>
+          <Flex direction="column" justify="center" gap="xs">
+            <Group position="center">
+              <Title order={2}>Register</Title>
+            </Group>
+            <ErrorOutput validationCheck={errorValidations} />
+
+            <FloatingLabelInput
+              className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
+              type="firstName"
+              label="First Name"
+              placeholder="First Name"
+              onChangeHandler={firstNameHandler}
+              innerRef={firstNameRef}
+            />
+            <FloatingLabelInput
+              type="lastName"
+              label="Last Name"
+              placeholder="Last Name"
+              onChangeHandler={lastNameHandler}
+              innerRef={lastNameRef}
+            />
+            <FloatingLabelInput
+              className={`${classes.input} ${
+                (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
+              }`}
+              type="email"
+              label="Email"
+              placeholder="Email"
+              onChangeHandler={emailHandler}
+              innerRef={emailRef}
+            />
+            <FloatingLabelInput
+              className={`${classes.input} ${
+                (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
+              }`}
+              type="password"
+              label="Password"
+              placeholder="Password"
+              onChangeHandler={passwordHandler}
+              innerRef={passwordRef}
+            />
+
+            <Button type="submit" disabled={isLoading ? true : false}>
+              Sign Up
+            </Button>
+            <div className={classes.signIn}>
+              Have an account?
+              <Link className={classes.signInLink} to="/login">
+                Sign in
+              </Link>
+            </div>
+          </Flex>
+        </FormCard>
+      </Center>
     </Fragment>
   );
 };

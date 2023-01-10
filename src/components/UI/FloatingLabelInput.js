@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, createStyles } from "@mantine/core";
+import { TextInput, createStyles, PasswordInput } from "@mantine/core";
 
 const useStyles = createStyles((theme, { floating }, props) => ({
   root: {
@@ -40,14 +40,35 @@ const useStyles = createStyles((theme, { floating }, props) => ({
 }));
 
 export function FloatingLabelInput(props) {
+  const [isPassword, setIsPassword] = useState(false);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const { classes } = useStyles({ floating: value.trim().length !== 0 || focused }, props);
 
   const onChangeInputHandler = (event) => {
-    props.onChangeHandler(event.target.value.trim());
+    props.onChangeHandler(event);
     setValue(event.currentTarget.value);
+    setIsPassword(props.innerRef.current.placeholder === "Password");
+    // console.log(props.innerRef.current.placeholder);
+    // console.log("Change input Handler called!");
   };
+
+  if (isPassword) {
+    return (
+      <PasswordInput
+        label={props.label}
+        placeholder={props.placeholder}
+        required
+        classNames={classes}
+        onChange={onChangeInputHandler}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        ref={props.innerRef}
+        mt="md"
+        autoComplete="nope"
+      />
+    );
+  }
 
   return (
     <TextInput
@@ -56,9 +77,11 @@ export function FloatingLabelInput(props) {
       type={props.type}
       required
       classNames={classes}
+      description={props.description}
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
+      ref={props.innerRef}
       mt="md"
       autoComplete="nope"
     />
