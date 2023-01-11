@@ -21,7 +21,6 @@ const retrieveStoredToken = () => {
 
   // If 5 minutes or less remaining, refresh token.
   if (remainingTime <= 300000) {
-    console.log("Logout!");
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
     return null;

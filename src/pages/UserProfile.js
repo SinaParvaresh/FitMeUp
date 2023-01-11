@@ -1,18 +1,16 @@
 import React, { Fragment } from "react";
-import Card from "../components/UI/Card";
-import Header from "../components/Layout/Header";
-import classes from "./UserProfile.module.css";
+//import Card from "../components/UI/Card";
+import { Card } from "@mantine/core";
+import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 
 const UserProfile = (props) => {
   return (
     <Fragment>
-      <Header></Header>
+      <HeaderMegaMenu />
       <Card>
-        <label>First Name</label>
-        <input className={classes.input}></input>
-        <label>Last Name</label>
-        <input className={classes.input}></input>
-        <select className={classes.input}></select>
+        <FloatingLabelInput label="First Name" placeholder="First Name" />
+        <FloatingLabelInput label="Last Name" placeholder="Last Name" />
       </Card>
     </Fragment>
   );

@@ -1,10 +1,13 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/UI/Button";
-import Header from "../components/Layout/Header";
+//import Button from "../components/UI/Button";
+import { Button, Center, Flex, Group } from "@mantine/core";
 import classes from "./Login.module.css";
-import Card from "../components/UI/Card";
+import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
+import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
+import { Title } from "@mantine/core";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -13,10 +16,11 @@ const Login = (props) => {
   const [validPassword, setValidPassword] = useState(true);
   const [emailExists, setEmailExists] = useState(true);
   const [tooManyRequests, setTooManyRequests] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext);
-
   const url =
     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
 
@@ -24,6 +28,7 @@ const Login = (props) => {
     event.preventDefault();
 
     if (enteredEmail.trim().length === 0 || enteredPassword.trim().length < 6) {
+      console.log("Email or Password is too short!");
       return;
     }
 
@@ -47,12 +52,12 @@ const Login = (props) => {
 
       const response = await request.json();
       setIsLoading(false);
+
       if (!response.error) {
         authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
-        console.log(errorMessage);
 
         if (errorMessage === "EMAIL_NOT_FOUND") {
           setEmailExists(false);
@@ -78,38 +83,48 @@ const Login = (props) => {
 
   return (
     <Fragment>
-      <Header></Header>
-      <Card onSubmit={submitHandler}>
-        <h2>Login</h2>
-        {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
-        {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
-        {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
-        <input
-          className={classes.input}
-          value={enteredEmail}
-          onChange={emailHandler}
-          type="email"
-          placeholder="E-mail.com"
-        />
-        <input
-          className={classes.input}
-          value={enteredPassword}
-          onChange={passwordHandler}
-          type="password"
-          placeholder="Password"
-        />
-        <Button type="submit" disabled={isLoading ? true : false}>
-          Log In
-        </Button>
-        <div className={classes.signingActivity}>
-          <Link className={classes.forgotPass} to="/forgot-password">
-            Forgot Password?
-          </Link>
-          <Link className={classes.signUp} to="/register">
-            Sign up
-          </Link>
-        </div>
-      </Card>
+      <HeaderMegaMenu />
+      <Center>
+        <FormCard onSubmit={submitHandler}>
+          <Flex direction="column" gap="xs">
+            <Group position="center">
+              <Title order={2}>Login</Title>
+            </Group>
+
+            {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
+            {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
+            {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
+
+            <FloatingLabelInput
+              type="email"
+              placeholder="Email"
+              label="Email"
+              onChangeHandler={emailHandler}
+              innerRef={emailRef}
+            />
+            <FloatingLabelInput
+              type="password"
+              placeholder="Password"
+              label="Password"
+              onChangeHandler={passwordHandler}
+              innerRef={passwordRef}
+            />
+
+            <Button type="submit" disabled={isLoading ? true : false}>
+              Log In
+            </Button>
+
+            <div className={classes.signingActivity}>
+              <Link className={classes.forgotPass} to="/forgot-password">
+                Forgot Password?
+              </Link>
+              <Link className={classes.signUp} to="/register">
+                Sign up
+              </Link>
+            </div>
+          </Flex>
+        </FormCard>
+      </Center>
     </Fragment>
   );
 };
