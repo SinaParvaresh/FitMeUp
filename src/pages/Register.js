@@ -2,7 +2,7 @@ import React, { Fragment, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
-import { Button, Center, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
@@ -108,62 +108,60 @@ const Register = () => {
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Center>
-        <FormCard onSubmit={submitHandler}>
-          <Flex direction="column" justify="center" gap="xs">
-            <Group position="center">
-              <Title order={2}>Register</Title>
-            </Group>
-            <ErrorOutput validationCheck={errorValidations} />
+      <FormCard onSubmit={submitHandler}>
+        <Flex direction="column" justify="center" gap="xs">
+          <Group position="center">
+            <Title order={2}>Register</Title>
+          </Group>
+          <ErrorOutput validationCheck={errorValidations} />
 
-            <FloatingLabelInput
-              className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
-              type="firstName"
-              label="First Name"
-              placeholder="First Name"
-              onChangeHandler={firstNameHandler}
-              innerRef={firstNameRef}
-            />
-            <FloatingLabelInput
-              type="lastName"
-              label="Last Name"
-              placeholder="Last Name"
-              onChangeHandler={lastNameHandler}
-              innerRef={lastNameRef}
-            />
-            <FloatingLabelInput
-              className={`${classes.input} ${
-                (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
-              }`}
-              type="email"
-              label="Email"
-              placeholder="Email"
-              onChangeHandler={emailHandler}
-              innerRef={emailRef}
-            />
-            <FloatingLabelInput
-              className={`${classes.input} ${
-                (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-              }`}
-              type="password"
-              label="Password"
-              placeholder="Password"
-              onChangeHandler={passwordHandler}
-              innerRef={passwordRef}
-            />
+          <FloatingLabelInput
+            className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
+            type="firstName"
+            label="First Name"
+            placeholder="First Name"
+            onChangeHandler={firstNameHandler}
+            innerRef={firstNameRef}
+          />
+          <FloatingLabelInput
+            type="lastName"
+            label="Last Name"
+            placeholder="Last Name"
+            onChangeHandler={lastNameHandler}
+            innerRef={lastNameRef}
+          />
+          <FloatingLabelInput
+            className={`${classes.input} ${
+              (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
+            }`}
+            type="email"
+            label="Email"
+            placeholder="Email"
+            onChangeHandler={emailHandler}
+            innerRef={emailRef}
+          />
+          <FloatingLabelInput
+            className={`${classes.input} ${
+              (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
+            }`}
+            type="password"
+            label="Password"
+            placeholder="Password"
+            onChangeHandler={passwordHandler}
+            innerRef={passwordRef}
+          />
 
-            <Button type="submit" disabled={isLoading ? true : false}>
-              Sign Up
-            </Button>
-            <div className={classes.signIn}>
-              Have an account?
-              <Link className={classes.signInLink} to="/login">
-                Sign in
-              </Link>
-            </div>
-          </Flex>
-        </FormCard>
-      </Center>
+          <Button type="submit" disabled={isLoading ? true : false}>
+            Sign Up
+          </Button>
+          <div className={classes.signIn}>
+            Have an account?
+            <Link className={classes.signInLink} to="/login">
+              Sign in
+            </Link>
+          </div>
+        </Flex>
+      </FormCard>
     </Fragment>
   );
 };

@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-//import Button from "../components/UI/Button";
-import { Button, Center, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
@@ -84,47 +83,45 @@ const Login = (props) => {
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Center>
-        <FormCard onSubmit={submitHandler}>
-          <Flex direction="column" gap="xs">
-            <Group position="center">
-              <Title order={2}>Login</Title>
-            </Group>
+      <FormCard onSubmit={submitHandler}>
+        <Flex direction="column" gap="xs">
+          <Group position="center">
+            <Title order={2}>Login</Title>
+          </Group>
 
-            {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
-            {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
-            {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
+          {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
+          {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
+          {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
 
-            <FloatingLabelInput
-              type="email"
-              placeholder="Email"
-              label="Email"
-              onChangeHandler={emailHandler}
-              innerRef={emailRef}
-            />
-            <FloatingLabelInput
-              type="password"
-              placeholder="Password"
-              label="Password"
-              onChangeHandler={passwordHandler}
-              innerRef={passwordRef}
-            />
+          <FloatingLabelInput
+            type="email"
+            placeholder="Email"
+            label="Email"
+            onChangeHandler={emailHandler}
+            innerRef={emailRef}
+          />
+          <FloatingLabelInput
+            type="password"
+            placeholder="Password"
+            label="Password"
+            onChangeHandler={passwordHandler}
+            innerRef={passwordRef}
+          />
 
-            <Button type="submit" disabled={isLoading ? true : false}>
-              Log In
-            </Button>
+          <Button type="submit" disabled={isLoading ? true : false}>
+            Log In
+          </Button>
 
-            <div className={classes.signingActivity}>
-              <Link className={classes.forgotPass} to="/forgot-password">
-                Forgot Password?
-              </Link>
-              <Link className={classes.signUp} to="/register">
-                Sign up
-              </Link>
-            </div>
-          </Flex>
-        </FormCard>
-      </Center>
+          <div className={classes.signingActivity}>
+            <Link className={classes.forgotPass} to="/forgot-password">
+              Forgot Password?
+            </Link>
+            <Link className={classes.signUp} to="/register">
+              Sign up
+            </Link>
+          </div>
+        </Flex>
+      </FormCard>
     </Fragment>
   );
 };

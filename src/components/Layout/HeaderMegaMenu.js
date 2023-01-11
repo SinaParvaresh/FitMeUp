@@ -30,6 +30,7 @@ import HeaderLoginButton from "./HeaderLoginButton";
 import HeaderLogoutButton from "./HeaderLogoutButton";
 import HeaderProfileButton from "./HeaderProfileButton";
 import HeaderSignUpButton from "./HeaderSignUpButton";
+import LightAndDarkModeButton from "../UI/LightAndDarkModeButton";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -200,6 +201,11 @@ export function HeaderMegaMenu() {
               </HoverCard.Dropdown>
             </HoverCard>
           </Group>
+
+          <Group>
+            <LightAndDarkModeButton />
+          </Group>
+
           <Group className={classes.hiddenMobile}>
             {!isLoggedIn && (
               <Group className={classes.hiddenMobile}>

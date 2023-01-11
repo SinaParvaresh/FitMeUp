@@ -1,12 +1,12 @@
 import React from "react";
-import classes from "./FormCard.module.css";
+import { Card } from "@mantine/core";
 
-const Card = (props) => {
+const FormCard = (props) => {
   return (
-    <form onSubmit={props.onSubmit} className={`${classes.card} ${props.className}`}>
-      {props.children}
-    </form>
+    <Card withBorder shadow="lg" sx={{ width: 400, margin: "auto" }}>
+      <form onSubmit={props.onSubmit}>{props.children}</form>
+    </Card>
   );
 };
 
-export default Card;
+export default FormCard;
