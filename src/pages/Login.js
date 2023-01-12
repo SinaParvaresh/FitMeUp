@@ -84,7 +84,6 @@ const Login = (props) => {
   return (
     <Fragment>
       <HeaderMegaMenu />
-
       <FormCard onSubmit={submitHandler}>
         <Flex direction="column" gap="xs">
           <Group position="center">

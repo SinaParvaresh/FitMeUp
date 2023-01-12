@@ -5,7 +5,6 @@ const useStyles = createStyles((theme, { floating }) => ({
   root: {
     position: "relative",
     margin: 16,
-    placeholder: "none",
   },
 
   label: {
