@@ -202,10 +202,6 @@ export function HeaderMegaMenu() {
             </HoverCard>
           </Group>
 
-          <Group>
-            <LightAndDarkModeButton />
-          </Group>
-
           <Group className={classes.hiddenMobile}>
             {!isLoggedIn && (
               <Group className={classes.hiddenMobile}>
@@ -220,6 +216,8 @@ export function HeaderMegaMenu() {
                 <HeaderLogoutButton onClick={authLogoutHandler} />
               </Group>
             )}
+
+            <LightAndDarkModeButton />
           </Group>
         </Group>
       </Header>

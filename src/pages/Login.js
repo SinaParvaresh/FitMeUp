@@ -1,12 +1,13 @@
 import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group, Text } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
+import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -83,6 +84,7 @@ const Login = (props) => {
   return (
     <Fragment>
       <HeaderMegaMenu />
+
       <FormCard onSubmit={submitHandler}>
         <Flex direction="column" gap="xs">
           <Group position="center">
@@ -100,8 +102,8 @@ const Login = (props) => {
             onChangeHandler={emailHandler}
             innerRef={emailRef}
           />
-          <FloatingLabelInput
-            type="password"
+
+          <FloatingPasswordInput
             placeholder="Password"
             label="Password"
             onChangeHandler={passwordHandler}
@@ -112,14 +114,14 @@ const Login = (props) => {
             Log In
           </Button>
 
-          <div className={classes.signingActivity}>
-            <Link className={classes.forgotPass} to="/forgot-password">
-              Forgot Password?
+          <Group position="apart">
+            <Link to="/forgot-password" className={classes.link}>
+              <Text weight={600}>Forgot Password?</Text>
             </Link>
-            <Link className={classes.signUp} to="/register">
-              Sign up
+            <Link to="/register" className={classes.link}>
+              <Text weight={600}>Sign up</Text>
             </Link>
-          </div>
+          </Group>
         </Flex>
       </FormCard>
     </Fragment>

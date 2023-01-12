@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useRef } from "react";
 import FormCard from "../components/UI/FormCard";
 import classes from "./PasswordReset.module.css";
-import { Button, Stack, Text, Title } from "@mantine/core";
+import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
+import { IconArrowLeft } from "@tabler/icons";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const forgotPassRef = useRef();
@@ -56,9 +58,11 @@ const Register = () => {
       <HeaderMegaMenu></HeaderMegaMenu>
       <FormCard onSubmit={resetPasswordHandler}>
         <Stack align="center">
-          {!emailSent && <Title order={3}>Forgot Password?</Title>}
-          <Text c="dimmed">Please enter the email address associated with your account.</Text>
+          {!emailSent && <Title order={3}>Forgot Password?</Title> && (
+            <Text c="dimmed">Please enter the email address associated with your account.</Text>
+          )}
         </Stack>
+
         {!emailFound && <span className={classes.failed}>Email not found</span>}
         {!emailSent && (
           <FloatingLabelInput
@@ -72,9 +76,19 @@ const Register = () => {
           />
         )}
         {emailSent && <span className={classes.success}>Password reset request sent! </span>}
-        <Button type="submit" disabled={!enteredEmail || emailSent}>
-          Submit
-        </Button>
+
+        <Group position="apart">
+          <Link to="/login" className={classes.link}>
+            <Center inline>
+              <IconArrowLeft stroke={1.5} size={20} />
+              <Text ml={5}>Back to login page</Text>
+            </Center>
+          </Link>
+
+          <Button type="submit" disabled={!enteredEmail || emailSent}>
+            Submit
+          </Button>
+        </Group>
       </FormCard>
     </Fragment>
   );

@@ -1,32 +1,5 @@
-.input {
-  margin: 0.5rem 0;
-  padding: 1rem;
-  flex-wrap: wrap;
-  color: #525252;
-  border-radius: 10px;
-}
-
-.input:hover,
-.input:active {
-  background: #d8dbec;
-}
-.signingActivity {
-  color: #a7a5a5;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.signUp {
-  color: #525252;
+.link {
   text-decoration: none;
-  font-size: 19px;
-}
-
-.forgotPass {
-  color: #525252;
-  text-decoration: none;
-  font-size: 19px;
 }
 
 .muiAlert {

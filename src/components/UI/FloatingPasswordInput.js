@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { TextInput, createStyles } from "@mantine/core";
+import { createStyles, PasswordInput } from "@mantine/core";
 
 const useStyles = createStyles((theme, { floating }) => ({
   root: {
     position: "relative",
     margin: 16,
+    placeholder: "none",
   },
 
   label: {
@@ -39,7 +40,7 @@ const useStyles = createStyles((theme, { floating }) => ({
   },
 }));
 
-export function FloatingLabelInput(props) {
+export function FloatingPasswordInput(props) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const { classes } = useStyles({
@@ -52,13 +53,12 @@ export function FloatingLabelInput(props) {
   };
 
   return (
-    <TextInput
+    <PasswordInput
       label={props.label}
       placeholder={props.placeholder}
       type={props.type}
       required
       classNames={classes}
-      description={props.description}
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}

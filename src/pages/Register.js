@@ -2,11 +2,12 @@ import React, { Fragment, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
-import { Button, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group, Text } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
+import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 
 const Register = () => {
   const firstNameRef = useRef();
@@ -140,7 +141,7 @@ const Register = () => {
             onChangeHandler={emailHandler}
             innerRef={emailRef}
           />
-          <FloatingLabelInput
+          <FloatingPasswordInput
             className={`${classes.input} ${
               (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
             }`}
@@ -154,12 +155,12 @@ const Register = () => {
           <Button type="submit" disabled={isLoading ? true : false}>
             Sign Up
           </Button>
-          <div className={classes.signIn}>
-            Have an account?
+          <Group position="center" spacing="xs">
+            <Text>Have an account?</Text>
             <Link className={classes.signInLink} to="/login">
-              Sign in
+              <Text weight={600}>Sign In</Text>
             </Link>
-          </div>
+          </Group>
         </Flex>
       </FormCard>
     </Fragment>
