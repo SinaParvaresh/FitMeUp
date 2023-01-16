@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createStyles, PasswordInput } from "@mantine/core";
 
-const useStyles = createStyles((theme, { floating }) => ({
+const useStyles = createStyles((theme, { floating }, props) => ({
   root: {
     position: "relative",
-    margin: 16,
+    margin: 10,
   },
 
   label: {
@@ -32,7 +32,7 @@ const useStyles = createStyles((theme, { floating }) => ({
   },
 
   input: {
-    "&::placeholder": {
+    "::placeholder": {
       transition: "color 150ms ease",
       color: !floating ? "transparent" : undefined,
     },

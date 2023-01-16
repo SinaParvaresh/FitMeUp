@@ -4,7 +4,7 @@ import { TextInput, createStyles } from "@mantine/core";
 const useStyles = createStyles((theme, { floating }) => ({
   root: {
     position: "relative",
-    margin: 16,
+    margin: 10,
   },
 
   label: {

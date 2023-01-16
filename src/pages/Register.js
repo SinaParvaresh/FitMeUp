@@ -14,10 +14,12 @@ const Register = () => {
   const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
   const [enteredFirstName, setFirstName] = useState("");
   const [enteredLastName, setLastName] = useState("");
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
+  const [enteredConfirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
@@ -38,6 +40,7 @@ const Register = () => {
       return;
     }
 
+    // Move to the top of submitHandler?
     setIsLoading(true);
 
     try {
@@ -88,7 +91,7 @@ const Register = () => {
 
   const firstNameHandler = (event) => {
     setFirstName(event.target.value.trim());
-    console.log("First name: ");
+    console.log("First name: ", enteredFirstName);
   };
 
   const lastNameHandler = (event) => {
@@ -104,6 +107,11 @@ const Register = () => {
   const passwordHandler = (event) => {
     setPassword(event.target.value);
     console.log("Entered Password: ", enteredPassword);
+  };
+
+  const confirmPasswordHandler = (event) => {
+    setConfirmPassword(event.target.value);
+    console.log("Confirm Password: ", enteredConfirmPassword);
   };
 
   return (
@@ -141,20 +149,31 @@ const Register = () => {
             onChangeHandler={emailHandler}
             innerRef={emailRef}
           />
+
           <FloatingPasswordInput
             className={`${classes.input} ${
               (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
             }`}
-            type="password"
             label="Password"
             placeholder="Password"
             onChangeHandler={passwordHandler}
             innerRef={passwordRef}
           />
 
+          <FloatingPasswordInput
+            className={`${classes.input} ${
+              (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
+            }`}
+            label="Password"
+            placeholder="Password"
+            onChangeHandler={confirmPasswordHandler}
+            innerRef={confirmPasswordRef}
+          />
+
           <Button type="submit" disabled={isLoading ? true : false}>
             Sign Up
           </Button>
+
           <Group position="center" spacing="xs">
             <Text>Have an account?</Text>
             <Link className={classes.signInLink} to="/login">
