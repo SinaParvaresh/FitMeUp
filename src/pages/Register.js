@@ -7,20 +7,20 @@ import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
-import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
+// import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
+import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
 
 const Register = () => {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
   const [enteredFirstName, setFirstName] = useState("");
   const [enteredLastName, setLastName] = useState("");
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
-  const [enteredConfirmPassword, setConfirmPassword] = useState("");
+  // const [enteredConfirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
@@ -106,12 +106,26 @@ const Register = () => {
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
-    console.log("Entered Password: ", enteredPassword);
+    passwordValidation(event.target.value);
   };
 
-  const confirmPasswordHandler = (event) => {
-    setConfirmPassword(event.target.value);
-    console.log("Confirm Password: ", enteredConfirmPassword);
+  // const confirmPasswordHandler = (event) => {
+  //   setConfirmPassword(event.target.value);
+  //   console.log("Confirm Password: ", enteredConfirmPassword);
+  // };
+
+  const passwordValidation = (password) => {
+    const hasNumber = /\d/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length > 5 && hasNumber && hasLowercase && hasUppercase && hasSpecialCharacter) {
+      setValidPassword(true);
+      return true;
+    }
+    setValidPassword(false);
+    return false;
   };
 
   return (
@@ -125,12 +139,13 @@ const Register = () => {
           <ErrorOutput validationCheck={errorValidations} />
 
           <FloatingLabelInput
-            className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
+            // className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
             type="firstName"
             label="First Name"
             placeholder="First Name"
             onChangeHandler={firstNameHandler}
             innerRef={firstNameRef}
+            validationCheck={errorValidations}
           />
           <FloatingLabelInput
             type="lastName"
@@ -150,27 +165,33 @@ const Register = () => {
             innerRef={emailRef}
           />
 
-          <FloatingPasswordInput
-            className={`${classes.input} ${
-              (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-            }`}
+          {/* <FloatingPasswordInput
+            // className={`${classes.input} ${
+            //   (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
+            // }`}
             label="Password"
             placeholder="Password"
+            showStrengthBar={showStrengthBar}
             onChangeHandler={passwordHandler}
             innerRef={passwordRef}
+            validationCheck={errorValidations}
+          /> */}
+
+          <PasswordStrengthBar
+            value={enteredPassword}
+            onChangeHandler={passwordHandler}
+            // validationCheck={errorValidations}
           />
 
-          <FloatingPasswordInput
-            className={`${classes.input} ${
-              (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-            }`}
+          {/* <FloatingPasswordInput
             label="Password"
             placeholder="Password"
             onChangeHandler={confirmPasswordHandler}
             innerRef={confirmPasswordRef}
-          />
+            validationCheck={errorValidations}
+          /> */}
 
-          <Button type="submit" disabled={isLoading ? true : false}>
+          <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
             Sign Up
           </Button>
 

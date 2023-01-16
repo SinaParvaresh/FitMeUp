@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createStyles, PasswordInput } from "@mantine/core";
 
-const useStyles = createStyles((theme, { floating }, props) => ({
+const useStyles = createStyles((theme, { floating }) => ({
   root: {
     position: "relative",
     margin: 10,
@@ -31,11 +31,15 @@ const useStyles = createStyles((theme, { floating }, props) => ({
     opacity: floating ? 1 : 0,
   },
 
-  input: {
-    "::placeholder": {
+  innerInput: {
+    "&::placeholder": {
       transition: "color 150ms ease",
       color: !floating ? "transparent" : undefined,
     },
+  },
+
+  invalid: {
+    backgroundColor: theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.red[8], 0.15) : theme.colors.red[0],
   },
 }));
 
@@ -53,15 +57,13 @@ export function FloatingPasswordInput(props) {
 
   return (
     <PasswordInput
-      label={props.label}
-      placeholder={props.placeholder}
-      type={props.type}
-      required
       classNames={classes}
+      label="Password"
+      placeholder="Password"
+      required
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      ref={props.innerRef}
       mt="md"
       autoComplete="nope"
     />

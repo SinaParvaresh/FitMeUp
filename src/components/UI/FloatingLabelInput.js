@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextInput, createStyles } from "@mantine/core";
+import { IconAlertTriangle } from "@tabler/icons";
 
 const useStyles = createStyles((theme, { floating }) => ({
   root: {
@@ -37,6 +38,13 @@ const useStyles = createStyles((theme, { floating }) => ({
       color: !floating ? "transparent" : undefined,
     },
   },
+  invalid: {
+    backgroundColor: theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.red[8], 0.15) : theme.colors.red[0],
+  },
+
+  icon: {
+    color: theme.colors.red[theme.colorScheme === "dark" ? 7 : 6],
+  },
 }));
 
 export function FloatingLabelInput(props) {
@@ -53,12 +61,22 @@ export function FloatingLabelInput(props) {
 
   return (
     <TextInput
+      // classNames={`${classes}`}
+      classNames={classes}
+      // classNames={{
+      //   root: classes.root,
+      //   label: classes.label,
+      //   required: classes.required,
+      //   input: classes.input,
+      //   invalid: classes.invalid,
+      // }}
       label={props.label}
       placeholder={props.placeholder}
       type={props.type}
       required
-      classNames={classes}
       description={props.description}
+      validation={props.validationCheck}
+      rightSection={<IconAlertTriangle stroke={1.5} size={16} className={classes.icon} />}
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
