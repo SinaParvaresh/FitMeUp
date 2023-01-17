@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
@@ -7,7 +7,6 @@ import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
-// import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
 
 const Register = () => {
@@ -18,9 +17,10 @@ const Register = () => {
   const [enteredLastName, setLastName] = useState("");
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
-  // const [enteredConfirmPassword, setConfirmPassword] = useState("");
+  const [enteredConfirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
+
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
@@ -31,6 +31,26 @@ const Register = () => {
 
   const navigate = useNavigate();
   const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
+
+  useEffect(() => {
+    const hasNumber = /\d/.test(enteredPassword);
+    const hasLowercase = /[a-z]/.test(enteredPassword);
+    const hasUppercase = /[A-Z]/.test(enteredPassword);
+    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(enteredPassword);
+
+    if (
+      enteredPassword.length > 5 &&
+      hasNumber &&
+      hasLowercase &&
+      hasUppercase &&
+      hasSpecialCharacter &&
+      enteredConfirmPassword === enteredPassword
+    ) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  }, [enteredPassword, enteredConfirmPassword, validPassword]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -76,10 +96,12 @@ const Register = () => {
           });
         } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "WEAK_PASSWORD") {
           setErrorValidations((prevState) => {
+            //del
             return { ...prevState, weakPassword: true };
           });
         } else if (errorMessage === "MISSING_PASSWORD") {
           setErrorValidations((prevState) => {
+            //del
             return { ...prevState, missingPassword: true };
           });
         }
@@ -106,26 +128,10 @@ const Register = () => {
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
-    passwordValidation(event.target.value);
   };
 
-  // const confirmPasswordHandler = (event) => {
-  //   setConfirmPassword(event.target.value);
-  //   console.log("Confirm Password: ", enteredConfirmPassword);
-  // };
-
-  const passwordValidation = (password) => {
-    const hasNumber = /\d/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    if (password.length > 5 && hasNumber && hasLowercase && hasUppercase && hasSpecialCharacter) {
-      setValidPassword(true);
-      return true;
-    }
-    setValidPassword(false);
-    return false;
+  const confirmPasswordHandler = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   return (
@@ -139,7 +145,6 @@ const Register = () => {
           <ErrorOutput validationCheck={errorValidations} />
 
           <FloatingLabelInput
-            // className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
             type="firstName"
             label="First Name"
             placeholder="First Name"
@@ -155,9 +160,6 @@ const Register = () => {
             innerRef={lastNameRef}
           />
           <FloatingLabelInput
-            className={`${classes.input} ${
-              (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
-            }`}
             type="email"
             label="Email"
             placeholder="Email"
@@ -165,31 +167,12 @@ const Register = () => {
             innerRef={emailRef}
           />
 
-          {/* <FloatingPasswordInput
-            // className={`${classes.input} ${
-            //   (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-            // }`}
-            label="Password"
-            placeholder="Password"
-            showStrengthBar={showStrengthBar}
-            onChangeHandler={passwordHandler}
-            innerRef={passwordRef}
-            validationCheck={errorValidations}
-          /> */}
-
           <PasswordStrengthBar
             value={enteredPassword}
+            confirmPasswordValue={enteredConfirmPassword}
             onChangeHandler={passwordHandler}
-            // validationCheck={errorValidations}
+            onConfrimPasswordHandler={confirmPasswordHandler}
           />
-
-          {/* <FloatingPasswordInput
-            label="Password"
-            placeholder="Password"
-            onChangeHandler={confirmPasswordHandler}
-            innerRef={confirmPasswordRef}
-            validationCheck={errorValidations}
-          /> */}
 
           <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
             Sign Up

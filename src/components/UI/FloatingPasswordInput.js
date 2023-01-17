@@ -64,7 +64,8 @@ export function FloatingPasswordInput(props) {
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      mt="md"
+      mt={props.mt}
+      mb={props.mb}
       autoComplete="nope"
     />
   );

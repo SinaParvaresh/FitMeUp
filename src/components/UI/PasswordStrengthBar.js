@@ -1,4 +1,4 @@
-import { Box, Progress, Group, Text, Center } from "@mantine/core";
+import { Box, Progress, Group, Text, Center, Stack } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons";
 import { FloatingPasswordInput } from "./FloatingPasswordInput";
 
@@ -20,7 +20,7 @@ const requirements = [
   { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: "Includes special symbol" },
 ];
 
-function getStrength(password) {
+function getStrength(password, confirmPassword) {
   let multiplier = password.length > 5 ? 0 : 1;
 
   requirements.forEach((requirement) => {
@@ -29,22 +29,28 @@ function getStrength(password) {
     }
   });
 
-  return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 0);
+  if (confirmPassword !== password || password.length === 0) {
+    multiplier += 1;
+  }
+
+  return Math.max(100 - (100 / (requirements.length + 2)) * multiplier, 0);
 }
 
 export function PasswordStrengthBar(props) {
   let { value } = props;
-  const strength = getStrength(value);
+  let { confirmPasswordValue } = props;
+  let progressValue = value.length > 0 && confirmPasswordValue === value;
+
+  const strength = getStrength(value, confirmPasswordValue);
   const checks = requirements.map((requirement, index) => (
     <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(value)} />
   ));
 
-  const bars = Array(4)
+  const bars = Array(6)
     .fill(0)
     .map((_, index) => (
       <Progress
-        styles={{ bar: { transitionDuration: "0ms" } }}
-        value={props.value.length > 0 && index === 0 ? 100 : strength >= ((index + 1) / 4) * 100 ? 100 : 0}
+        value={progressValue && index === 0 ? 100 : strength >= ((index + 1) / 7) * 100 ? 100 : 0}
         color={strength > 99 ? "teal" : strength > 50 ? "yellow" : "red"}
         key={index}
         size={4}
@@ -53,8 +59,10 @@ export function PasswordStrengthBar(props) {
 
   return (
     <div>
-      <FloatingPasswordInput onChangeHandler={props.onChangeHandler} />
-      <FloatingPasswordInput />
+      <Stack spacing="xs">
+        <FloatingPasswordInput mt="md" onChangeHandler={props.onChangeHandler} />
+        <FloatingPasswordInput mt="md" onChangeHandler={props.onConfrimPasswordHandler} />
+      </Stack>
 
       <Group spacing={5} grow mt="xs" mb="md">
         {bars}
@@ -62,6 +70,7 @@ export function PasswordStrengthBar(props) {
 
       <PasswordRequirement label="Has at least 6 characters" meets={value.length > 5} />
       {checks}
+      <PasswordRequirement label="Passwords match" meets={value === confirmPasswordValue && value} />
     </div>
   );
 }
