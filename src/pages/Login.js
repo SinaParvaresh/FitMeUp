@@ -54,6 +54,7 @@ const Login = (props) => {
       setIsLoading(false);
 
       if (!response.error) {
+        console.log(response.localId);
         authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
         navigate("/home-page");
       } else {

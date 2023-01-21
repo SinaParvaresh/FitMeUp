@@ -68,11 +68,9 @@ export function FloatingLabelInput(props) {
       required
       description={props.description}
       validation={props.validationCheck}
-      // rightSection={<IconAlertTriangle stroke={1.5} size={16} className={classes.icon} />}
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      ref={props.innerRef}
       mt="md"
       autoComplete="nope"
     />

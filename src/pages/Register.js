@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { db } from "../lib/init-firebase";
+import { doc, setDoc } from "firebase/firestore";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
 import { Button, Flex, Group, Text } from "@mantine/core";
@@ -76,6 +78,14 @@ const Register = () => {
       const response = await request.json();
       setIsLoading(false);
       if (!response.error) {
+        console.log(response.localId);
+        await setDoc(doc(db, "users", response.localId), {
+          personal: {
+            first: enteredFirstName,
+            last: enteredLastName,
+            email: enteredEmail,
+          },
+        });
         setErrorValidations({
           credentialError: false,
         });
@@ -113,17 +123,17 @@ const Register = () => {
 
   const firstNameHandler = (event) => {
     setFirstName(event.target.value.trim());
-    console.log("First name: ", enteredFirstName);
+    // console.log("First name: ", enteredFirstName);
   };
 
   const lastNameHandler = (event) => {
     setLastName(event.target.value.trim());
-    console.log("Entered Last name: ", enteredLastName);
+    // console.log("Entered Last name: ", enteredLastName);
   };
 
   const emailHandler = (event) => {
     setEmail(event.target.value.trim());
-    console.log("Entered Email: ", enteredEmail);
+    // console.log("Entered Email: ", enteredEmail);
   };
 
   const passwordHandler = (event) => {
