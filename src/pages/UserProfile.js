@@ -5,7 +5,7 @@ import { db } from "../lib/init-firebase";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 
 const UserProfile = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({
     first: "",
     last: "",
