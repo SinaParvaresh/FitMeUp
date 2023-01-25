@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-//import Button from "../components/UI/Button";
-import { Button, Center, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
+import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 
 const Login = (props) => {
   const [enteredEmail, setEmail] = useState("");
@@ -55,6 +55,7 @@ const Login = (props) => {
 
       if (!response.error) {
         authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
+        // authCtx.uniqueId(response.idToken);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
@@ -84,47 +85,46 @@ const Login = (props) => {
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Center>
-        <FormCard onSubmit={submitHandler}>
-          <Flex direction="column" gap="xs">
-            <Group position="center">
-              <Title order={2}>Login</Title>
-            </Group>
+      <FormCard onSubmit={submitHandler}>
+        <Flex direction="column" gap="xs">
+          <Group position="center">
+            <Title order={2}>Login</Title>
+          </Group>
 
-            {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
-            {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
-            {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
+          {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
+          {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
+          {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
 
-            <FloatingLabelInput
-              type="email"
-              placeholder="Email"
-              label="Email"
-              onChangeHandler={emailHandler}
-              innerRef={emailRef}
-            />
-            <FloatingLabelInput
-              type="password"
-              placeholder="Password"
-              label="Password"
-              onChangeHandler={passwordHandler}
-              innerRef={passwordRef}
-            />
+          <FloatingLabelInput
+            type="email"
+            placeholder="Email"
+            label="Email"
+            onChangeHandler={emailHandler}
+            innerRef={emailRef}
+          />
 
-            <Button type="submit" disabled={isLoading ? true : false}>
-              Log In
-            </Button>
+          <FloatingPasswordInput
+            placeholder="Password"
+            label="Password"
+            onChangeHandler={passwordHandler}
+            innerRef={passwordRef}
+          />
 
-            <div className={classes.signingActivity}>
-              <Link className={classes.forgotPass} to="/forgot-password">
-                Forgot Password?
-              </Link>
-              <Link className={classes.signUp} to="/register">
-                Sign up
-              </Link>
-            </div>
-          </Flex>
-        </FormCard>
-      </Center>
+          <Button type="submit" disabled={isLoading ? true : false}>
+            <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+            Log In
+          </Button>
+
+          <Group position="apart">
+            <Link to="/forgot-password" className={classes.link}>
+              <Text weight={600}>Forgot Password?</Text>
+            </Link>
+            <Link to="/register" className={classes.link}>
+              <Text weight={600}>Sign up</Text>
+            </Link>
+          </Group>
+        </Flex>
+      </FormCard>
     </Fragment>
   );
 };

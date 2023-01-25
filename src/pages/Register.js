@@ -1,23 +1,29 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { db } from "../lib/init-firebase";
+import { doc, setDoc } from "firebase/firestore";
+import AuthContext from "../components/store/auth-context";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
-import { Button, Center, Flex, Group } from "@mantine/core";
+import { Button, Flex, Group, Text } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
+import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
 
 const Register = () => {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
-  const passwordRef = useRef();
   const [enteredFirstName, setFirstName] = useState("");
   const [enteredLastName, setLastName] = useState("");
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
+  const [enteredConfirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
@@ -26,8 +32,29 @@ const Register = () => {
     missingPassword: false,
   });
 
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
+
+  useEffect(() => {
+    const hasNumber = /\d/.test(enteredPassword);
+    const hasLowercase = /[a-z]/.test(enteredPassword);
+    const hasUppercase = /[A-Z]/.test(enteredPassword);
+    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(enteredPassword);
+
+    if (
+      enteredPassword.length > 5 &&
+      hasNumber &&
+      hasLowercase &&
+      hasUppercase &&
+      hasSpecialCharacter &&
+      enteredConfirmPassword === enteredPassword
+    ) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  }, [enteredPassword, enteredConfirmPassword, validPassword]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -37,6 +64,7 @@ const Register = () => {
       return;
     }
 
+    // Move to the top of submitHandler?
     setIsLoading(true);
 
     try {
@@ -51,7 +79,17 @@ const Register = () => {
 
       const response = await request.json();
       setIsLoading(false);
+
       if (!response.error) {
+        authCtx.localId = response.localId;
+        console.log("Auth ctx in register page: ", authCtx);
+        await setDoc(doc(db, "users", authCtx.localId), {
+          personal: {
+            first: enteredFirstName,
+            last: enteredLastName,
+            email: enteredEmail,
+          },
+        });
         setErrorValidations({
           credentialError: false,
         });
@@ -72,10 +110,12 @@ const Register = () => {
           });
         } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "WEAK_PASSWORD") {
           setErrorValidations((prevState) => {
+            //del
             return { ...prevState, weakPassword: true };
           });
         } else if (errorMessage === "MISSING_PASSWORD") {
           setErrorValidations((prevState) => {
+            //del
             return { ...prevState, missingPassword: true };
           });
         }
@@ -87,83 +127,79 @@ const Register = () => {
 
   const firstNameHandler = (event) => {
     setFirstName(event.target.value.trim());
-    console.log("First name: ");
+    // console.log("First name: ", enteredFirstName);
   };
 
   const lastNameHandler = (event) => {
     setLastName(event.target.value.trim());
-    console.log("Entered Last name: ", enteredLastName);
+    // console.log("Entered Last name: ", enteredLastName);
   };
 
   const emailHandler = (event) => {
     setEmail(event.target.value.trim());
-    console.log("Entered Email: ", enteredEmail);
+    // console.log("Entered Email: ", enteredEmail);
   };
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
-    console.log("Entered Password: ", enteredPassword);
+  };
+
+  const confirmPasswordHandler = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Center>
-        <FormCard onSubmit={submitHandler}>
-          <Flex direction="column" justify="center" gap="xs">
-            <Group position="center">
-              <Title order={2}>Register</Title>
-            </Group>
-            <ErrorOutput validationCheck={errorValidations} />
+      <FormCard onSubmit={submitHandler}>
+        <Flex direction="column" justify="center" gap="xs">
+          <Group position="center">
+            <Title order={2}>Register</Title>
+          </Group>
+          <ErrorOutput validationCheck={errorValidations} />
 
-            <FloatingLabelInput
-              className={`${classes.input} ${enteredFirstName.trim().length === 0 && classes.invalid}`}
-              type="firstName"
-              label="First Name"
-              placeholder="First Name"
-              onChangeHandler={firstNameHandler}
-              innerRef={firstNameRef}
-            />
-            <FloatingLabelInput
-              type="lastName"
-              label="Last Name"
-              placeholder="Last Name"
-              onChangeHandler={lastNameHandler}
-              innerRef={lastNameRef}
-            />
-            <FloatingLabelInput
-              className={`${classes.input} ${
-                (errorValidations.emailExists || errorValidations.missingEmail) && classes.invalid
-              }`}
-              type="email"
-              label="Email"
-              placeholder="Email"
-              onChangeHandler={emailHandler}
-              innerRef={emailRef}
-            />
-            <FloatingLabelInput
-              className={`${classes.input} ${
-                (errorValidations.missingPassword || errorValidations.weakPassword) && classes.invalid
-              }`}
-              type="password"
-              label="Password"
-              placeholder="Password"
-              onChangeHandler={passwordHandler}
-              innerRef={passwordRef}
-            />
+          <FloatingLabelInput
+            type="firstName"
+            label="First Name"
+            placeholder="First Name"
+            onChangeHandler={firstNameHandler}
+            innerRef={firstNameRef}
+            validationCheck={errorValidations}
+          />
+          <FloatingLabelInput
+            type="lastName"
+            label="Last Name"
+            placeholder="Last Name"
+            onChangeHandler={lastNameHandler}
+            innerRef={lastNameRef}
+          />
+          <FloatingLabelInput
+            type="email"
+            label="Email"
+            placeholder="Email"
+            onChangeHandler={emailHandler}
+            innerRef={emailRef}
+          />
 
-            <Button type="submit" disabled={isLoading ? true : false}>
-              Sign Up
-            </Button>
-            <div className={classes.signIn}>
-              Have an account?
-              <Link className={classes.signInLink} to="/login">
-                Sign in
-              </Link>
-            </div>
-          </Flex>
-        </FormCard>
-      </Center>
+          <PasswordStrengthBar
+            value={enteredPassword}
+            confirmPasswordValue={enteredConfirmPassword}
+            onChangeHandler={passwordHandler}
+            onConfrimPasswordHandler={confirmPasswordHandler}
+          />
+
+          <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
+            Sign Up
+          </Button>
+
+          <Group position="center" spacing="xs">
+            <Text>Have an account?</Text>
+            <Link className={classes.signInLink} to="/login">
+              <Text weight={600}>Sign In</Text>
+            </Link>
+          </Group>
+        </Flex>
+      </FormCard>
     </Fragment>
   );
 };

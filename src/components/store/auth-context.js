@@ -7,6 +7,8 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
+  uniqueId: () => {},
+  localId: "",
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -16,7 +18,6 @@ const calculateRemainingTime = (expirationTime) => {
 const retrieveStoredToken = () => {
   const storedToken = localStorage.getItem("token");
   const storedExpirationDate = localStorage.getItem("expirationTime");
-
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   // If 5 minutes or less remaining, refresh token.
@@ -41,7 +42,25 @@ export const AuthContextProvider = (props) => {
   }
 
   const [token, setToken] = useState(initialToken);
+  // const [localId, setLocalId] = useState(null);
   const userIsLoggedIn = !!token;
+
+  //Get the users unique ID
+  // const uniqueIdHandler = async (token) => {
+  //   const request = await fetch(
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
+  //     {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         idToken: token,
+  //       }),
+  //     }
+  //   );
+  //   const response = await request.json();
+  //   setLocalId(response.users[0].localId);
+  //   console.log(response.users[0].localId);
+  //   return response.users[0].localId;
+  // };
 
   const logoutHandler = useCallback(() => {
     setToken(null);
@@ -69,11 +88,19 @@ export const AuthContextProvider = (props) => {
     }
   }, [tokenData, logoutHandler]);
 
+  // useEffect(() => {
+  //   if (userIsLoggedIn) {
+  //     uniqueIdHandler(token);
+  //   }
+  // }, [token, userIsLoggedIn, uniqueIdHandler]);
+
   const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    // uniqueId: uniqueIdHandler,
+    // localId: localId,
   };
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { TextInput, createStyles } from "@mantine/core";
-// import { IconAlertTriangle } from "@tabler/icons";
+import { createStyles, PasswordInput } from "@mantine/core";
 
 const useStyles = createStyles((theme, { floating }) => ({
   root: {
@@ -32,22 +31,19 @@ const useStyles = createStyles((theme, { floating }) => ({
     opacity: floating ? 1 : 0,
   },
 
-  input: {
+  innerInput: {
     "&::placeholder": {
       transition: "color 150ms ease",
       color: !floating ? "transparent" : undefined,
     },
   },
+
   invalid: {
     backgroundColor: theme.colorScheme === "dark" ? theme.fn.rgba(theme.colors.red[8], 0.15) : theme.colors.red[0],
   },
-
-  icon: {
-    color: theme.colors.red[theme.colorScheme === "dark" ? 7 : 6],
-  },
 }));
 
-export function FloatingLabelInput(props) {
+export function FloatingPasswordInput(props) {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const { classes } = useStyles({
@@ -60,18 +56,16 @@ export function FloatingLabelInput(props) {
   };
 
   return (
-    <TextInput
+    <PasswordInput
       classNames={classes}
-      label={props.label}
-      placeholder={props.placeholder}
-      type={props.type}
+      label="Password"
+      placeholder="Password"
       required
-      description={props.description}
-      validation={props.validationCheck}
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      mt="md"
+      mt={props.mt}
+      mb={props.mb}
       autoComplete="nope"
     />
   );
