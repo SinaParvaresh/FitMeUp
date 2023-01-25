@@ -1,7 +1,8 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../lib/init-firebase";
 import { doc, setDoc } from "firebase/firestore";
+import AuthContext from "../components/store/auth-context";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
 import { Button, Flex, Group, Text } from "@mantine/core";
@@ -31,6 +32,7 @@ const Register = () => {
     missingPassword: false,
   });
 
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
 
@@ -77,9 +79,11 @@ const Register = () => {
 
       const response = await request.json();
       setIsLoading(false);
+
       if (!response.error) {
-        console.log(response.localId);
-        await setDoc(doc(db, "users", response.localId), {
+        authCtx.localId = response.localId;
+        console.log("Auth ctx in register page: ", authCtx);
+        await setDoc(doc(db, "users", authCtx.localId), {
           personal: {
             first: enteredFirstName,
             last: enteredLastName,

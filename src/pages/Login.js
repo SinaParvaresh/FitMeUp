@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Flex, Group, Text } from "@mantine/core";
+import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
@@ -54,8 +54,8 @@ const Login = (props) => {
       setIsLoading(false);
 
       if (!response.error) {
-        console.log(response.localId);
         authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
+        // authCtx.uniqueId(response.idToken);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;
@@ -111,6 +111,7 @@ const Login = (props) => {
           />
 
           <Button type="submit" disabled={isLoading ? true : false}>
+            <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
             Log In
           </Button>
 
