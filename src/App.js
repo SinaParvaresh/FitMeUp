@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import PasswordReset from "./pages/PasswordReset";
 import HomePage from "./pages/HomePage";
 import UserProfile from "./pages/UserProfile";
+import CalorieTracker from "./pages/CalorieTracker";
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -33,6 +34,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/home-page" element={<HomePage />} />
               <Route path="/user-profile" element={<UserProfile />} />
+              <Route path="/calorie-tracker" element={<CalorieTracker />} />
             </Route>
           </Routes>
         </BrowserRouter>

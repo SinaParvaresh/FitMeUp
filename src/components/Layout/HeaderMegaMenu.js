@@ -15,13 +15,13 @@ import {
 } from "@mantine/core";
 import {
   IconNotification,
-  IconCode,
   IconBook,
   IconChartPie3,
   IconFingerprint,
   IconCoin,
   IconChevronDown,
   IconBarbell,
+  IconCalculator,
 } from "@tabler/icons";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
@@ -92,34 +92,40 @@ const useStyles = createStyles((theme) => ({
 
 const mockdata = [
   {
-    icon: IconCode,
-    title: "Open source",
-    description: "This Pokémon’s cry is very loud and distracting",
+    icon: IconCalculator,
+    title: "Calorie Tracker",
+    description: "Calculate and track your own calories daily",
+    path: "/calorie-tracker",
   },
   {
     icon: IconCoin,
     title: "Free for everyone",
     description: "The fluid of Smeargle’s tail secretions changes",
+    path: "/",
   },
   {
     icon: IconBook,
     title: "Documentation",
     description: "Yanma is capable of seeing 360 degrees without",
+    path: "/",
   },
   {
     icon: IconFingerprint,
     title: "Security",
     description: "The shell’s rounded shape and the grooves on its.",
+    path: "/",
   },
   {
     icon: IconChartPie3,
     title: "Analytics",
     description: "This Pokémon uses its flying ability to quickly chase",
+    path: "/",
   },
   {
     icon: IconNotification,
     title: "Notifications",
     description: "Combusken battles with the intensely hot flames it spews",
+    path: "/",
   },
 ];
 
@@ -133,21 +139,23 @@ export function HeaderMegaMenu() {
   };
 
   const links = mockdata.map((item) => (
-    <UnstyledButton className={classes.subLink} key={item.title}>
-      <Group noWrap align="flex-start">
-        <ThemeIcon size={34} variant="default" radius="md">
-          <item.icon size={22} color={theme.fn.primaryColor()} />
-        </ThemeIcon>
-        <div>
-          <Text size="sm" weight={500}>
-            {item.title}
-          </Text>
-          <Text size="xs" color="dimmed">
-            {item.description}
-          </Text>
-        </div>
-      </Group>
-    </UnstyledButton>
+    <Link to={`${item.path}`} key={item.title}>
+      <UnstyledButton className={classes.subLink}>
+        <Group noWrap align="flex-start">
+          <ThemeIcon size={34} variant="default" radius="md">
+            <item.icon size={22} color={theme.fn.primaryColor()} />
+          </ThemeIcon>
+          <div>
+            <Text size="sm" weight={500}>
+              {item.title}
+            </Text>
+            <Text size="xs" color="dimmed">
+              {item.description}
+            </Text>
+          </div>
+        </Group>
+      </UnstyledButton>
+    </Link>
   ));
 
   return (
@@ -156,7 +164,7 @@ export function HeaderMegaMenu() {
         <Group position="apart" sx={{ height: "100%" }}>
           <IconBarbell size={30} />
           <Group sx={{ height: "100%" }} spacing={0} className={classes.hiddenMobile}>
-            <Link to="home-page" className={classes.link}>
+            <Link to="/home-page" className={classes.link}>
               Home
             </Link>
             <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>

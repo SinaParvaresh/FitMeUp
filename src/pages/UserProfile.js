@@ -61,7 +61,6 @@ const UserProfile = () => {
   const updateUserHandler = async (event) => {
     event.preventDefault();
 
-    //setIsLoadingPage(true);
     setLoadingUser(true);
     const userId = await fetchUserId();
     const userDocRef = doc(db, "users", userId);
@@ -72,13 +71,11 @@ const UserProfile = () => {
     } catch (error) {
       console.log(error);
     }
-    //setIsLoadingPage(false);
     setLoadingUser(false);
   };
 
   // Get the user's unique ID from firebase
   const fetchUserId = async () => {
-    // setIsLoadingPage(true);
     const request = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
       {
@@ -89,7 +86,6 @@ const UserProfile = () => {
       }
     );
     const response = await request.json();
-    // setIsLoadingPage(false);
     const userId = response.users[0].localId;
     return userId;
   };
