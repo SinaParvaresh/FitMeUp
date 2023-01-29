@@ -34,8 +34,8 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/home-page" element={<HomePage />} />
               <Route path="/user-profile" element={<UserProfile />} />
-              <Route path="/calorie-tracker" element={<CalorieTracker />} />
             </Route>
+            <Route path="/calorie-tracker" element={<CalorieTracker />} />
           </Routes>
         </BrowserRouter>
       </MantineProvider>
