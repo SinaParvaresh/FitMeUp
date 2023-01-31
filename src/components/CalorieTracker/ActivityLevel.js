@@ -2,7 +2,7 @@ import { NumberInput, Slider, Text } from "@mantine/core";
 import { useState } from "react";
 
 const ActivityLevel = (props) => {
-  const [value, setValue] = useState(14);
+  const [value, setValue] = useState(props.value);
   const marks = [
     { value: 14, label: "Low" },
     { value: 15, label: "Medium" },
@@ -34,8 +34,9 @@ const ActivityLevel = (props) => {
         label="Your activity level"
         placeholder="Your activity level"
         step={0.01}
+        precision={2}
         hideControls
-        error={props.error}
+        error={props.error === true ? "Please choose an activity level between 14-16" : false}
       />
       <Slider
         value={value}

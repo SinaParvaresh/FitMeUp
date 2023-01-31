@@ -3,18 +3,11 @@ import { IconChevronDown } from "@tabler/icons";
 import React, { useState } from "react";
 
 const CalorieGoal = (props) => {
-  const [value, setValue] = useState("");
-
-  // const OnChangeInputHandler = (event) => {
-  //   setValue(props.onChangeHandler);
-  //   console.log(value);
-  //   console.log(event.target.value);
-  // };
+  const [value, setValue] = useState(props.value);
 
   const onChangeSelectHandler = (event) => {
     props.onChangeHandler(event);
     setValue(event);
-    console.log("Value in calorie Goals component is:", event);
   };
 
   return (
@@ -28,7 +21,7 @@ const CalorieGoal = (props) => {
         data={["Maintain Weight", "Lean Bulk (Calorie surplus for muscle gain)", "Lose Weight (Calorie deficit)"]}
         onChange={onChangeSelectHandler}
         value={value}
-        error={value === "" ? "Please select your goal" : null}
+        error={props.error ? "Please select your goal" : false}
         withAsterisk
       />
       <Text c="dimmed">
