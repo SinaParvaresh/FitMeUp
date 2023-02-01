@@ -9,6 +9,7 @@ import PasswordReset from "./pages/PasswordReset";
 import HomePage from "./pages/HomePage";
 import UserProfile from "./pages/UserProfile";
 import CalorieTracker from "./pages/CalorieTracker";
+import MacroTracker from "./pages/MacroTracker";
 
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
@@ -35,6 +36,7 @@ function App() {
               <Route path="/home-page" element={<HomePage />} />
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/calorie-tracker" element={<CalorieTracker />} />
+              <Route path="/macro-tracker" element={<MacroTracker />} />
             </Route>
           </Routes>
         </BrowserRouter>

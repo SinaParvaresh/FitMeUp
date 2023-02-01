@@ -13,18 +13,9 @@ import {
   Center,
   Box,
 } from "@mantine/core";
-import {
-  IconNotification,
-  IconBook,
-  IconChartPie3,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
-  IconBarbell,
-  IconCalculator,
-} from "@tabler/icons";
+import { IconBook, IconChartPie3, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
 import HeaderLoginButton from "./HeaderLoginButton";
 import HeaderLogoutButton from "./HeaderLogoutButton";
@@ -93,15 +84,15 @@ const useStyles = createStyles((theme) => ({
 const mockdata = [
   {
     icon: IconCalculator,
-    title: "Calorie Tracker",
+    title: "Calorie Calculator",
     description: "Calculate and track your own calories daily",
     path: "/calorie-tracker",
   },
   {
-    icon: IconCoin,
-    title: "Free for everyone",
-    description: "The fluid of Smeargle’s tail secretions changes",
-    path: "/",
+    icon: IconBook,
+    title: "Macro Tracker",
+    description: "Keep track of each meal",
+    path: "/macro-tracker",
   },
   {
     icon: IconBook,
@@ -109,22 +100,11 @@ const mockdata = [
     description: "Yanma is capable of seeing 360 degrees without",
     path: "/",
   },
-  {
-    icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
-    path: "/",
-  },
+
   {
     icon: IconChartPie3,
     title: "Analytics",
     description: "This Pokémon uses its flying ability to quickly chase",
-    path: "/",
-  },
-  {
-    icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
     path: "/",
   },
 ];
@@ -133,7 +113,7 @@ export function HeaderMegaMenu() {
   const { classes, theme } = useStyles();
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
-
+  const navigate = useNavigate();
   const authLogoutHandler = () => {
     authCtx.logout();
   };
@@ -203,7 +183,9 @@ export function HeaderMegaMenu() {
                         Start your journey to fitness!
                       </Text>
                     </div>
-                    <Button variant="default">Get started</Button>
+                    <Button variant="default" onClick={() => navigate("/calorie-tracker")}>
+                      Get started
+                    </Button>
                   </Group>
                 </div>
               </HoverCard.Dropdown>

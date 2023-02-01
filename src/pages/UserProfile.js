@@ -50,6 +50,7 @@ const UserProfile = () => {
       }
       setIsLoadingPage(false);
     };
+
     getUser();
   }, [authCtx.token]);
 

@@ -5,7 +5,8 @@ import { createStyles, NumberInput } from "@mantine/core";
 const useStyles = createStyles((theme, { floating }) => ({
   root: {
     position: "relative",
-    margin: 10,
+    marginBottom: 10,
+    marginTop: 50,
   },
 
   label: {

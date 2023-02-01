@@ -11,9 +11,9 @@ const DietSelection = (props) => {
     { value: 1.25, label: "High" },
   ];
   const fatMarks = [
-    { value: 0.3, label: "Low" },
+    { value: 0.3, label: "Low " },
     { value: 0.35, label: "Medium" },
-    { value: 0.4, label: "High" },
+    { value: 0.4, label: "High " },
   ];
 
   const onProteinIntakeHandler = (event) => {
@@ -34,7 +34,7 @@ const DietSelection = (props) => {
           Formulate your diet!
         </Title>
         <Title order={4} align="start" sx={{ marginTop: 10, marginBottom: 10, paddingTop: 20 }}>
-          Select your protein intake
+          Select your protein intake (g/lb)
         </Title>
         <NumberInput
           placeholder="Your protein intake"
@@ -61,7 +61,7 @@ const DietSelection = (props) => {
 
       <div>
         <Title order={4} align="start" sx={{ marginTop: 20, marginBottom: 10, paddingTop: 20 }}>
-          Select your diet type
+          Select your diet type (High fat or high carb?)
         </Title>
         <NumberInput
           placeholder="Your protein intake"
