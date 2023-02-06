@@ -3,7 +3,7 @@ import AuthContext from "../components/store/auth-context";
 import { db } from "../lib/init-firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
-import { Button, Card } from "@mantine/core";
+import { Button } from "@mantine/core";
 import UserLoadingPage from "../components/UI/UserLoadingPage";
 import { useNavigate } from "react-router";
 import { UserCalories } from "../components/HomePageUI/UserCalories";
@@ -20,12 +20,20 @@ const HomePage = () => {
       proteinIntake: 0,
     },
   });
+  const [userMealsStatistics, setUserMealStatistics] = useState({
+    mealsMacros: {
+      proteinToday: 0,
+      carbsToday: 0,
+      fatsToday: 0,
+    },
+    totalCalories: 0,
+  });
+
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     //let ignore = false;
-
     const getUserStatistics = async () => {
       const request = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
@@ -43,7 +51,6 @@ const HomePage = () => {
 
       // Check if the user has ever created their calorie tracker plan
       if (!docSnap.data().userStatistics) {
-        console.log("User has not entered the stats before");
         setGetStarted(true);
       } else {
         const userData = docSnap.data().userStatistics;
@@ -57,6 +64,24 @@ const HomePage = () => {
         setGetStarted(false);
       }
       setIsLoadingStats(false);
+
+      const dateSubcollection = `users/${userId}/dates`;
+      const currentDate = new Date().toLocaleDateString().replace(/\//g, "-");
+      const docDateSnap = await getDoc(doc(db, dateSubcollection, currentDate));
+
+      // Check if the user has entered any meals for today
+      if (!docDateSnap.data()) {
+        console.log("user has not entered any meals for today");
+      } else {
+        const userMeals = docDateSnap.data();
+        console.log(docDateSnap.data());
+        setUserMealStatistics({
+          // proteinToday: userMeals.meals.protein,
+          // carbsToday: userMeals.meals.carbs,
+          // fatsToday: userMeals.meals.fats,
+          totalCalories: userMeals.totalCalories,
+        });
+      }
     };
 
     getUserStatistics();
@@ -71,7 +96,9 @@ const HomePage = () => {
       <HeaderMegaMenu />
       {isLoadingStats && <UserLoadingPage />}
       {getStarted && <Button onClick={() => navigate("/calorie-tracker")}>Get started</Button>}
-      {!isLoadingStats && <Card>{!getStarted && <UserCalories values={userStatistics} title="Daily Goal" />}</Card>}
+      {!isLoadingStats && !getStarted && (
+        <UserCalories values={userStatistics} title="Daily Diet Goal" macros={userMealsStatistics} />
+      )}
     </Fragment>
   );
 };

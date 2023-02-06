@@ -8,12 +8,11 @@ import {
   Text,
   SimpleGrid,
   ThemeIcon,
-  Anchor,
   Divider,
   Center,
   Box,
 } from "@mantine/core";
-import { IconBook, IconChartPie3, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
+import { IconBook, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../store/auth-context";
@@ -94,19 +93,6 @@ const mockdata = [
     description: "Keep track of each meal",
     path: "/macro-tracker",
   },
-  {
-    icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
-    path: "/",
-  },
-
-  {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
-    path: "/",
-  },
 ];
 
 export function HeaderMegaMenu() {
@@ -162,9 +148,6 @@ export function HeaderMegaMenu() {
               <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
                 <Group position="apart" px="md">
                   <Text weight={500}>Features</Text>
-                  <Anchor href="#" size="xs">
-                    View all
-                  </Anchor>
                 </Group>
 
                 <Divider my="sm" mx="-md" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />

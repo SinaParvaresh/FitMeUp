@@ -1,4 +1,4 @@
-import { NumberInput, Slider, Text } from "@mantine/core";
+import { NumberInput, Slider, Stack, Text, Title } from "@mantine/core";
 import { useState } from "react";
 
 const ActivityLevel = (props) => {
@@ -12,22 +12,13 @@ const ActivityLevel = (props) => {
   const onChangeHandler = (event) => {
     props.onChangeHandler(event);
     setValue(event);
-    console.log(event);
   };
 
   return (
-    <div>
-      <Text>Select your activity level</Text>
-      <Text fz="sm" c="dimmed">
-        Low: Sitting behind a desk most of the day
-      </Text>
-      <Text fz="sm" c="dimmed">
-        Medium: Low amount of cardio
-      </Text>
-      <Text fz="sm" c="dimmed">
-        High: Consistent amount of cardio
-      </Text>
-
+    <>
+      <Title order={4} align="center">
+        Select your activity level
+      </Title>
       <NumberInput
         value={value}
         onChange={onChangeHandler}
@@ -37,6 +28,9 @@ const ActivityLevel = (props) => {
         precision={2}
         hideControls
         error={props.error === true ? "Please choose an activity level between 14-16" : false}
+        variant="unstyled"
+        withAsterisk
+        mb="xl"
       />
       <Slider
         value={value}
@@ -48,8 +42,15 @@ const ActivityLevel = (props) => {
         labelTransition="skew-down"
         labelTransitionDuration={150}
         labelTransitionTimingFunction="ease"
+        sx={{ marginBottom: `${1}rem` }}
       />
-    </div>
+
+      <Stack justify="flex-end" sx={{ paddingTop: `${2}rem` }}>
+        <Text fz="sm">Low: Sitting behind a desk most of the day</Text>
+        <Text fz="sm">Medium: Low amount of cardio</Text>
+        <Text fz="sm">High: Consistent amount of cardio</Text>
+      </Stack>
+    </>
   );
 };
 

@@ -16,18 +16,21 @@ const calculateRemainingTime = (expirationTime) => {
 const retrieveStoredToken = () => {
   const storedToken = localStorage.getItem("token");
   const storedExpirationDate = localStorage.getItem("expirationTime");
+  const storedUserID = localStorage.getItem("userID");
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   // If 5 minutes or less remaining, refresh token.
   if (remainingTime <= 300000) {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
+    localStorage.removeItem("userID");
     return null;
   }
 
   return {
     token: storedToken,
     duration: remainingTime,
+    userID: storedUserID,
   };
 };
 
@@ -35,45 +38,34 @@ export const AuthContextProvider = (props) => {
   const tokenData = retrieveStoredToken();
 
   let initialToken;
+  let initialUserID;
   if (tokenData) {
     initialToken = tokenData.token;
+    initialUserID = tokenData.userID;
   }
 
   const [token, setToken] = useState(initialToken);
-  // const [localId, setLocalId] = useState(null);
+  const [userID, setUserID] = useState(initialUserID);
   const userIsLoggedIn = !!token;
-
-  //Get the users unique ID
-  // const uniqueIdHandler = async (token) => {
-  //   const request = await fetch(
-  //     "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-  //     {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         idToken: token,
-  //       }),
-  //     }
-  //   );
-  //   const response = await request.json();
-  //   setLocalId(response.users[0].localId);
-  //   console.log(response.users[0].localId);
-  //   return response.users[0].localId;
-  // };
 
   const logoutHandler = useCallback(() => {
     setToken(null);
+    setUserID(null);
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
+    localStorage.removeItem("userID");
 
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
   }, []);
 
-  const loginHandler = (token, expirationTime) => {
+  const loginHandler = (token, expirationTime, userID) => {
     setToken(token);
+    setUserID(userID);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
+    localStorage.setItem("userID", userID);
 
     const remainingTime = calculateRemainingTime(expirationTime);
     logoutTimer = setTimeout(logoutHandler, remainingTime);
@@ -86,19 +78,12 @@ export const AuthContextProvider = (props) => {
     }
   }, [tokenData, logoutHandler]);
 
-  // useEffect(() => {
-  //   if (userIsLoggedIn) {
-  //     uniqueIdHandler(token);
-  //   }
-  // }, [token, userIsLoggedIn, uniqueIdHandler]);
-
   const contextValue = {
     token: token,
+    userID: userID,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
-    // uniqueId: uniqueIdHandler,
-    // localId: localId,
   };
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

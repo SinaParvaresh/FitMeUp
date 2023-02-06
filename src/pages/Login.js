@@ -9,7 +9,7 @@ import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 
-const Login = (props) => {
+const Login = () => {
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -54,8 +54,7 @@ const Login = (props) => {
       setIsLoading(false);
 
       if (!response.error) {
-        authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000);
-        // authCtx.uniqueId(response.idToken);
+        authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000, response.localId);
         navigate("/home-page");
       } else {
         let errorMessage = response.error.message;

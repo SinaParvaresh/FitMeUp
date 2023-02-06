@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import AuthContext from "../components/store/auth-context";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
-import { Button, Flex, Group, Text } from "@mantine/core";
+import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
@@ -35,6 +35,7 @@ const Register = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
+  const currentDate = new Date().toLocaleDateString().replace(/\//g, "-");
 
   useEffect(() => {
     const hasNumber = /\d/.test(enteredPassword);
@@ -83,6 +84,8 @@ const Register = () => {
       if (!response.error) {
         authCtx.localId = response.localId;
         console.log("Auth ctx in register page: ", authCtx);
+
+        // Create and add the personal info of the user to the database
         await setDoc(doc(db, "users", authCtx.localId), {
           personal: {
             first: enteredFirstName,
@@ -90,6 +93,14 @@ const Register = () => {
             email: enteredEmail,
           },
         });
+
+        // Create a subcollection called dates
+        const dateSubcollection = `users/${authCtx.localId}/dates`;
+        await setDoc(doc(db, dateSubcollection, currentDate), {
+          meals: {},
+          totalCalories: 0,
+        });
+
         setErrorValidations({
           credentialError: false,
         });
@@ -189,6 +200,7 @@ const Register = () => {
           />
 
           <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
+            <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
             Sign Up
           </Button>
 

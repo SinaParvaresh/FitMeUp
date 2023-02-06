@@ -2,42 +2,43 @@ import { Button, Container, Grid, LoadingOverlay, TextInput, Title } from "@mant
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/init-firebase";
+import { getAuth, updateEmail } from "firebase/auth";
 import AuthContext from "../components/store/auth-context";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import UserLoadingPage from "../components/UI/UserLoadingPage";
+import { isEmail, matches, useForm } from "@mantine/form";
 
 const UserProfile = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [isLoadingUser, setLoadingUser] = useState(false);
-  const [user, setUser] = useState({
-    first: "",
-    last: "",
-    email: "",
+  const auth = getAuth();
+  console.log(auth);
+  const form = useForm({
+    initialValues: {
+      first: "",
+      last: "",
+      email: "",
+    },
+
+    validate: {
+      first: matches(/^[a-z ,.'-]+$/i, "Please enter a valid first name"),
+      last: matches(/^[a-z ,.'-]+$/i, "Please enter a valid last name"),
+      email: isEmail("Please enter a valid email address"),
+    },
   });
 
   const authCtx = useContext(AuthContext);
 
-  // Load on first page render
   useEffect(() => {
     // Fill the user's information
     const getUser = async () => {
-      const request = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            idToken: authCtx.token,
-          }),
-        }
-      );
-      const response = await request.json();
-      const userId = response.users[0].localId;
+      const userId = authCtx.userID;
       const userDocRef = doc(db, "users", userId);
 
       try {
         const docSnap = await getDoc(userDocRef);
         if (docSnap.exists()) {
-          setUser({
+          form.setValues({
             first: docSnap.data().personal.first,
             last: docSnap.data().personal.last,
             email: docSnap.data().personal.email,
@@ -52,64 +53,32 @@ const UserProfile = () => {
     };
 
     getUser();
-  }, [authCtx.token]);
+  }, [authCtx.token, authCtx.userID]);
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    console.log(form.values);
+  }, [form]);
 
   // Send the user's updated information to the database
   const updateUserHandler = async (event) => {
     event.preventDefault();
 
+    if (form.validate().hasErrors) {
+      return;
+    }
+
     setLoadingUser(true);
-    const userId = await fetchUserId();
+    const userId = authCtx.userID;
     const userDocRef = doc(db, "users", userId);
     try {
+      await updateEmail(auth.currentUser, form.values.email);
       await updateDoc(userDocRef, {
-        personal: user,
+        personal: form.values,
       });
     } catch (error) {
       console.log(error);
     }
     setLoadingUser(false);
-  };
-
-  // Get the user's unique ID from firebase
-  const fetchUserId = async () => {
-    const request = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-        }),
-      }
-    );
-    const response = await request.json();
-    const userId = response.users[0].localId;
-    return userId;
-  };
-
-  const firstNameHandler = (event) => {
-    setUser((prevState) => ({
-      ...prevState,
-      first: event.target.value.trim(),
-    }));
-  };
-
-  const lastNameHandler = (event) => {
-    setUser((prevState) => ({
-      ...prevState,
-      last: event.target.value.trim(),
-    }));
-  };
-
-  const emailHandler = (event) => {
-    setUser((prevState) => ({
-      ...prevState,
-      email: event.target.value.trim(),
-    }));
   };
 
   return (
@@ -119,7 +88,7 @@ const UserProfile = () => {
         {isLoadingPage && <UserLoadingPage />}
         {!isLoadingPage && (
           <form onSubmit={updateUserHandler}>
-            <Title order={2} m="md">
+            <Title order={2} m="md" align="center">
               Account Details
             </Title>
             <Grid justify="center">
@@ -127,10 +96,9 @@ const UserProfile = () => {
                 <TextInput
                   label="First Name"
                   placeholder="First Name"
-                  value={user.first}
-                  onChange={firstNameHandler}
                   withAsterisk
                   disabled={isLoadingUser ? true : false}
+                  {...form.getInputProps("first")}
                 />
               </Grid.Col>
 
@@ -138,10 +106,9 @@ const UserProfile = () => {
                 <TextInput
                   label="Last Name"
                   placeholder="Last Name"
-                  value={user.last}
-                  onChange={lastNameHandler}
                   withAsterisk
                   disabled={isLoadingUser ? true : false}
+                  {...form.getInputProps("last")}
                 />
               </Grid.Col>
 
@@ -149,10 +116,9 @@ const UserProfile = () => {
                 <TextInput
                   label="Email"
                   placeholder="Email"
-                  value={user.email}
-                  onChange={emailHandler}
                   withAsterisk
                   disabled={isLoadingUser ? true : false}
+                  {...form.getInputProps("email")}
                 />
               </Grid.Col>
 

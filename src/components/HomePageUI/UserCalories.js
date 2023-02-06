@@ -1,6 +1,5 @@
-import { createStyles, Text, Card, Group, RingProgress } from "@mantine/core";
+import { createStyles, Text, Card, Group, RingProgress, Title } from "@mantine/core";
 import { UserMacros } from "./UserMacros";
-// import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -40,7 +39,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function UserCalories({ title, values }) {
+export function UserCalories({ title, values, macros }) {
   const { classes, theme } = useStyles();
   const userStats = {
     weight: values.currentWeight,
@@ -48,6 +47,7 @@ export function UserCalories({ title, values }) {
     dailyMaintenanceCalories: values.dailyMaintenanceCalories,
     dietType: values.dietType,
     proteinIntake: values.proteinIntake,
+    totalCaloriesToday: macros.totalCalories,
   };
 
   const userData = {
@@ -59,11 +59,11 @@ export function UserCalories({ title, values }) {
 
   return (
     <Card withBorder p="xl" radius="md" className={classes.card}>
+      <Title align="center" className={classes.label}>
+        {title}
+      </Title>
       <div className={classes.inner}>
         <div>
-          <Text size="xl" className={classes.label}>
-            {title}
-          </Text>
           <div>
             <Text className={classes.lead} mt={30}>
               {userStats.dailyCaloriesGoal + " calories"}
@@ -74,7 +74,7 @@ export function UserCalories({ title, values }) {
           </div>
           <Group mt="lg">
             <div>
-              <Text className={classes.label}>{userStats.dailyCaloriesGoal}</Text>
+              <Text className={classes.label}>{userStats.dailyCaloriesGoal - userStats.totalCaloriesToday}</Text>
               <Text size="xs" color="dimmed">
                 Remaining calories
               </Text>
@@ -94,12 +94,15 @@ export function UserCalories({ title, values }) {
             thickness={6}
             size={150}
             sections={[
-              { value: (userStats.dailyCaloriesGoal - userStats.dailyCaloriesGoal) * 100, color: theme.primaryColor },
+              {
+                value: (userStats.totalCaloriesToday / userStats.dailyCaloriesGoal) * 100,
+                color: theme.primaryColor,
+              },
             ]}
             label={
               <div>
                 <Text align="center" size="lg" className={classes.label} sx={{ fontSize: 22 }}>
-                  {((userStats.dailyCaloriesGoal - userStats.dailyCaloriesGoal) * 100).toFixed(0)}%
+                  {((userStats.totalCaloriesToday / userStats.dailyCaloriesGoal) * 100).toFixed(0)}%
                 </Text>
                 <Text align="center" size="xs" color="dimmed">
                   Today's goal

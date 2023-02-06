@@ -1,4 +1,4 @@
-import { NumberInput, Slider, Title } from "@mantine/core";
+import { NumberInput, Slider, Stack, Title } from "@mantine/core";
 import { useState } from "react";
 
 const DietSelection = (props) => {
@@ -19,33 +19,32 @@ const DietSelection = (props) => {
   const onProteinIntakeHandler = (event) => {
     props.onProteinIntakeChangeHandler(event);
     setProteinValue(event);
-    console.log(event);
   };
 
   const onDietTypeHandler = (event) => {
     props.onDietTypeChangeHandler(event);
     setDietValue(event);
-    console.log(event);
   };
+
   return (
     <div>
-      <div>
-        <Title order={2} align="center" sx={{ padding: 10 }}>
-          Formulate your diet!
-        </Title>
-        <Title order={4} align="start" sx={{ marginTop: 10, marginBottom: 10, paddingTop: 20 }}>
-          Select your protein intake (g/lb)
-        </Title>
+      <Title order={3} align="center" sx={{ padding: 10 }}>
+        Formulate your diet!
+      </Title>
+      <Stack>
         <NumberInput
+          label="Select your protein intake (g/lb)"
           placeholder="Your protein intake"
           step={0.01}
           precision={2}
           value={proteinValue}
           onChange={onProteinIntakeHandler}
           error={props.proteinIntakeError === true ? "Please choose a valid value between 0.75 and 1.25" : false}
+          withAsterisk
+          variant="unstyled"
+          mt="3.5rem"
         />
         <Slider
-          sx={{ marginTop: `${2.25}em` }}
           min={0.75}
           max={1.25}
           step={0.01}
@@ -56,23 +55,24 @@ const DietSelection = (props) => {
           labelTransition="skew-down"
           labelTransitionDuration={150}
           labelTransitionTimingFunction="ease"
+          mt="0.5rem"
         />
-      </div>
+      </Stack>
 
-      <div>
-        <Title order={4} align="start" sx={{ marginTop: 20, marginBottom: 10, paddingTop: 20 }}>
-          Select your diet type (High fat or high carb?)
-        </Title>
+      <Stack>
         <NumberInput
+          label="Select your diet type (High fat or high carb?)"
           placeholder="Your protein intake"
           step={0.01}
           precision={2}
           value={dietValue}
           onChange={onDietTypeHandler}
           error={props.dietTypeError === true ? "Please choose a valid value between 0.3 and 0.4" : false}
+          withAsterisk
+          variant="unstyled"
+          mt="3.5rem"
         />
         <Slider
-          sx={{ marginTop: `${2.25}em` }}
           min={0.3}
           max={0.4}
           step={0.005}
@@ -83,8 +83,9 @@ const DietSelection = (props) => {
           labelTransition="skew-down"
           labelTransitionDuration={150}
           labelTransitionTimingFunction="ease"
+          mt="0.5rem"
         />
-      </div>
+      </Stack>
     </div>
   );
 };

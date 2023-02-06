@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createStyles, NumberInput } from "@mantine/core";
-// import { IconAlertTriangle } from "@tabler/icons";
 
 const useStyles = createStyles((theme, { floating }) => ({
   root: {

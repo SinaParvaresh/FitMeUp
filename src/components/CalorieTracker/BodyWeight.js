@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Flex, Text } from "@mantine/core";
+import { Flex, Stack, Text, Title } from "@mantine/core";
 import { FloatingNumberInput } from "../UI/FloatingNumberInput";
 
 const BodyWeight = (props) => {
@@ -19,25 +19,31 @@ const BodyWeight = (props) => {
   return (
     <>
       <Flex direction="column" justify="center" gap="xs">
+        <Title order={4} align="center">
+          Enter your body weight & calorie change
+        </Title>
+
+        <Stack align="flex-start">
+          <FloatingNumberInput
+            label="Current Body Weight"
+            placeholder="Current Body Weight"
+            value={currentWeight}
+            onChangeHandler={onBodyWeightHandler}
+            precision={1}
+            error={props.weightError ? "Please enter a valid weight" : false}
+          />
+          <FloatingNumberInput
+            label="Calories in Deficit/Bulk"
+            placeholder="Calories in Deficit/Bulk"
+            value={caloriesAdjusted}
+            onChangeHandler={onCalorieAdjustedHandler}
+            error={props.calorieAdjustedError ? "Please enter a value between 1-500" : false}
+          />
+        </Stack>
         <Text c="dimmed">
-          Tip: To get your most consistent body weight, use your scale on a flat surface and weigh yourself in the
+          Note: To get your most consistent body weight, use your scale on a flat surface and weigh yourself in the
           morning
         </Text>
-        <FloatingNumberInput
-          label="Current Body Weight"
-          placeholder="Current Body Weight"
-          value={currentWeight}
-          onChangeHandler={onBodyWeightHandler}
-          precision={1}
-          error={props.weightError ? "Please enter a valid weight" : false}
-        />
-        <FloatingNumberInput
-          label="Calories in Deficit/Bulk"
-          placeholder="Calories in Deficit/Bulk"
-          value={caloriesAdjusted}
-          onChangeHandler={onCalorieAdjustedHandler}
-          error={props.calorieAdjustedError ? "Please enter a value between 1-500" : false}
-        />
       </Flex>
     </>
   );

@@ -1,4 +1,4 @@
-import { Select, Text } from "@mantine/core";
+import { Select, Text, Title } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons";
 import React, { useState } from "react";
 
@@ -12,8 +12,11 @@ const CalorieGoal = (props) => {
 
   return (
     <>
+      <Title order={4} align="center">
+        What is your current goal?
+      </Title>
       <Select
-        label="What is your current goal?"
+        label="Current goal"
         placeholder="Pick one"
         rightSection={<IconChevronDown size={14} />}
         rightSectionWidth={30}
@@ -23,8 +26,9 @@ const CalorieGoal = (props) => {
         value={value}
         error={props.error ? "Please select your goal" : false}
         withAsterisk
+        sx={{ width: `${50}%` }}
       />
-      <Text c="dimmed">
+      <Text c="dimmed" pt={16}>
         Note: You can gain muscle in a calorie deficit, however it is significantly slower and much more difficult
         compared to to a Lean Bulk
       </Text>
