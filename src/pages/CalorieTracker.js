@@ -9,8 +9,8 @@ import ActivityLevel from "../components/CalorieTracker/ActivityLevel";
 import BodyWeight from "../components/CalorieTracker/BodyWeight";
 import DietSelection from "../components/CalorieTracker/DietSelection";
 import DietCalculations from "../components/CalorieTracker/DietCalculations";
-import AuthContext from "../components/store/auth-context";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../components/store/auth-context";
 
 const CalorieTracker = () => {
   const [active, setActive] = useState(0);
@@ -21,8 +21,10 @@ const CalorieTracker = () => {
   const [proteinIntakeError, setProteinIntakeError] = useState(false);
   const [dietTypeError, setDietTypeError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const authCtx = useContext(AuthContext);
+  const userID = authCtx.userID;
 
   const form = useForm({
     initialValues: {
@@ -87,7 +89,6 @@ const CalorieTracker = () => {
   const nextStep = () =>
     setActive((current) => {
       if (form.validate().hasErrors) {
-        console.log("Error in form");
         return current;
       }
       return current < 4 ? current + 1 : current;
@@ -142,27 +143,11 @@ const CalorieTracker = () => {
     event.preventDefault();
     console.log("Submit handler hit");
     setIsSubmitting(true);
-    const userDocRef = await fetchUserID();
+    const userDocRef = doc(db, "users", userID);
 
     await setDoc(userDocRef, { userStatistics: form.values }, { merge: true });
     setIsSubmitting(false);
     navigate("/home-page");
-  };
-
-  const fetchUserID = async () => {
-    const request = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-        }),
-      }
-    );
-
-    const response = await request.json();
-    const userId = response.users[0].localId;
-    return doc(db, "users", userId);
   };
 
   return (

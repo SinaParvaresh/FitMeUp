@@ -70,6 +70,7 @@ export function FloatingLabelInput(props) {
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
+      error={props.error}
       mt="md"
       autoComplete="nope"
     />

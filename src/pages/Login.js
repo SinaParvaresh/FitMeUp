@@ -1,5 +1,7 @@
-import React, { Fragment, useState, useContext, useRef } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../lib/init-firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
@@ -8,77 +10,94 @@ import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
+import { useForm } from "@mantine/form";
 
 const Login = () => {
   const [enteredEmail, setEmail] = useState("");
   const [enteredPassword, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [validPassword, setValidPassword] = useState(true);
-  const [emailExists, setEmailExists] = useState(true);
   const [tooManyRequests, setTooManyRequests] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
   const navigate = useNavigate();
-
   const authCtx = useContext(AuthContext);
-  const url =
-    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE";
+
+  const [errorValidations, setErrorValidations] = useState({
+    invalidEmail: "",
+    invalidPassword: "",
+    emailExist: "",
+    incorrectPassword: "",
+  });
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+
+    validate: (values) => {
+      if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(values.email)) {
+        setErrorValidations((prev) => {
+          return { ...prev, invalidEmail: "Invalid email format" };
+        });
+        return { email: true };
+      }
+
+      if (values.password.length < 6) {
+        setErrorValidations((prev) => {
+          return { ...prev, invalidPassword: "Please enter a valid password" };
+        });
+        return { password: true };
+      }
+    },
+  });
 
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    if (enteredEmail.trim().length === 0 || enteredPassword.trim().length < 6) {
-      console.log("Email or Password is too short!");
+    if (form.validate().hasErrors) {
       return;
     }
 
     // Reset states
     setIsLoading(true);
-    setValidPassword(true);
-    setEmailExists(true);
     setTooManyRequests(false);
-    console.log(enteredEmail);
-    console.log(enteredPassword);
 
     try {
-      const request = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-      });
+      await signInWithEmailAndPassword(auth, enteredEmail, enteredPassword);
+      const userID = auth.currentUser.uid;
+      authCtx.login(auth.currentUser.getIdToken(), Date.now() + 3600 * 1000, userID);
+      navigate("/home-page");
+    } catch (error) {
+      let errorMessage = error.message;
 
-      const response = await request.json();
-      setIsLoading(false);
-
-      if (!response.error) {
-        authCtx.login(response.idToken, Date.now() + response.expiresIn * 1000, response.localId);
-        navigate("/home-page");
-      } else {
-        let errorMessage = response.error.message;
-
-        if (errorMessage === "EMAIL_NOT_FOUND") {
-          setEmailExists(false);
-        } else if (errorMessage === "INVALID_PASSWORD") {
-          setValidPassword(false);
-        } else if (errorMessage.substring(0, errorMessage.indexOf(" ")) === "TOO_MANY_ATTEMPTS_TRY_LATER") {
-          setTooManyRequests(true);
-        }
-        return;
+      if (errorMessage.includes("auth/user-not-found")) {
+        setErrorValidations((prev) => {
+          return { ...prev, emailExist: "Invalid email or password", incorrectPassword: "Invalid email or password" };
+        });
+      } else if (errorMessage.includes("auth/wrong-password")) {
+        setErrorValidations((prev) => {
+          return { ...prev, emailExist: "Invalid email or password", incorrectPassword: "Invalid email or password" };
+        });
+      } else if (errorMessage.includes("to many failed login attempts")) {
+        setTooManyRequests(true);
       }
-    } catch (err) {
-      console.log(err);
     }
+    setIsLoading(false);
   };
 
   const emailHandler = (event) => {
     setEmail(event.target.value.trim());
+    form.setFieldValue("email", event.target.value.trim());
+    setErrorValidations((prev) => {
+      return { ...prev, invalidEmail: "", emailExist: "" };
+    });
   };
 
   const passwordHandler = (event) => {
     setPassword(event.target.value);
+    form.setFieldValue("password", event.target.value);
+    setErrorValidations((prev) => {
+      return { ...prev, invalidPassword: "", incorrectPassword: "" };
+    });
   };
 
   return (
@@ -90,23 +109,26 @@ const Login = () => {
             <Title order={2}>Login</Title>
           </Group>
 
-          {!emailExists && <div className={classes.muiAlert}>The Email is not a valid Email address</div>}
-          {!validPassword && <div className={classes.muiAlert}>Incorrect password</div>}
-          {tooManyRequests && <div className={classes.muiAlert}>Too many requests. Please try again later.</div>}
+          {tooManyRequests && (
+            <Text c="#e03131" size="sm" pb="md">
+              Access to this account has been temporarily disabled due to many failed login attempts. You can
+              immediately restore it by resetting your password or you can try again later.
+            </Text>
+          )}
 
           <FloatingLabelInput
             type="email"
             placeholder="Email"
             label="Email"
             onChangeHandler={emailHandler}
-            innerRef={emailRef}
+            error={tooManyRequests || errorValidations.emailExist || errorValidations.invalidEmail}
           />
 
           <FloatingPasswordInput
             placeholder="Password"
             label="Password"
             onChangeHandler={passwordHandler}
-            innerRef={passwordRef}
+            error={tooManyRequests || errorValidations.incorrectPassword || errorValidations.invalidPassword}
           />
 
           <Button type="submit" disabled={isLoading ? true : false}>

@@ -18,7 +18,6 @@ const MacroTracker = () => {
   const [carbAmount, setCarbAmount] = useState(0);
   const [totalCalories, setTotalCalories] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const authCtx = useContext(AuthContext);
   const userID = authCtx.userID;
 
@@ -82,42 +81,15 @@ const MacroTracker = () => {
     </tr>
   ));
 
-  // Get user ID
-  const fetchUserID = async () => {
-    const request = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAb5ucDahLmDupsP3s5M2aSP3Hfczz-_OE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-        }),
-      }
-    );
-
-    const response = await request.json();
-    const userId = response.users[0].localId;
-    return userId;
-  };
-
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-    const userID = await fetchUserID();
     const dateSubcollection = `users/${userID}/dates`;
     const userDocDate = currentDate.toLocaleDateString().replace(/\//g, "-");
 
     await setDoc(doc(db, dateSubcollection, userDocDate), form.values, { merge: true });
     setIsSubmitting(false);
   };
-
-  // // Returns snapshot of current date's meals
-  // const getUserMeals = async () => {
-  //   const userID = await fetchUserID();
-  //   const dateSubcollection = `users/${userID}/dates`;
-  //   const userDocDate = currentDate.toLocaleDateString().replace(/\//g, "-");
-
-  //   return await getDoc(doc(db, dateSubcollection, userDocDate));
-  // };
 
   useEffect(() => {
     // Returns snapshot of current date's meals
