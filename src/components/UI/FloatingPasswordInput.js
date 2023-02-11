@@ -58,8 +58,8 @@ export function FloatingPasswordInput(props) {
   return (
     <PasswordInput
       classNames={classes}
-      label="Password"
-      placeholder="Password"
+      label={props.label || "Password"}
+      placeholder={props.placeholder || "Password"}
       required
       onChange={onChangeInputHandler}
       onFocus={() => setFocused(true)}

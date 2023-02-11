@@ -1,4 +1,4 @@
-import { Button, Container, Grid, LoadingOverlay, Modal, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
+import { Button, Grid, LoadingOverlay, Modal, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../lib/init-firebase";
@@ -7,6 +7,7 @@ import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import UserLoadingPage from "../components/UI/UserLoadingPage";
 import { isEmail, matches, useForm } from "@mantine/form";
 import AuthContext from "../components/store/auth-context";
+import { SideNavBar } from "../components/Layout/NavBar/SideNavBar";
 
 const UserProfile = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -165,85 +166,89 @@ const UserProfile = () => {
   return (
     <Fragment>
       <HeaderMegaMenu />
-      <Container>
-        {isLoadingPage && <UserLoadingPage />}
-        {!isLoadingPage && (
-          <form onSubmit={updateUserHandler}>
+      {isLoadingPage && <UserLoadingPage />}
+      {!isLoadingPage && (
+        <Grid>
+          <Grid.Col span={4}>
+            <SideNavBar currentComponent="Account details" />
+          </Grid.Col>
+
+          <Grid.Col span={6}>
             <Title order={2} m="md" align="center">
               Account Details
             </Title>
-            <Grid justify="center">
-              <Grid.Col span={6}>
-                <TextInput
-                  label="First Name"
-                  placeholder="First Name"
-                  withAsterisk
-                  disabled={isLoadingUser ? true : false}
-                  {...form.getInputProps("first")}
-                />
-              </Grid.Col>
+            <form onSubmit={updateUserHandler}>
+              <TextInput
+                label="First Name"
+                placeholder="First Name"
+                withAsterisk
+                disabled={isLoadingUser ? true : false}
+                {...form.getInputProps("first")}
+              />
 
-              <Grid.Col span={6}>
-                <TextInput
-                  label="Last Name"
-                  placeholder="Last Name"
-                  withAsterisk
-                  disabled={isLoadingUser ? true : false}
-                  {...form.getInputProps("last")}
-                />
-              </Grid.Col>
+              <TextInput
+                label="Last Name"
+                placeholder="Last Name"
+                withAsterisk
+                disabled={isLoadingUser ? true : false}
+                {...form.getInputProps("last")}
+              />
 
-              <Grid.Col>
-                <TextInput
-                  label="Email"
-                  placeholder="Email"
-                  withAsterisk
-                  disabled={isLoadingUser ? true : false}
-                  {...form.getInputProps("email")}
-                />
-              </Grid.Col>
+              <TextInput
+                label="Email"
+                placeholder="Email"
+                withAsterisk
+                disabled={isLoadingUser ? true : false}
+                {...form.getInputProps("email")}
+              />
 
-              <Button type="submit" disabled={isLoadingUser ? true : false}>
+              <Button sx={{ float: "right" }} mt="1rem" type="submit" disabled={isLoadingUser ? true : false}>
                 <LoadingOverlay visible={isLoadingUser} overlayBlur={1} loaderProps={{ variant: "dots" }} />
                 Update Information
               </Button>
-            </Grid>
-          </form>
-        )}
-        {!isLoadingPage && (
-          <Modal centered opened={opened} onClose={() => setOpened(false)} title="Please confirm your email & password">
-            <form onSubmit={verifyUserHandler}>
-              <Stack pb="1rem">
-                <TextInput
-                  placeholder="Current email"
-                  label="Current email"
-                  withAsterisk
-                  {...form.getInputProps("email")}
-                  error={modalInputErrors.currentEmailError}
-                />
-                <TextInput
-                  placeholder="New email"
-                  label="New email"
-                  withAsterisk
-                  {...form.getInputProps("newEmail")}
-                  error={newEmailError}
-                />
-                <PasswordInput
-                  placeholder="Password"
-                  label="Password"
-                  withAsterisk
-                  {...form.getInputProps("password")}
-                  error={modalInputErrors.passwordError}
-                />
-              </Stack>
-              <Button type="submit" disabled={isVerifyingUser ? true : false}>
-                <LoadingOverlay visible={isVerifyingUser} overlayBlur={1} loaderProps={{ variant: "dots" }} />
-                Confirm
-              </Button>
             </form>
-          </Modal>
-        )}
-      </Container>
+          </Grid.Col>
+        </Grid>
+      )}
+      {!isLoadingPage && (
+        <Modal
+          centered
+          opened={opened}
+          onClose={() => setOpened(false)}
+          title="Please sign in to confirm your email & password"
+        >
+          <form onSubmit={verifyUserHandler}>
+            <Stack pb="1rem">
+              <TextInput
+                placeholder="Current email"
+                label="Current email"
+                withAsterisk
+                {...form.getInputProps("email")}
+                error={modalInputErrors.currentEmailError}
+                data-autofocus
+              />
+              <TextInput
+                placeholder="New email"
+                label="New email"
+                withAsterisk
+                {...form.getInputProps("newEmail")}
+                error={newEmailError}
+              />
+              <PasswordInput
+                placeholder="Password"
+                label="Password"
+                withAsterisk
+                {...form.getInputProps("password")}
+                error={modalInputErrors.passwordError}
+              />
+            </Stack>
+            <Button sx={{ float: "right" }} type="submit" disabled={isVerifyingUser ? true : false}>
+              <LoadingOverlay visible={isVerifyingUser} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+              Confirm
+            </Button>
+          </form>
+        </Modal>
+      )}
     </Fragment>
   );
 };

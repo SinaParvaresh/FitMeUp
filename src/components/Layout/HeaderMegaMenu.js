@@ -80,7 +80,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const mockdata = [
+const data = [
   {
     icon: IconCalculator,
     title: "Calorie Calculator",
@@ -104,7 +104,7 @@ export function HeaderMegaMenu() {
     authCtx.logout();
   };
 
-  const links = mockdata.map((item) => (
+  const links = data.map((item) => (
     <Link to={`${item.path}`} key={item.title}>
       <UnstyledButton className={classes.subLink}>
         <Group noWrap align="flex-start">

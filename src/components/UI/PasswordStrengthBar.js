@@ -1,4 +1,4 @@
-import { Box, Progress, Group, Text, Center, Stack } from "@mantine/core";
+import { Box, Progress, Group, Text, Center, Stack, Paper } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons";
 import { FloatingPasswordInput } from "./FloatingPasswordInput";
 
@@ -58,10 +58,20 @@ export function PasswordStrengthBar(props) {
     ));
 
   return (
-    <div>
+    <Paper pb="1rem">
       <Stack spacing="xs">
-        <FloatingPasswordInput mt="md" onChangeHandler={props.onChangeHandler} />
-        <FloatingPasswordInput mt="md" onChangeHandler={props.onConfrimPasswordHandler} />
+        <FloatingPasswordInput
+          label={props.firstLabel}
+          placeholder={props.firstPlaceholder}
+          mt="md"
+          onChangeHandler={props.onChangeHandler}
+        />
+        <FloatingPasswordInput
+          label={props.secondLabel}
+          placeholder={props.secondPlaceholder}
+          mt="md"
+          onChangeHandler={props.onConfirmPasswordHandler}
+        />
       </Stack>
 
       <Group spacing={5} grow mt="xs" mb="md">
@@ -71,6 +81,6 @@ export function PasswordStrengthBar(props) {
       <PasswordRequirement label="Has at least 6 characters" meets={value.length > 5} />
       {checks}
       <PasswordRequirement label="Passwords match" meets={value === confirmPasswordValue && value} />
-    </div>
+    </Paper>
   );
 }

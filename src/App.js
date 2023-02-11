@@ -10,7 +10,7 @@ import HomePage from "./pages/HomePage";
 import UserProfile from "./pages/UserProfile";
 import CalorieTracker from "./pages/CalorieTracker";
 import MacroTracker from "./pages/MacroTracker";
-
+import ResetPassword from "./pages/ResetPassword";
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
@@ -37,6 +37,7 @@ function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/calorie-tracker" element={<CalorieTracker />} />
               <Route path="/macro-tracker" element={<MacroTracker />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
             </Route>
           </Routes>
         </BrowserRouter>

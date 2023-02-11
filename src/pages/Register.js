@@ -208,7 +208,7 @@ const Register = () => {
             value={enteredPassword}
             confirmPasswordValue={enteredConfirmPassword}
             onChangeHandler={passwordHandler}
-            onConfrimPasswordHandler={confirmPasswordHandler}
+            onConfirmPasswordHandler={confirmPasswordHandler}
           />
 
           <Button type="submit" disabled={isLoading || !validPassword ? true : false}>

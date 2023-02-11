@@ -141,7 +141,6 @@ const CalorieTracker = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    console.log("Submit handler hit");
     setIsSubmitting(true);
     const userDocRef = doc(db, "users", userID);
 
