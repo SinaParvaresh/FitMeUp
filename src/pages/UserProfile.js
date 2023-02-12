@@ -8,6 +8,8 @@ import UserLoadingPage from "../components/UI/UserLoadingPage";
 import { isEmail, matches, useForm } from "@mantine/form";
 import AuthContext from "../components/store/auth-context";
 import { SideNavBar } from "../components/Layout/NavBar/SideNavBar";
+import { cleanNotifications, showNotification, updateNotification } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons";
 
 const UserProfile = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -83,50 +85,69 @@ const UserProfile = () => {
       { merge: true }
     );
     setLoadingUser(false);
-    console.log("sent user info to DB!");
+    updateNotification({
+      id: "email-changed",
+      color: "teal",
+      title: "Email successfully changed",
+      message: "You have succesfully changed your email address",
+      autoClose: 10000,
+      icon: <IconCheck size={16} />,
+    });
   };
 
   // Send the user's updated information to the database
   const updateUserHandler = async (event) => {
     event.preventDefault();
+    cleanNotifications();
     setIsVerifyingUser(false);
     setModalInputErrors(() => {
       return { currentEmailError: "", passwordError: "" };
     });
+
     if (form.validate().hasErrors) {
       return;
     }
 
-    // if (auth.currentUser)
     try {
-      // *Add success message on change
-      // *Add error/pop-up on fail
-
       if (form.isDirty("email")) {
         setOpened(true);
         form.setFieldValue("newEmail", form.values.email);
         form.setFieldValue("email", "");
       } else {
+        showNotification({
+          id: "email-changed",
+          loading: true,
+          title: "Changing email",
+          message: "Please wait...",
+          autoClose: false,
+          disallowClose: true,
+        });
         sendPersonalInfo();
       }
     } catch (error) {
       console.log(error.message);
     }
-
-    console.log("Update user handler done!");
   };
 
   // On modal Pop-up
   const verifyUserHandler = async (event) => {
     event.preventDefault();
+
     setNewEmailError("");
     setModalInputErrors(() => {
       return { currentEmailError: "", passwordError: "" };
     });
+    cleanNotifications();
 
-    if (form.validate().hasErrors) {
-      return;
-    }
+    showNotification({
+      id: "email-changed",
+      loading: true,
+      title: "Changing email",
+      message: "Please wait...",
+      autoClose: false,
+      disallowClose: true,
+    });
+
     setIsVerifyingUser(true);
 
     try {
@@ -137,25 +158,33 @@ const UserProfile = () => {
       sendPersonalInfo();
     } catch (error) {
       console.log(error.message);
-      if (error.message.includes("email-already-in-use")) {
+      let errorMessage = error.message;
+      if (errorMessage.includes("email-already-in-use")) {
         setNewEmailError("Email is already in use");
-      } else if (error.message.includes("wrong-password")) {
+      } else if (errorMessage.includes("wrong-password")) {
         setModalInputErrors((prev) => {
           return { ...prev, passwordError: "Incorrect password" };
         });
-      } else if (error.message.includes("internal-error")) {
-        console.log("Empty password");
-      } else if (error.message.includes("auth/user-mismatch")) {
+      } else if (errorMessage.includes("internal-error")) {
+        setModalInputErrors((prev) => {
+          return { ...prev, passwordError: "Empty password" };
+        });
+      } else if (errorMessage.includes("user-mismatch")) {
         setModalInputErrors(() => {
           const mismatchError = "Invalid current email or password";
           return { currentEmailError: mismatchError, passwordError: mismatchError };
         });
+      } else {
+        setModalInputErrors(() => {
+          const mismatchError = "Please check input fields";
+          return { currentEmailError: mismatchError, passwordError: mismatchError };
+        });
       }
       setIsVerifyingUser(false);
+      cleanNotifications();
       return;
     }
 
-    // isModalClosed = true;
     form.setFieldValue("password", "");
     form.setFieldValue("newEmail", "");
     setModalInputErrors({ currentEmailError: "", passwordError: "" });
@@ -224,8 +253,8 @@ const UserProfile = () => {
                 label="Current email"
                 withAsterisk
                 {...form.getInputProps("email")}
-                error={modalInputErrors.currentEmailError}
                 data-autofocus
+                error={modalInputErrors.currentEmailError}
               />
               <TextInput
                 placeholder="New email"

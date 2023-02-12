@@ -6,6 +6,8 @@ import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
 import { auth } from "../lib/init-firebase";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
 import UserLoadingPage from "../components/UI/UserLoadingPage";
+import { cleanNotifications, showNotification, updateNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons";
 
 const ResetPassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -62,19 +64,33 @@ const ResetPassword = () => {
   // Change password
   const submitHandler = async (event) => {
     event.preventDefault();
-
+    cleanNotifications();
     setEmailError("");
     setSignInLoading(false);
     setUpdatePasswordLoading(true);
     const user = auth.currentUser;
-
+    showNotification({
+      id: "new-password",
+      loading: true,
+      title: "Chaning password",
+      message: "Please wait...",
+      autoClose: false,
+      disallowClose: true,
+    });
     try {
       await updatePassword(user, newPassword);
       setUpdatePasswordLoading(false);
-      console.log("password changed");
+      updateNotification({
+        id: "new-password",
+        color: "teal",
+        title: "Password reset!",
+        message: "Your password has been changed",
+        autoClose: 10000,
+        icon: <IconCheck size={16} />,
+      });
     } catch (error) {
       console.log(error.message);
-      if (error.message.includes("auth/requires-recent-login")) {
+      if (error.message.includes("requires-recent-login")) {
         setOpened(true);
       }
     }
@@ -92,20 +108,29 @@ const ResetPassword = () => {
       await reauthenticateWithCredential(auth.currentUser, credential);
       localStorage.setItem("expirationTime", Date.now() + 3600 * 1000);
     } catch (error) {
-      console.log(error);
-      if (error.message.includes("invalid-email")) {
+      console.log(error.message);
+      let errorMessage = error.message;
+      if (errorMessage.includes("invalid-email")) {
         setEmailError("Incorrect Email or Password");
-      } else if (error.message.includes("wrong-password")) {
+      } else if (errorMessage.includes("wrong-password")) {
         setEmailError("Incorrect Email or Password");
-      } else if (error.message.includes("auth/user-mismatch")) {
+      } else if (errorMessage.includes("user-mismatch")) {
         setEmailError("Incorrect Email or Password");
-      } else if (error.message.includes("to many failed login attempts")) {
+      } else if (errorMessage.includes("to many failed login attempts")) {
         setEmailError(
           "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later"
         );
-      } else if (error.message.includes("internal-error")) {
+      } else if (errorMessage.includes("internal-error")) {
         setEmailError("Incorrect Email or Password");
       }
+      updateNotification({
+        id: "send-email",
+        color: "red",
+        title: "Please try again",
+        message: emailError,
+        autoClose: 5000,
+        icon: <IconX size={16} />,
+      });
       setSignInLoading(false);
       return;
     }
@@ -146,7 +171,6 @@ const ResetPassword = () => {
               onConfirmPasswordHandler={confirmPasswordHandler}
             />
             <Button sx={{ float: "right" }} type="submit" disabled={!validPassword || updatePasswordLoading}>
-              <LoadingOverlay visible={updatePasswordLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
               Update password
             </Button>
           </form>

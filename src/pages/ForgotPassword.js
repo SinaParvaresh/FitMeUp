@@ -5,7 +5,7 @@ import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
 import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { cleanNotifications, showNotification, updateNotification } from "@mantine/notifications";
 
@@ -14,9 +14,9 @@ const ForgotPassword = () => {
   const [enteredEmail, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [isSendingRequest, setIsSendingRequest] = useState(false);
-
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  const navigate = useNavigate();
 
   const resetPasswordHandler = async (event) => {
     event.preventDefault();
@@ -50,10 +50,11 @@ const ForgotPassword = () => {
         color: "teal",
         title: "Email Sent",
         message: "Please check your email to reset your password",
-        autoClose: 5000,
+        autoClose: 10000,
         icon: <IconCheck size={16} />,
       });
       setEmailSent(true);
+      navigate("/login");
     } catch (error) {
       console.log(error);
       const message = error.message;
@@ -92,16 +93,13 @@ const ForgotPassword = () => {
           <Title order={3}>Forgot Password?</Title>
           <Text c="dimmed">Please enter the email address associated with your account.</Text>
         </Stack>
-
-        {!emailSent && (
-          <FloatingLabelInput
-            placeholder="Email"
-            label="Email"
-            value={enteredEmail}
-            onChangeHandler={emailHandler}
-            innerRef={forgotPassRef}
-          />
-        )}
+        <FloatingLabelInput
+          placeholder="Email"
+          label="Email"
+          value={enteredEmail}
+          onChangeHandler={emailHandler}
+          innerRef={forgotPassRef}
+        />
 
         <Group position="apart" pt="1rem">
           <Link to="/login">
