@@ -1,12 +1,12 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import { db } from "../lib/init-firebase";
+import { db } from "../../lib/init-firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
+import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import { Button } from "@mantine/core";
-import UserLoadingPage from "../components/UI/UserLoadingPage";
+import UserLoadingPage from "../../components/UI/UserLoadingPage";
 import { useNavigate } from "react-router";
-import { UserCalories } from "../components/HomePageUI/UserCalories";
-import AuthContext from "../components/store/auth-context";
+import { UserCalories } from "../../components/HomePageUI/UserCalories";
+import AuthContext from "../../components/store/auth-context";
 
 const HomePage = () => {
   const [getStarted, setGetStarted] = useState(false);

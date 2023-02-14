@@ -1,13 +1,13 @@
 import { Button, Grid, LoadingOverlay, Modal, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db, auth } from "../lib/init-firebase";
+import { db, auth } from "../../lib/init-firebase";
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail } from "firebase/auth";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
-import UserLoadingPage from "../components/UI/UserLoadingPage";
+import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
+import UserLoadingPage from "../../components/UI/UserLoadingPage";
 import { isEmail, matches, useForm } from "@mantine/form";
-import AuthContext from "../components/store/auth-context";
-import { SideNavBar } from "../components/Layout/NavBar/SideNavBar";
+import AuthContext from "../../components/store/auth-context";
+import { SideNavBar } from "../../components/Layout/NavBar/SideNavBar";
 import { cleanNotifications, showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons";
 

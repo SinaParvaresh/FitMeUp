@@ -6,12 +6,13 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import HomePage from "./pages/HomePage";
-import UserProfile from "./pages/UserProfile";
-import CalorieTracker from "./pages/CalorieTracker";
-import MacroTracker from "./pages/MacroTracker";
-import ResetPassword from "./pages/ResetPassword";
 import { NotificationsProvider } from "@mantine/notifications";
+import HomePage from "./pages/userPages/HomePage";
+import UserProfile from "./pages/userPages/UserProfile";
+import CalorieTracker from "./pages/userPages/CalorieTracker";
+import MacroTracker from "./pages/userPages/MacroTracker";
+import ResetPassword from "./pages/userPages/ResetPassword";
+import GetStarted from "./pages/GetStarted";
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
@@ -29,11 +30,12 @@ function App() {
         <NotificationsProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navigate replace to="/login" />} />
+              <Route path="/" element={<Navigate replace to="/get-started" />} />
               <Route path="*" element={<Navigate to="/" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/get-started" element={<GetStarted />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/home-page" element={<HomePage />} />
                 <Route path="/user-profile" element={<UserProfile />} />

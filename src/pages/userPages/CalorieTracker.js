@@ -2,15 +2,15 @@ import { Fragment, useContext, useState } from "react";
 import { Button, Code, Group, LoadingOverlay, Paper, Stepper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../lib/init-firebase";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
-import CalorieGoal from "../components/CalorieTracker/CalorieGoal";
-import ActivityLevel from "../components/CalorieTracker/ActivityLevel";
-import BodyWeight from "../components/CalorieTracker/BodyWeight";
-import DietSelection from "../components/CalorieTracker/DietSelection";
-import DietCalculations from "../components/CalorieTracker/DietCalculations";
+import { db } from "../../lib/init-firebase";
+import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
+import CalorieGoal from "../../components/CalorieTracker/CalorieGoal";
+import ActivityLevel from "../../components/CalorieTracker/ActivityLevel";
+import BodyWeight from "../../components/CalorieTracker/BodyWeight";
+import DietSelection from "../../components/CalorieTracker/DietSelection";
+import DietCalculations from "../../components/CalorieTracker/DietCalculations";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../components/store/auth-context";
+import AuthContext from "../../components/store/auth-context";
 
 const CalorieTracker = () => {
   const [active, setActive] = useState(0);

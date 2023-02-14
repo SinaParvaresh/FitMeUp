@@ -3,11 +3,11 @@ import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../lib/init-firebase";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
-import { FloatingNumberInput } from "../components/UI/FloatingNumberInput";
+import { db } from "../../lib/init-firebase";
+import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
+import { FloatingNumberInput } from "../../components/UI/FloatingNumberInput";
 import { IconTrash } from "@tabler/icons";
-import AuthContext from "../components/store/auth-context";
+import AuthContext from "../../components/store/auth-context";
 
 const MacroTracker = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
