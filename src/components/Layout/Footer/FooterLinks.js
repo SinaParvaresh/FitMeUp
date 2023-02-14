@@ -93,7 +93,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const FooterLinks = ({ data }) => {
+const FooterLinks = () => {
   const { classes } = useStyles();
 
   return (

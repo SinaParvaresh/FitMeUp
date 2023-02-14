@@ -14,8 +14,6 @@ import {
 import { IconBrandGithub, IconCheck } from "@tabler/icons";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import FooterLinks from "../components/Layout/Footer/FooterLinks";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 
 const useStyles = createStyles((theme) => ({
   itemTitle: {
@@ -86,7 +84,6 @@ const GetStarted = () => {
   const { classes } = useStyles();
   return (
     <Fragment>
-      <HeaderMegaMenu />
       <Container>
         <div className={classes.inner}>
           <div className={classes.content}>
@@ -186,7 +183,6 @@ const GetStarted = () => {
           </TimelineItem>
         </Timeline>
       </Container>
-      <FooterLinks />
     </Fragment>
   );
 };

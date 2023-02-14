@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../lib/init-firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -7,7 +7,6 @@ import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
 import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import ErrorOutput from "../components/UI/ErrorOutput";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
@@ -172,59 +171,56 @@ const Register = () => {
   };
 
   return (
-    <Fragment>
-      <HeaderMegaMenu />
-      <FormCard onSubmit={submitHandler}>
-        <Flex direction="column" justify="center" gap="xs">
-          <Group position="center">
-            <Title order={2}>Register</Title>
-          </Group>
-          <ErrorOutput validationCheck={errorValidations} />
+    <FormCard onSubmit={submitHandler}>
+      <Flex direction="column" justify="center" gap="xs">
+        <Group position="center">
+          <Title order={2}>Register</Title>
+        </Group>
+        <ErrorOutput validationCheck={errorValidations} />
 
-          <FloatingLabelInput
-            type="firstName"
-            label="First Name"
-            placeholder="First Name"
-            onChangeHandler={firstNameHandler}
-            validationCheck={errorValidations}
-            error={errorValidations.shortFirstName}
-          />
-          <FloatingLabelInput
-            type="lastName"
-            label="Last Name"
-            placeholder="Last Name"
-            onChangeHandler={lastNameHandler}
-            error={errorValidations.shortLastName}
-          />
-          <FloatingLabelInput
-            type="email"
-            label="Email"
-            placeholder="Email"
-            onChangeHandler={emailHandler}
-            error={errorValidations.invalidEmail || errorValidations.emailExists || errorValidations.firebaseEmailError}
-          />
+        <FloatingLabelInput
+          type="firstName"
+          label="First Name"
+          placeholder="First Name"
+          onChangeHandler={firstNameHandler}
+          validationCheck={errorValidations}
+          error={errorValidations.shortFirstName}
+        />
+        <FloatingLabelInput
+          type="lastName"
+          label="Last Name"
+          placeholder="Last Name"
+          onChangeHandler={lastNameHandler}
+          error={errorValidations.shortLastName}
+        />
+        <FloatingLabelInput
+          type="email"
+          label="Email"
+          placeholder="Email"
+          onChangeHandler={emailHandler}
+          error={errorValidations.invalidEmail || errorValidations.emailExists || errorValidations.firebaseEmailError}
+        />
 
-          <PasswordStrengthBar
-            value={enteredPassword}
-            confirmPasswordValue={enteredConfirmPassword}
-            onChangeHandler={passwordHandler}
-            onConfirmPasswordHandler={confirmPasswordHandler}
-          />
+        <PasswordStrengthBar
+          value={enteredPassword}
+          confirmPasswordValue={enteredConfirmPassword}
+          onChangeHandler={passwordHandler}
+          onConfirmPasswordHandler={confirmPasswordHandler}
+        />
 
-          <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
-            <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
-            Sign Up
-          </Button>
+        <Button type="submit" disabled={isLoading || !validPassword ? true : false}>
+          <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+          Sign Up
+        </Button>
 
-          <Group position="center" spacing="xs">
-            <Text>Have an account?</Text>
-            <Link className={classes.signInLink} to="/login">
-              <Text weight={600}>Sign In</Text>
-            </Link>
-          </Group>
-        </Flex>
-      </FormCard>
-    </Fragment>
+        <Group position="center" spacing="xs">
+          <Text>Have an account?</Text>
+          <Link className={classes.signInLink} to="/login">
+            <Text weight={600}>Sign In</Text>
+          </Link>
+        </Group>
+      </Flex>
+    </FormCard>
   );
 };
 

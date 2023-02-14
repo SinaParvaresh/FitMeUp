@@ -1,7 +1,6 @@
 import { Button, Grid, LoadingOverlay, Modal, PasswordInput, Stack, TextInput, Title } from "@mantine/core";
 import { Fragment, useEffect, useState } from "react";
 import { SideNavBar } from "../../components/Layout/NavBar/SideNavBar";
-import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import { PasswordStrengthBar } from "../../components/UI/PasswordStrengthBar";
 import { auth } from "../../lib/init-firebase";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
@@ -147,7 +146,6 @@ const ResetPassword = () => {
 
   return (
     <Fragment>
-      <HeaderMegaMenu />
       {pageIsLoading && <UserLoadingPage />}
 
       <Grid>

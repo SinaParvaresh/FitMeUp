@@ -13,6 +13,7 @@ import CalorieTracker from "./pages/userPages/CalorieTracker";
 import MacroTracker from "./pages/userPages/MacroTracker";
 import ResetPassword from "./pages/userPages/ResetPassword";
 import GetStarted from "./pages/GetStarted";
+import Layout from "./components/Layout/Layout";
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
@@ -30,18 +31,20 @@ function App() {
         <NotificationsProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navigate replace to="/get-started" />} />
-              <Route path="*" element={<Navigate to="/" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/get-started" element={<GetStarted />} />
-              <Route element={<PrivateRoutes />}>
-                <Route path="/home-page" element={<HomePage />} />
-                <Route path="/user-profile" element={<UserProfile />} />
-                <Route path="/calorie-tracker" element={<CalorieTracker />} />
-                <Route path="/macro-tracker" element={<MacroTracker />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
+              <Route element={<Layout />}>
+                <Route path="/" element={<Navigate replace to="/get-started" />} />
+                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/get-started" element={<GetStarted />} />
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/home-page" element={<HomePage />} />
+                  <Route path="/user-profile" element={<UserProfile />} />
+                  <Route path="/calorie-tracker" element={<CalorieTracker />} />
+                  <Route path="/macro-tracker" element={<MacroTracker />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                </Route>
               </Route>
             </Routes>
           </BrowserRouter>

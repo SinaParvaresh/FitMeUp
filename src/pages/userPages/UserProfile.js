@@ -3,7 +3,6 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../lib/init-firebase";
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail } from "firebase/auth";
-import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import UserLoadingPage from "../../components/UI/UserLoadingPage";
 import { isEmail, matches, useForm } from "@mantine/form";
 import AuthContext from "../../components/store/auth-context";
@@ -194,7 +193,6 @@ const UserProfile = () => {
 
   return (
     <Fragment>
-      <HeaderMegaMenu />
       {isLoadingPage && <UserLoadingPage />}
       {!isLoadingPage && (
         <Grid>

@@ -1,9 +1,8 @@
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Code, Group, LoadingOverlay, Paper, Stepper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
-import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import CalorieGoal from "../../components/CalorieTracker/CalorieGoal";
 import ActivityLevel from "../../components/CalorieTracker/ActivityLevel";
 import BodyWeight from "../../components/CalorieTracker/BodyWeight";
@@ -150,71 +149,64 @@ const CalorieTracker = () => {
   };
 
   return (
-    <Fragment>
-      <HeaderMegaMenu />
-      <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
-        <form onSubmit={submitHandler}>
-          <Stepper active={active} breakpoint="sm">
-            <Stepper.Step label="First Step" description="Current goal">
-              <CalorieGoal
-                value={form.values.calorieGoal}
-                onChangeHandler={onCalorieHandler}
-                error={currentGoalError}
-              />
-            </Stepper.Step>
-            <Stepper.Step label="Second Step" description="Activity Level">
-              <ActivityLevel
-                value={form.values.activityLevel}
-                onChangeHandler={onActivityLevelHandler}
-                error={activityLevelError}
-              />
-            </Stepper.Step>
-            <Stepper.Step label="Third Step" description="Body Weight Statistics">
-              <BodyWeight
-                onCurrentWeightHandler={onBodyWeightHandler}
-                onAdjustedCaloriesHandler={onAdjustedCaloriesHandler}
-                weightValue={form.values.currentWeight}
-                calorieValue={form.values.calorieAdjusted}
-                weightError={weightError}
-                calorieAdjustedError={calorieAdjustedError}
-              />
-            </Stepper.Step>
-            <Stepper.Step label="Final Step" description="Diet Selection">
-              <DietSelection
-                proteinValue={form.values.proteinIntake}
-                dietTypeValue={form.values.dietType}
-                onProteinIntakeChangeHandler={onProteinIntakeHandler}
-                onDietTypeChangeHandler={onDietTypeHandler}
-                proteinIntakeError={proteinIntakeError}
-                dietTypeError={dietTypeError}
-              />
-            </Stepper.Step>
-            <Stepper.Completed>
-              <DietCalculations values={form.values} />
-              <Code block mt="xl">
-                {JSON.stringify(form.values, null, 2)}
-              </Code>
-            </Stepper.Completed>
-          </Stepper>
+    <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
+      <form onSubmit={submitHandler}>
+        <Stepper active={active} breakpoint="sm">
+          <Stepper.Step label="First Step" description="Current goal">
+            <CalorieGoal value={form.values.calorieGoal} onChangeHandler={onCalorieHandler} error={currentGoalError} />
+          </Stepper.Step>
+          <Stepper.Step label="Second Step" description="Activity Level">
+            <ActivityLevel
+              value={form.values.activityLevel}
+              onChangeHandler={onActivityLevelHandler}
+              error={activityLevelError}
+            />
+          </Stepper.Step>
+          <Stepper.Step label="Third Step" description="Body Weight Statistics">
+            <BodyWeight
+              onCurrentWeightHandler={onBodyWeightHandler}
+              onAdjustedCaloriesHandler={onAdjustedCaloriesHandler}
+              weightValue={form.values.currentWeight}
+              calorieValue={form.values.calorieAdjusted}
+              weightError={weightError}
+              calorieAdjustedError={calorieAdjustedError}
+            />
+          </Stepper.Step>
+          <Stepper.Step label="Final Step" description="Diet Selection">
+            <DietSelection
+              proteinValue={form.values.proteinIntake}
+              dietTypeValue={form.values.dietType}
+              onProteinIntakeChangeHandler={onProteinIntakeHandler}
+              onDietTypeChangeHandler={onDietTypeHandler}
+              proteinIntakeError={proteinIntakeError}
+              dietTypeError={dietTypeError}
+            />
+          </Stepper.Step>
+          <Stepper.Completed>
+            <DietCalculations values={form.values} />
+            <Code block mt="xl">
+              {JSON.stringify(form.values, null, 2)}
+            </Code>
+          </Stepper.Completed>
+        </Stepper>
 
-          <Group position="right" mt="xl">
-            {active !== 0 && (
-              <Button variant="default" onClick={prevStep}>
-                Back
-              </Button>
-            )}
+        <Group position="right" mt="xl">
+          {active !== 0 && (
+            <Button variant="default" onClick={prevStep}>
+              Back
+            </Button>
+          )}
 
-            {active !== 4 && <Button onClick={nextStep}>Next step</Button>}
-            {active === 4 && (
-              <Button type="submit" disabled={isSubmitting ? true : false}>
-                <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
-                Submit
-              </Button>
-            )}
-          </Group>
-        </form>
-      </Paper>
-    </Fragment>
+          {active !== 4 && <Button onClick={nextStep}>Next step</Button>}
+          {active === 4 && (
+            <Button type="submit" disabled={isSubmitting ? true : false}>
+              <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+              Submit
+            </Button>
+          )}
+        </Group>
+      </form>
+    </Paper>
   );
 };
 

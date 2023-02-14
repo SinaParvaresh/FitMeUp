@@ -2,7 +2,6 @@ import React, { Fragment, useState, useRef } from "react";
 import { auth } from "../lib/init-firebase";
 import FormCard from "../components/UI/FormCard";
 import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -87,7 +86,6 @@ const ForgotPassword = () => {
 
   return (
     <Fragment>
-      <HeaderMegaMenu></HeaderMegaMenu>
       <FormCard onSubmit={resetPasswordHandler}>
         <Stack align="center" pb="1rem">
           <Title order={3}>Forgot Password?</Title>

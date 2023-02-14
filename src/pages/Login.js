@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../lib/init-firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -6,7 +6,6 @@ import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import classes from "./Login.module.css";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
-import { HeaderMegaMenu } from "../components/Layout/HeaderMegaMenu";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
@@ -101,52 +100,49 @@ const Login = () => {
   };
 
   return (
-    <Fragment>
-      <HeaderMegaMenu />
-      <FormCard onSubmit={submitHandler}>
-        <Flex direction="column" gap="xs">
-          <Group position="center">
-            <Title order={2}>Login</Title>
-          </Group>
+    <FormCard onSubmit={submitHandler}>
+      <Flex direction="column" gap="xs">
+        <Group position="center">
+          <Title order={2}>Login</Title>
+        </Group>
 
-          {tooManyRequests && (
-            <Text c="#e03131" size="sm" pb="md">
-              Access to this account has been temporarily disabled due to many failed login attempts. You can
-              immediately restore it by resetting your password or you can try again later.
-            </Text>
-          )}
+        {tooManyRequests && (
+          <Text c="#e03131" size="sm" pb="md">
+            Access to this account has been temporarily disabled due to many failed login attempts. You can immediately
+            restore it by resetting your password or you can try again later.
+          </Text>
+        )}
 
-          <FloatingLabelInput
-            type="email"
-            placeholder="Email"
-            label="Email"
-            onChangeHandler={emailHandler}
-            error={tooManyRequests || errorValidations.emailExist || errorValidations.invalidEmail}
-          />
+        <FloatingLabelInput
+          type="email"
+          placeholder="Email"
+          label="Email"
+          onChangeHandler={emailHandler}
+          error={tooManyRequests || errorValidations.emailExist || errorValidations.invalidEmail}
+        />
 
-          <FloatingPasswordInput
-            placeholder="Password"
-            label="Password"
-            onChangeHandler={passwordHandler}
-            error={tooManyRequests || errorValidations.incorrectPassword || errorValidations.invalidPassword}
-          />
+        <FloatingPasswordInput
+          placeholder="Password"
+          label="Password"
+          onChangeHandler={passwordHandler}
+          error={tooManyRequests || errorValidations.incorrectPassword || errorValidations.invalidPassword}
+        />
 
-          <Button type="submit" disabled={isLoading ? true : false}>
-            <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
-            Log In
-          </Button>
+        <Button type="submit" disabled={isLoading ? true : false}>
+          <LoadingOverlay visible={isLoading} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+          Log In
+        </Button>
 
-          <Group position="apart">
-            <Link to="/forgot-password" className={classes.link}>
-              <Text weight={600}>Forgot Password?</Text>
-            </Link>
-            <Link to="/register" className={classes.link}>
-              <Text weight={600}>Sign up</Text>
-            </Link>
-          </Group>
-        </Flex>
-      </FormCard>
-    </Fragment>
+        <Group position="apart">
+          <Link to="/forgot-password" className={classes.link}>
+            <Text weight={600}>Forgot Password?</Text>
+          </Link>
+          <Link to="/register" className={classes.link}>
+            <Text weight={600}>Sign up</Text>
+          </Link>
+        </Group>
+      </Flex>
+    </FormCard>
   );
 };
 

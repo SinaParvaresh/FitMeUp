@@ -1,10 +1,9 @@
 import { ActionIcon, Button, Group, LoadingOverlay, Paper, Table, TextInput, Title } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
-import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import { FloatingNumberInput } from "../../components/UI/FloatingNumberInput";
 import { IconTrash } from "@tabler/icons";
 import AuthContext from "../../components/store/auth-context";
@@ -122,78 +121,75 @@ const MacroTracker = () => {
   }, [currentDate, userID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Fragment>
-      <HeaderMegaMenu />
-      <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
-        <Title order={1} align="center">
-          Keep track of your food!
-        </Title>
-        <form onSubmit={onSubmitHandler}>
-          <Group align="center" sx={{ marginBottom: 10 }}>
-            <DatePicker
-              value={currentDate}
-              onChange={setCurrentDate}
-              allowFreeInput
-              placeholder="Pick date"
-              label="Today's date"
-              required
-            />
-            <TextInput
-              value={mealName}
-              onChange={(event) => {
-                setMealName(event.target.value);
-              }}
-              placeholder="Meal name"
-              label="Meal name"
-              withAsterisk
-            />
-          </Group>
+    <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
+      <Title order={1} align="center">
+        Keep track of your food!
+      </Title>
+      <form onSubmit={onSubmitHandler}>
+        <Group align="center" sx={{ marginBottom: 10 }}>
+          <DatePicker
+            value={currentDate}
+            onChange={setCurrentDate}
+            allowFreeInput
+            placeholder="Pick date"
+            label="Today's date"
+            required
+          />
+          <TextInput
+            value={mealName}
+            onChange={(event) => {
+              setMealName(event.target.value);
+            }}
+            placeholder="Meal name"
+            label="Meal name"
+            withAsterisk
+          />
+        </Group>
 
-          <Group>
-            <FloatingNumberInput
-              value={mealCalories}
-              onChangeHandler={setMealCalories}
-              placeholder="Calories"
-              label="Calories"
-            />
-            <FloatingNumberInput
-              value={proteinAmount}
-              onChangeHandler={setProteinAmount}
-              placeholder="Protein"
-              label="Protein"
-            />
-          </Group>
-          <Group>
-            <FloatingNumberInput value={fatAmount} onChangeHandler={setFatAmount} placeholder="Fats" label="Fats" />
-            <FloatingNumberInput
-              value={carbAmount}
-              onChangeHandler={setCarbAmount}
-              placeholder="Carbohydrates"
-              label="Carbohydrates"
-            />
-          </Group>
-          <Button type="submit" disabled={isSubmitting ? true : false}>
-            <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
-            Save
-          </Button>
-        </form>
-        <Button onClick={addMeal} sx={{ marginBottom: 10 }}>
-          Add Meal
+        <Group>
+          <FloatingNumberInput
+            value={mealCalories}
+            onChangeHandler={setMealCalories}
+            placeholder="Calories"
+            label="Calories"
+          />
+          <FloatingNumberInput
+            value={proteinAmount}
+            onChangeHandler={setProteinAmount}
+            placeholder="Protein"
+            label="Protein"
+          />
+        </Group>
+        <Group>
+          <FloatingNumberInput value={fatAmount} onChangeHandler={setFatAmount} placeholder="Fats" label="Fats" />
+          <FloatingNumberInput
+            value={carbAmount}
+            onChangeHandler={setCarbAmount}
+            placeholder="Carbohydrates"
+            label="Carbohydrates"
+          />
+        </Group>
+        <Button type="submit" disabled={isSubmitting ? true : false}>
+          <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
+          Save
         </Button>
-        <Table striped highlightOnHover withColumnBorders horizontalSpacing="md">
-          <thead>
-            <tr>
-              <th>Meal Name</th>
-              <th>Calories</th>
-              <th>Protein</th>
-              <th>Fats</th>
-              <th>Carbohydrates</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
-      </Paper>
-    </Fragment>
+      </form>
+      <Button onClick={addMeal} sx={{ marginBottom: 10 }}>
+        Add Meal
+      </Button>
+      <Table striped highlightOnHover withColumnBorders horizontalSpacing="md">
+        <thead>
+          <tr>
+            <th>Meal Name</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Fats</th>
+            <th>Carbohydrates</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+    </Paper>
   );
 };
 

@@ -1,7 +1,6 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { db } from "../../lib/init-firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { HeaderMegaMenu } from "../../components/Layout/HeaderMegaMenu";
 import { Button } from "@mantine/core";
 import UserLoadingPage from "../../components/UI/UserLoadingPage";
 import { useNavigate } from "react-router";
@@ -78,7 +77,6 @@ const HomePage = () => {
 
   return (
     <Fragment>
-      <HeaderMegaMenu />
       {isLoadingStats && <UserLoadingPage />}
       {getStarted && <Button onClick={() => navigate("/calorie-tracker")}>Get started</Button>}
       {!isLoadingStats && !getStarted && (
