@@ -11,6 +11,7 @@ import {
   Divider,
   Center,
   Box,
+  Title,
 } from "@mantine/core";
 import { IconBook, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
@@ -130,6 +131,10 @@ export function HeaderMegaMenu() {
         <Group position="apart" sx={{ height: "100%" }}>
           <Link to="/get-started" className={classes.link}>
             <IconBarbell size={30} />
+            <Title order={3} p="1rem">
+              {" "}
+              FitMeUp
+            </Title>
           </Link>
           <Group sx={{ height: "100%" }} spacing={0} className={classes.hiddenMobile}>
             <Link to="/home-page" className={classes.link}>
