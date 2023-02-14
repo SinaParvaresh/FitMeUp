@@ -11,7 +11,7 @@ import {
   Timeline,
   TimelineItem,
 } from "@mantine/core";
-import { IconBrandGithub, IconCheck, IconCircleCheck } from "@tabler/icons";
+import { IconBrandGithub, IconCheck } from "@tabler/icons";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import FooterLinks from "../components/Layout/Footer/FooterLinks";
@@ -24,7 +24,6 @@ const useStyles = createStyles((theme) => ({
     left: "-12%",
   },
 
-  itemContent: {},
   icon: {
     display: "inline-block",
   },
@@ -143,8 +142,6 @@ const GetStarted = () => {
         >
           <TimelineItem title="January 2023">
             <Group>
-              {/* <IconCircleCheck color="teal" className={classes.icon} /> */}
-
               <Text size="lg" pb="1rem">
                 User authentication & verification
                 <Text size="xs" color="dimmed">
@@ -154,7 +151,6 @@ const GetStarted = () => {
             </Group>
 
             <Text size="lg">
-              {/* <IconCircleCheck color="teal" /> */}
               Custom-made diet
               <Text size="xs" color="dimmed">
                 Create a unique custom-made diet
