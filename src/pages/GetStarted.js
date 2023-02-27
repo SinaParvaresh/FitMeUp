@@ -18,8 +18,8 @@ import { Link } from "react-router-dom";
 const useStyles = createStyles((theme) => ({
   itemTitle: {
     fontSize: "13px",
-    position: "absolute",
-    left: "-12%",
+    position: "relative",
+    right: "15%",
   },
 
   icon: {

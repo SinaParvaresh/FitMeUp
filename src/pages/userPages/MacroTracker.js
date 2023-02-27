@@ -1,4 +1,15 @@
-import { ActionIcon, Button, Group, LoadingOverlay, Paper, Table, TextInput, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  LoadingOverlay,
+  Paper,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useContext, useEffect, useState } from "react";
@@ -121,12 +132,12 @@ const MacroTracker = () => {
   }, [currentDate, userID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
-      <Title order={1} align="center">
+    <Paper shadow="lg" p="md" sx={{ width: "80%", margin: "auto", overflow: "hidden" }} withBorder>
+      <Title order={1} align="center" m="md">
         Keep track of your food!
       </Title>
       <form onSubmit={onSubmitHandler}>
-        <Group align="center" sx={{ marginBottom: 10 }}>
+        <SimpleGrid>
           <DatePicker
             value={currentDate}
             onChange={setCurrentDate}
@@ -134,6 +145,7 @@ const MacroTracker = () => {
             placeholder="Pick date"
             label="Today's date"
             required
+            w="50%"
           />
           <TextInput
             value={mealName}
@@ -143,52 +155,55 @@ const MacroTracker = () => {
             placeholder="Meal name"
             label="Meal name"
             withAsterisk
+            w="50%"
           />
-        </Group>
+          <Stack align="flex-start">
+            <FloatingNumberInput
+              value={mealCalories}
+              onChangeHandler={setMealCalories}
+              placeholder="Calories"
+              label="Calories"
+            />
+            <FloatingNumberInput
+              value={proteinAmount}
+              onChangeHandler={setProteinAmount}
+              placeholder="Protein"
+              label="Protein"
+            />
+            <FloatingNumberInput value={fatAmount} onChangeHandler={setFatAmount} placeholder="Fats" label="Fats" />
+            <FloatingNumberInput
+              value={carbAmount}
+              onChangeHandler={setCarbAmount}
+              placeholder="Carbohydrates"
+              label="Carbohydrates"
+            />
+          </Stack>
 
-        <Group>
-          <FloatingNumberInput
-            value={mealCalories}
-            onChangeHandler={setMealCalories}
-            placeholder="Calories"
-            label="Calories"
-          />
-          <FloatingNumberInput
-            value={proteinAmount}
-            onChangeHandler={setProteinAmount}
-            placeholder="Protein"
-            label="Protein"
-          />
-        </Group>
-        <Group>
-          <FloatingNumberInput value={fatAmount} onChangeHandler={setFatAmount} placeholder="Fats" label="Fats" />
-          <FloatingNumberInput
-            value={carbAmount}
-            onChangeHandler={setCarbAmount}
-            placeholder="Carbohydrates"
-            label="Carbohydrates"
-          />
-        </Group>
-        <Button type="submit" disabled={isSubmitting ? true : false}>
+          <Button type="button" onClick={addMeal} mb={10} mt={10} sx={{ width: "50%" }}>
+            Add Meal
+          </Button>
+        </SimpleGrid>
+
+        <ScrollArea type="auto" style={{ width: "auto" }} offsetScrollbars>
+          <Table striped highlightOnHover withColumnBorders horizontalSpacing="md">
+            <thead>
+              <tr>
+                <th>Meal Name</th>
+                <th>Calories</th>
+                <th>Protein</th>
+                <th>Fats</th>
+                <th>Carbohydrates</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </ScrollArea>
+
+        <Button type="submit" disabled={isSubmitting ? true : false} mb={10} mt={10} sx={{ width: "50%", left: "25%" }}>
           <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
           Save
         </Button>
       </form>
-      <Button onClick={addMeal} sx={{ marginBottom: 10 }}>
-        Add Meal
-      </Button>
-      <Table striped highlightOnHover withColumnBorders horizontalSpacing="md">
-        <thead>
-          <tr>
-            <th>Meal Name</th>
-            <th>Calories</th>
-            <th>Protein</th>
-            <th>Fats</th>
-            <th>Carbohydrates</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
     </Paper>
   );
 };

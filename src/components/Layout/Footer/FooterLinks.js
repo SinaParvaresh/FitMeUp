@@ -12,7 +12,6 @@ const useStyles = createStyles((theme) => ({
 
   logo: {
     maxWidth: 200,
-
     [theme.fn.smallerThan("sm")]: {
       display: "flex",
       flexDirection: "column",
@@ -22,7 +21,6 @@ const useStyles = createStyles((theme) => ({
 
   description: {
     marginTop: 5,
-
     [theme.fn.smallerThan("sm")]: {
       marginTop: theme.spacing.xs,
       textAlign: "center",

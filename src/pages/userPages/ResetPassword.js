@@ -28,7 +28,7 @@ const ResetPassword = () => {
     const hasNumber = /\d/.test(newPassword);
     const hasLowercase = /[a-z]/.test(newPassword);
     const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+    const hasSpecialCharacter = /[^a-zA-Z0-9]/.test(newPassword);
 
     if (
       newPassword.length > 5 &&

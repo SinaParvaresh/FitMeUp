@@ -140,7 +140,15 @@ export function HeaderMegaMenu() {
             <Link to="/home-page" className={classes.link}>
               Home
             </Link>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard
+              openDelay={400}
+              closeDelay={250}
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal
+            >
               <HoverCard.Target>
                 <Link className={classes.link}>
                   <Center inline>

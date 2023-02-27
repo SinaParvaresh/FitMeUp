@@ -68,7 +68,7 @@ const Register = () => {
     const hasNumber = /\d/.test(form.values.password);
     const hasLowercase = /[a-z]/.test(form.values.password);
     const hasUppercase = /[A-Z]/.test(form.values.password);
-    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(form.values.password);
+    const hasSpecialCharacter = /[^a-zA-Z0-9]/.test(form.values.password);
 
     if (
       form.values.password.length > 5 &&

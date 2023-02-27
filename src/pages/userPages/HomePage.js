@@ -1,11 +1,10 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { db } from "../../lib/init-firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { Button } from "@mantine/core";
 import UserLoadingPage from "../../components/UI/UserLoadingPage";
-import { useNavigate } from "react-router";
 import { UserCalories } from "../../components/HomePageUI/UserCalories";
 import AuthContext from "../../components/store/auth-context";
+import CompelteProfile from "./CompleteProfile";
 
 const HomePage = () => {
   const [getStarted, setGetStarted] = useState(false);
@@ -29,7 +28,6 @@ const HomePage = () => {
   });
 
   const authCtx = useContext(AuthContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserStatistics = async () => {
@@ -78,7 +76,7 @@ const HomePage = () => {
   return (
     <Fragment>
       {isLoadingStats && <UserLoadingPage />}
-      {getStarted && <Button onClick={() => navigate("/calorie-tracker")}>Get started</Button>}
+      {getStarted && <CompelteProfile />}
       {!isLoadingStats && !getStarted && (
         <UserCalories values={userStatistics} title="Daily Diet Goal" macros={userMealsStatistics} />
       )}
