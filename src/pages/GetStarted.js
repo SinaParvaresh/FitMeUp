@@ -10,18 +10,16 @@ import {
   Anchor,
   Timeline,
   TimelineItem,
+  Stack,
 } from "@mantine/core";
 import { IconBrandGithub, IconCheck } from "@tabler/icons";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import CheckmarkBadge from "../components/UI/CheckmarkBadge";
+import NotStartedBadge from "../components/UI/NotStartedBadge";
+import ProgressBadge from "../components/UI/ProgressBadge";
 
 const useStyles = createStyles((theme) => ({
-  itemTitle: {
-    fontSize: "13px",
-    position: "relative",
-    right: "15%",
-  },
-
   icon: {
     display: "inline-block",
   },
@@ -78,6 +76,21 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
     padding: "4px 12px",
   },
+
+  timeline: {
+    margin: "10%",
+  },
+
+  itemTitle: {
+    fontSize: "13px",
+    position: "relative",
+    right: "25%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
 }));
 
 const GetStarted = () => {
@@ -129,59 +142,89 @@ const GetStarted = () => {
             </Group>
           </div>
         </div>
-        <Title className={classes.title} pb="2rem">
-          Our 2023 Roadmap
-        </Title>
-        <Timeline
-          active={1}
-          color="teal"
-          classNames={{ itemTitle: classes.itemTitle, itemContent: classes.itemContent }}
-        >
-          <TimelineItem title="January 2023">
-            <Group>
-              <Text size="lg" pb="1rem">
-                User authentication & verification
-                <Text size="xs" color="dimmed">
-                  Implemented Firebase for authentication
-                </Text>
-              </Text>
-            </Group>
+        <div className={classes.timeline}>
+          <Title className={classes.title} pb="2rem">
+            Our 2023 Roadmap
+          </Title>
 
-            <Text size="lg">
-              Custom-made diet
-              <Text size="xs" color="dimmed">
-                Create a unique custom-made diet
-              </Text>
-            </Text>
-          </TimelineItem>
+          <Timeline
+            active={1}
+            color="teal"
+            classNames={{ itemTitle: classes.itemTitle, itemContent: classes.itemContent }}
+          >
+            <TimelineItem title="January 2023">
+              <Stack>
+                <Stack spacing={0}>
+                  <Group spacing={10}>
+                    <CheckmarkBadge />
+                    <Text size="lg" color="teal">
+                      User authentication & verification
+                    </Text>
+                  </Group>
+                  <Text size="xs" color="dimmed">
+                    Implemented Firebase for authentication
+                  </Text>
+                </Stack>
 
-          <TimelineItem title="Febuary 2023" color="yellow" lineActive lineVariant="dashed">
-            <Text size="lg" pb="1rem">
-              Diet Tracking
-              <Text size="xs" color="dimmed">
-                Keep track of every meal and it's calories & macronutrients
-              </Text>
-            </Text>
+                <Stack spacing={0}>
+                  <Group spacing={10}>
+                    <CheckmarkBadge />
+                    <Text size="lg" color="teal">
+                      Custom-made diet
+                    </Text>
+                  </Group>
+                  <Text size="xs" color="dimmed">
+                    Create a unique custom-made diet
+                  </Text>
+                </Stack>
+              </Stack>
+            </TimelineItem>
 
-            <Text size="lg" pb="1rem">
-              Workout Tracking
-              <Text size="xs" color="dimmed">
-                Keep track of every workout
-              </Text>
-            </Text>
+            <TimelineItem title="Febuary 2023" color="yellow" lineActive lineVariant="dashed">
+              <Stack>
+                <Stack spacing={0}>
+                  <Group spacing={10}>
+                    <CheckmarkBadge />
+                    <Text size="lg" color="teal">
+                      Diet Tracking
+                    </Text>
+                  </Group>
+                  <Text size="xs" color="dimmed">
+                    Keep track of every meal and it's calories & macronutrients
+                  </Text>
+                </Stack>
 
-            <Text size="lg">
-              Progress Analyzer
-              <Text size="xs" color="dimmed">
-                Show progression charts & daily photos
-              </Text>
-            </Text>
-          </TimelineItem>
+                <Stack spacing={0}>
+                  <Group spacing={10}>
+                    <ProgressBadge />
+                    <Text size="lg" color="yellow">
+                      Workout Tracking
+                    </Text>
+                  </Group>
+                  <Text size="xs" color="dimmed">
+                    Keep track of every workout
+                  </Text>
+                </Stack>
 
-          <TimelineItem title="March 2023">
-            <Text size="lg">Launch to the iOS and Android app store</Text>
-          </TimelineItem>
-        </Timeline>
+                <Stack spacing={0}>
+                  <Group spacing={10}>
+                    <NotStartedBadge />
+                    <Text size="lg" color="red">
+                      Progress Analyzer
+                    </Text>
+                  </Group>
+                  <Text size="xs" color="dimmed">
+                    Show progression charts & daily photos
+                  </Text>
+                </Stack>
+              </Stack>
+            </TimelineItem>
+
+            <TimelineItem title="March 2023">
+              <Text size="lg">Launch to the iOS and Android app store</Text>
+            </TimelineItem>
+          </Timeline>
+        </div>
       </Container>
     </Fragment>
   );

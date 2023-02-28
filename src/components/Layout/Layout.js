@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import FooterLinks from "./Footer/FooterLinks";
-import { HeaderMegaMenu } from "./HeaderMegaMenu";
+import { HeaderMegaMenu } from "./Header/HeaderMegaMenu";
 
 const Layout = () => {
   return (

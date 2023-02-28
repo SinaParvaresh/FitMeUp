@@ -19,12 +19,12 @@ import {
 import { IconBook, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthContext from "../store/auth-context";
+import AuthContext from "../../store/auth-context";
 import HeaderLoginButton from "./HeaderLoginButton";
 import HeaderLogoutButton from "./HeaderLogoutButton";
 import HeaderProfileButton from "./HeaderProfileButton";
 import HeaderSignUpButton from "./HeaderSignUpButton";
-import LightAndDarkModeButton from "../UI/LightAndDarkModeButton";
+import LightAndDarkModeButton from "../../UI/LightAndDarkModeButton";
 import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
