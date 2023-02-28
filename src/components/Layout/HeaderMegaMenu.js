@@ -12,6 +12,9 @@ import {
   Center,
   Box,
   Title,
+  Burger,
+  Drawer,
+  Collapse,
 } from "@mantine/core";
 import { IconBook, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
@@ -22,6 +25,7 @@ import HeaderLogoutButton from "./HeaderLogoutButton";
 import HeaderProfileButton from "./HeaderProfileButton";
 import HeaderSignUpButton from "./HeaderSignUpButton";
 import LightAndDarkModeButton from "../UI/LightAndDarkModeButton";
+import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -39,7 +43,6 @@ const useStyles = createStyles((theme) => ({
       height: 42,
       display: "flex",
       alignItems: "center",
-      width: "100%",
     },
 
     ...theme.fn.hover({
@@ -97,7 +100,10 @@ const data = [
 ];
 
 export function HeaderMegaMenu() {
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
+
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
   const navigate = useNavigate();
@@ -127,16 +133,15 @@ export function HeaderMegaMenu() {
 
   return (
     <Box pb={120}>
-      <Header height={60} px="md">
-        <Group position="apart" sx={{ height: "100%" }}>
+      <Header height={60} mb="lg" px="md" style={{ position: "relative", zIndex: 6 }}>
+        <Group position="apart" sx={{ height: "100%" }} className={classes.hiddenMobile}>
           <Link to="/get-started" className={classes.link}>
             <IconBarbell size={30} />
             <Title order={3} p="1rem">
-              {" "}
               FitMeUp
             </Title>
           </Link>
-          <Group sx={{ height: "100%" }} spacing={0} className={classes.hiddenMobile}>
+          <Group sx={{ height: "100%" }}>
             <Link to="/home-page" className={classes.link}>
               Home
             </Link>
@@ -190,16 +195,16 @@ export function HeaderMegaMenu() {
             </HoverCard>
           </Group>
 
-          <Group className={classes.hiddenMobile}>
+          <Group>
             {!isLoggedIn && (
-              <Group className={classes.hiddenMobile}>
+              <Group>
                 <HeaderLoginButton />
                 <HeaderSignUpButton />
               </Group>
             )}
 
             {isLoggedIn && (
-              <Group className={classes.hiddenMobile}>
+              <Group>
                 <HeaderProfileButton />
                 <HeaderLogoutButton onClick={authLogoutHandler} />
               </Group>
@@ -208,7 +213,59 @@ export function HeaderMegaMenu() {
             <LightAndDarkModeButton />
           </Group>
         </Group>
+
+        <Group position="apart" sx={{ height: "100%" }} className={classes.hiddenDesktop}>
+          <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
+          <Link to="/get-started" className={classes.link}>
+            <IconBarbell size={30} />
+            <Title order={3} p={8}>
+              FitMeUp
+            </Title>
+          </Link>
+          <LightAndDarkModeButton className={classes.hiddenDesktop} />
+        </Group>
       </Header>
+
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        className={classes.hiddenDesktop}
+        sx={{ position: "fixed", zIndex: 5 }}
+        padding="10%"
+        size="100%"
+        withCloseButton={false}
+      >
+        <Link to="/home-page" className={classes.link} onClick={closeDrawer}>
+          Home
+        </Link>
+
+        <UnstyledButton className={classes.link} onClick={toggleLinks}>
+          <Center inline>
+            <Box component="span" mr={5}>
+              Features
+            </Box>
+            <IconChevronDown size={16} color={theme.fn.primaryColor()} />
+          </Center>
+        </UnstyledButton>
+        <Collapse in={linksOpened} onClick={closeDrawer}>
+          {links}
+        </Collapse>
+        <Divider my="sm" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
+
+        {!isLoggedIn && (
+          <Group position="center" pb="xl" px="md" onClick={closeDrawer}>
+            <HeaderLoginButton />
+            <HeaderSignUpButton />
+          </Group>
+        )}
+
+        {isLoggedIn && (
+          <Group position="center" pb="xl" px="md" onClick={closeDrawer}>
+            <HeaderProfileButton />
+            <HeaderLogoutButton onClick={authLogoutHandler} />
+          </Group>
+        )}
+      </Drawer>
     </Box>
   );
 }

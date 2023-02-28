@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mantine/core";
 
-const HeaderLoginButton = (props) => {
+const HeaderLoginButton = () => {
   return (
     <Link to="/login">
       <Button variant="default">Log in</Button>
