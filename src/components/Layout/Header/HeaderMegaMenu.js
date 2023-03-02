@@ -132,7 +132,7 @@ export function HeaderMegaMenu() {
   ));
 
   return (
-    <Box pb={120}>
+    <Box pb={200}>
       <Header height={60} mb="lg" px="md" style={{ position: "relative", zIndex: 6 }}>
         <Group position="apart" sx={{ height: "100%" }} className={classes.hiddenMobile}>
           <Link to="/get-started" className={classes.link}>

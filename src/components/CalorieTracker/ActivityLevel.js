@@ -1,4 +1,4 @@
-import { NumberInput, Slider, Stack, Text, Title } from "@mantine/core";
+import { Slider, Stack, Text, Title } from "@mantine/core";
 import { useState } from "react";
 
 const ActivityLevel = (props) => {
@@ -16,22 +16,9 @@ const ActivityLevel = (props) => {
 
   return (
     <>
-      <Title order={3} align="center" mb="10%">
+      <Title order={3} align="center" m="1rem" mb="5%">
         Select your activity level
       </Title>
-      {/* <NumberInput
-        value={value}
-        onChange={onChangeHandler}
-        label="Your activity level"
-        placeholder="Your activity level"
-        step={0.01}
-        precision={2}
-        hideControls
-        error={props.error === true ? "Please choose an activity level between 14-16" : false}
-        variant="unstyled"
-        withAsterisk
-        mb="xl"
-      /> */}
       <Slider
         value={value}
         onChange={onChangeHandler}
@@ -39,9 +26,6 @@ const ActivityLevel = (props) => {
         max={16}
         step={0.01}
         marks={marks}
-        // labelTransition="skew-down"
-        // labelTransitionDuration={150}
-        // labelTransitionTimingFunction="ease"
         label={null}
         showLabelOnHover={false}
         sx={{ marginBottom: `${1}rem` }}

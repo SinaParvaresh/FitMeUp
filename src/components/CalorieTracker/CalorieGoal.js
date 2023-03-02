@@ -12,7 +12,7 @@ const CalorieGoal = (props) => {
 
   return (
     <>
-      <Title order={4} align="center">
+      <Title order={3} m="1rem" align="center">
         What is your current goal?
       </Title>
       <Select

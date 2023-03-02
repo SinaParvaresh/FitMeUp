@@ -36,7 +36,7 @@ const DietSelection = (props) => {
 
   return (
     <div>
-      <Title order={3} align="center" sx={{ padding: 10 }}>
+      <Title order={3} align="center" m="1rem">
         Formulate your diet!
       </Title>
       <Stack>
@@ -51,7 +51,7 @@ const DietSelection = (props) => {
           error={props.proteinIntakeError === true ? "Please choose a valid value between 0.5 and 1.5" : false}
           withAsterisk
           variant="unstyled"
-          mt="3.5rem"
+          mt="1rem"
         />
         <Slider
           defaultValue={0.8}
@@ -66,9 +66,9 @@ const DietSelection = (props) => {
           labelTransitionDuration={150}
           labelTransitionTimingFunction="ease"
           mt="0.5rem"
+          mb="1.5rem"
         />
       </Stack>
-      {/* <Text c="dimmed">Slide left for higher carbs, slide right for higher fat</Text> */}
 
       <Stack>
         <NumberInput
@@ -95,7 +95,8 @@ const DietSelection = (props) => {
           labelTransition="skew-down"
           labelTransitionDuration={150}
           labelTransitionTimingFunction="ease"
-          m="0.5rem"
+          mb="1.5rem"
+          mt="0.5rem"
         />
       </Stack>
     </div>

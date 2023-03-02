@@ -19,7 +19,7 @@ const BodyWeight = (props) => {
   return (
     <>
       <Flex direction="column" justify="center" gap="xs">
-        <Title order={4} align="center">
+        <Title order={3} align="center" m="1rem">
           Enter your body weight & calorie change
         </Title>
 

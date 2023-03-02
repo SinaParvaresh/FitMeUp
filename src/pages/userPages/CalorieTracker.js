@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Button, Code, Group, LoadingOverlay, Paper, Stepper } from "@mantine/core";
+import { Button, Group, LoadingOverlay, Paper, Stepper } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
@@ -184,9 +184,6 @@ const CalorieTracker = () => {
           </Stepper.Step>
           <Stepper.Completed>
             <DietCalculations values={form.values} />
-            <Code block mt="xl">
-              {JSON.stringify(form.values, null, 2)}
-            </Code>
           </Stepper.Completed>
         </Stepper>
 
