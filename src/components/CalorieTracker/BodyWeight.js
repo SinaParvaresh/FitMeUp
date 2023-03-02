@@ -37,7 +37,7 @@ const BodyWeight = (props) => {
             placeholder="Calories in Deficit/Bulk"
             value={caloriesAdjusted}
             onChangeHandler={onCalorieAdjustedHandler}
-            error={props.calorieAdjustedError ? "Please enter a value between 1-500" : false}
+            error={props.calorieAdjustedError ? "Please enter a value between 1-600" : false}
           />
         </Stack>
         <Text c="dimmed">

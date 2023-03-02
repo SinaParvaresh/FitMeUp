@@ -6,7 +6,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import FormCard from "../components/UI/FormCard";
 import classes from "./Register.module.css";
 import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
-import ErrorOutput from "../components/UI/ErrorOutput";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
@@ -176,7 +175,6 @@ const Register = () => {
         <Group position="center">
           <Title order={2}>Register</Title>
         </Group>
-        <ErrorOutput validationCheck={errorValidations} />
 
         <FloatingLabelInput
           type="firstName"

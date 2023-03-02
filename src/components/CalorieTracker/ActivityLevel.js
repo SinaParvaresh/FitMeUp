@@ -16,10 +16,10 @@ const ActivityLevel = (props) => {
 
   return (
     <>
-      <Title order={4} align="center">
+      <Title order={3} align="center" mb="10%">
         Select your activity level
       </Title>
-      <NumberInput
+      {/* <NumberInput
         value={value}
         onChange={onChangeHandler}
         label="Your activity level"
@@ -31,7 +31,7 @@ const ActivityLevel = (props) => {
         variant="unstyled"
         withAsterisk
         mb="xl"
-      />
+      /> */}
       <Slider
         value={value}
         onChange={onChangeHandler}
@@ -39,9 +39,11 @@ const ActivityLevel = (props) => {
         max={16}
         step={0.01}
         marks={marks}
-        labelTransition="skew-down"
-        labelTransitionDuration={150}
-        labelTransitionTimingFunction="ease"
+        // labelTransition="skew-down"
+        // labelTransitionDuration={150}
+        // labelTransitionTimingFunction="ease"
+        label={null}
+        showLabelOnHover={false}
         sx={{ marginBottom: `${1}rem` }}
       />
 

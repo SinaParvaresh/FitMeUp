@@ -57,27 +57,27 @@ const CalorieTracker = () => {
           setWeightError(true);
         }
 
-        if (values.calorieAdjusted <= 0 || values.calorieAdjusted > 500 || values.calorieAdjusted == null) {
+        if (values.calorieAdjusted <= 0 || values.calorieAdjusted > 600 || values.calorieAdjusted == null) {
           setCaloriesAdjustedError(true);
         }
         return {
           currentWeight:
             values.currentWeight > 1000 || values.currentWeight < 100 || values.currentWeight == null ? "" : null,
           calorieAdjusted:
-            values.calorieAdjusted <= 0 || values.calorieAdjusted > 500 || isNaN(values.calorieAdjusted) ? "" : null,
+            values.calorieAdjusted <= 0 || values.calorieAdjusted > 600 || isNaN(values.calorieAdjusted) ? "" : null,
         };
       }
 
       if (active === 3) {
         dailyCaloriesCalc();
-        if (values.proteinIntake > 1.25 || values.proteinIntake < 0.75 || values.proteinIntake == null) {
+        if (values.proteinIntake > 1.5 || values.proteinIntake < 0.5 || values.proteinIntake == null) {
           setProteinIntakeError(true);
         }
         if (values.dietType > 0.4 || values.dietType < 0.3 || values.dietType == null) {
           setDietTypeError(true);
         }
         return {
-          proteinIntake: values.proteinIntake > 1.25 || values.proteinIntake < 0.75 || values.proteinIntake == null,
+          proteinIntake: values.proteinIntake > 1.5 || values.proteinIntake < 0.5 || values.proteinIntake == null,
           dietType: values.dietType > 0.4 || values.dietType < 0.3 || values.dietType == null,
         };
       }
@@ -151,7 +151,7 @@ const CalorieTracker = () => {
   return (
     <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
       <form onSubmit={submitHandler}>
-        <Stepper active={active} breakpoint="sm">
+        <Stepper active={active} breakpoint="sm" m={1}>
           <Stepper.Step label="First Step" description="Current goal">
             <CalorieGoal value={form.values.calorieGoal} onChangeHandler={onCalorieHandler} error={currentGoalError} />
           </Stepper.Step>
