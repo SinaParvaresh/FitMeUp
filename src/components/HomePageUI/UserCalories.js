@@ -1,8 +1,13 @@
-import { createStyles, Text, Card, Group, RingProgress, Title } from "@mantine/core";
+import { createStyles, Text, Card, Group, RingProgress, Title, rem } from "@mantine/core";
 import { UserMacros } from "./UserMacros";
 
 const useStyles = createStyles((theme) => ({
   card: {
+    maxWidth: rem(900),
+    margin: "auto",
+    marginTop: "10%",
+    marginBottom: "10%",
+    borderRadius: theme.spacing.md,
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
 
@@ -20,8 +25,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   inner: {
+    padding: theme.spacing.md,
     display: "flex",
-
     [theme.fn.smallerThan(350)]: {
       flexDirection: "column",
     },
@@ -36,6 +41,10 @@ const useStyles = createStyles((theme) => ({
       justifyContent: "center",
       marginTop: theme.spacing.md,
     },
+  },
+
+  macros: {
+    padding: theme.spacing.md,
   },
 }));
 
@@ -58,7 +67,7 @@ export function UserCalories({ title, values, macros }) {
   };
 
   return (
-    <Card withBorder p="xl" mb="10%" radius="md" className={classes.card}>
+    <Card withBorder className={classes.card}>
       <Title align="center" className={classes.label}>
         {title}
       </Title>
@@ -112,7 +121,7 @@ export function UserCalories({ title, values, macros }) {
           />
         </div>
       </div>
-      <div>
+      <div className={classes.macros}>
         <UserMacros userData={userData} />
       </div>
     </Card>

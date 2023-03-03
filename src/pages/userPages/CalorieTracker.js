@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Button, Group, LoadingOverlay, Paper, Stepper } from "@mantine/core";
+import { Button, Card, createStyles, Group, LoadingOverlay, Stepper, rem } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
@@ -10,6 +10,15 @@ import DietSelection from "../../components/CalorieTracker/DietSelection";
 import DietCalculations from "../../components/CalorieTracker/DietCalculations";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../components/store/auth-context";
+
+const useStyles = createStyles((theme) => ({
+  card: {
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    width: "100%",
+    maxWidth: rem(800),
+    margin: "auto",
+  },
+}));
 
 const CalorieTracker = () => {
   const [active, setActive] = useState(0);
@@ -24,6 +33,7 @@ const CalorieTracker = () => {
 
   const authCtx = useContext(AuthContext);
   const userID = authCtx.userID;
+  const { classes } = useStyles();
 
   const form = useForm({
     initialValues: {
@@ -149,7 +159,7 @@ const CalorieTracker = () => {
   };
 
   return (
-    <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
+    <Card className={classes.card} withBorder>
       <form onSubmit={submitHandler}>
         <Stepper active={active} breakpoint="sm" m="1rem">
           <Stepper.Step label="First Step" description="Current goal">
@@ -203,7 +213,7 @@ const CalorieTracker = () => {
           )}
         </Group>
       </form>
-    </Paper>
+    </Card>
   );
 };
 
