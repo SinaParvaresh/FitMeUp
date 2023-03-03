@@ -151,7 +151,7 @@ const CalorieTracker = () => {
   return (
     <Paper shadow="lg" p="md" sx={{ width: "60%", margin: "auto" }} withBorder>
       <form onSubmit={submitHandler}>
-        <Stepper active={active} breakpoint="sm" m={1}>
+        <Stepper active={active} breakpoint="sm" m="1rem">
           <Stepper.Step label="First Step" description="Current goal">
             <CalorieGoal value={form.values.calorieGoal} onChangeHandler={onCalorieHandler} error={currentGoalError} />
           </Stepper.Step>

@@ -17,35 +17,33 @@ const BodyWeight = (props) => {
   };
 
   return (
-    <>
-      <Flex direction="column" justify="center" gap="xs">
-        <Title order={3} align="center" m="1rem">
-          Enter your body weight & calorie change
-        </Title>
+    <Flex direction="column" justify="center" gap="xs">
+      <Title order={3} align="center" m="1rem">
+        Enter your body weight & calorie change
+      </Title>
 
-        <Stack align="flex-start">
-          <FloatingNumberInput
-            label="Current Body Weight"
-            placeholder="Current Body Weight"
-            value={currentWeight}
-            onChangeHandler={onBodyWeightHandler}
-            precision={1}
-            error={props.weightError ? "Please enter a valid weight" : false}
-          />
-          <FloatingNumberInput
-            label="Calories in Deficit/Bulk"
-            placeholder="Calories in Deficit/Bulk"
-            value={caloriesAdjusted}
-            onChangeHandler={onCalorieAdjustedHandler}
-            error={props.calorieAdjustedError ? "Please enter a value between 1-600" : false}
-          />
-        </Stack>
-        <Text c="dimmed">
-          Note: To get your most consistent body weight, use your scale on a flat surface and weigh yourself in the
-          morning
-        </Text>
-      </Flex>
-    </>
+      <Stack align="flex-start">
+        <FloatingNumberInput
+          label="Current Body Weight"
+          placeholder="Current Body Weight"
+          value={currentWeight}
+          onChangeHandler={onBodyWeightHandler}
+          precision={1}
+          error={props.weightError ? "Please enter a valid weight" : false}
+        />
+        <FloatingNumberInput
+          label="Calories in Deficit/Bulk"
+          placeholder="Calories in Deficit/Bulk"
+          value={caloriesAdjusted}
+          onChangeHandler={onCalorieAdjustedHandler}
+          error={props.calorieAdjustedError ? "Please enter a value between 1-600" : false}
+        />
+      </Stack>
+      <Text c="dimmed">
+        Note: To get your most consistent body weight, use your scale on a flat surface and weigh yourself in the
+        morning
+      </Text>
+    </Flex>
   );
 };
 

@@ -15,6 +15,7 @@ import {
   Burger,
   Drawer,
   Collapse,
+  rem,
 } from "@mantine/core";
 import { IconBook, IconChevronDown, IconBarbell, IconCalculator } from "@tabler/icons";
 import { useContext } from "react";
@@ -40,7 +41,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
 
     [theme.fn.smallerThan("sm")]: {
-      height: 42,
+      height: rem(42),
       display: "flex",
       alignItems: "center",
     },
@@ -52,7 +53,7 @@ const useStyles = createStyles((theme) => ({
 
   subLink: {
     width: "100%",
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
+    padding: `${theme.spacing.xs} ${theme.spacing.md}`,
     borderRadius: theme.radius.md,
 
     ...theme.fn.hover({
@@ -64,11 +65,11 @@ const useStyles = createStyles((theme) => ({
 
   dropdownFooter: {
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0],
-    margin: -theme.spacing.md,
+    margin: `calc(${theme.spacing.md} * -1)`,
     marginTop: theme.spacing.sm,
-    padding: `${theme.spacing.md}px ${theme.spacing.md * 2}px`,
+    padding: `${theme.spacing.md} calc(${theme.spacing.md} * 2)`,
     paddingBottom: theme.spacing.xl,
-    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]}`,
+    borderTop: `${rem(1)} solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]}`,
   },
 
   hiddenMobile: {
@@ -116,10 +117,10 @@ export function HeaderMegaMenu() {
       <UnstyledButton className={classes.subLink}>
         <Group noWrap align="flex-start">
           <ThemeIcon size={34} variant="default" radius="md">
-            <item.icon size={22} color={theme.fn.primaryColor()} />
+            <item.icon size={rem(22)} color={theme.fn.primaryColor()} />
           </ThemeIcon>
           <div>
-            <Text size="sm" weight={500}>
+            <Text size="sm" fw={500}>
               {item.title}
             </Text>
             <Text size="xs" color="dimmed">
@@ -132,8 +133,8 @@ export function HeaderMegaMenu() {
   ));
 
   return (
-    <Box pb={200}>
-      <Header height={60} mb="lg" px="md" style={{ position: "relative", zIndex: 6 }}>
+    <Box mb={200}>
+      <Header height={60} mb="lg" px="md" style={{ position: "fixed", zIndex: 6 }}>
         <Group position="apart" sx={{ height: "100%" }} className={classes.hiddenMobile}>
           <Link to="/get-started" className={classes.link}>
             <IconBarbell size={30} />
@@ -230,41 +231,43 @@ export function HeaderMegaMenu() {
         opened={drawerOpened}
         onClose={closeDrawer}
         className={classes.hiddenDesktop}
-        sx={{ position: "fixed", zIndex: 5 }}
+        zIndex={4}
         padding="10%"
         size="100%"
         withCloseButton={false}
       >
-        <Link to="/home-page" className={classes.link} onClick={closeDrawer}>
-          Home
-        </Link>
+        <Drawer.Content mt="5rem">
+          <Link to="/home-page" className={classes.link} onClick={closeDrawer}>
+            Home
+          </Link>
 
-        <UnstyledButton className={classes.link} onClick={toggleLinks}>
-          <Center inline>
-            <Box component="span" mr={5}>
-              Features
-            </Box>
-            <IconChevronDown size={16} color={theme.fn.primaryColor()} />
-          </Center>
-        </UnstyledButton>
-        <Collapse in={linksOpened} onClick={closeDrawer}>
-          {links}
-        </Collapse>
-        <Divider my="sm" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
+          <UnstyledButton className={classes.link} onClick={toggleLinks}>
+            <Center inline>
+              <Box component="span" mr={5}>
+                Features
+              </Box>
+              <IconChevronDown size={16} color={theme.fn.primaryColor()} />
+            </Center>
+          </UnstyledButton>
+          <Collapse in={linksOpened} onClick={closeDrawer}>
+            {links}
+          </Collapse>
+          <Divider my="sm" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
 
-        {!isLoggedIn && (
-          <Group position="center" pb="xl" px="md" onClick={closeDrawer}>
-            <HeaderLoginButton />
-            <HeaderSignUpButton />
-          </Group>
-        )}
+          {!isLoggedIn && (
+            <Group grow pb="xl" px="md" onClick={closeDrawer}>
+              <HeaderLoginButton />
+              <HeaderSignUpButton />
+            </Group>
+          )}
 
-        {isLoggedIn && (
-          <Group position="center" pb="xl" px="md" onClick={closeDrawer}>
-            <HeaderProfileButton />
-            <HeaderLogoutButton onClick={authLogoutHandler} />
-          </Group>
-        )}
+          {isLoggedIn && (
+            <Group grow pb="xl" px="md" onClick={closeDrawer}>
+              <HeaderProfileButton />
+              <HeaderLogoutButton onClick={authLogoutHandler} />
+            </Group>
+          )}
+        </Drawer.Content>
       </Drawer>
     </Box>
   );

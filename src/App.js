@@ -6,7 +6,7 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import { NotificationsProvider } from "@mantine/notifications";
+import { Notifications } from "@mantine/notifications";
 import HomePage from "./pages/userPages/HomePage";
 import UserProfile from "./pages/userPages/UserProfile";
 import CalorieTracker from "./pages/userPages/CalorieTracker";
@@ -14,6 +14,7 @@ import MacroTracker from "./pages/userPages/MacroTracker";
 import ResetPassword from "./pages/userPages/ResetPassword";
 import GetStarted from "./pages/GetStarted";
 import Layout from "./components/Layout/Layout";
+
 function App() {
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
@@ -28,27 +29,26 @@ function App() {
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<Navigate replace to="/get-started" />} />
-                <Route path="*" element={<Navigate to="/" />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/get-started" element={<GetStarted />} />
-                <Route element={<PrivateRoutes />}>
-                  <Route path="/home-page" element={<HomePage />} />
-                  <Route path="/user-profile" element={<UserProfile />} />
-                  <Route path="/calorie-tracker" element={<CalorieTracker />} />
-                  <Route path="/macro-tracker" element={<MacroTracker />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
-                </Route>
+        <Notifications />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Navigate replace to="/get-started" />} />
+              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/get-started" element={<GetStarted />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/home-page" element={<HomePage />} />
+                <Route path="/user-profile" element={<UserProfile />} />
+                <Route path="/calorie-tracker" element={<CalorieTracker />} />
+                <Route path="/macro-tracker" element={<MacroTracker />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
               </Route>
-            </Routes>
-          </BrowserRouter>
-        </NotificationsProvider>
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </MantineProvider>
     </ColorSchemeProvider>
   );

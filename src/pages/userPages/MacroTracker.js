@@ -10,13 +10,13 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
+import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useContext, useEffect, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
 import { FloatingNumberInput } from "../../components/UI/FloatingNumberInput";
-import { IconTrash } from "@tabler/icons";
+import { IconCalendar, IconTrash } from "@tabler/icons";
 import AuthContext from "../../components/store/auth-context";
 
 const MacroTracker = () => {
@@ -28,6 +28,7 @@ const MacroTracker = () => {
   const [carbAmount, setCarbAmount] = useState(0);
   const [totalCalories, setTotalCalories] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [dateError, setDateError] = useState("");
   const authCtx = useContext(AuthContext);
   const userID = authCtx.userID;
 
@@ -123,11 +124,15 @@ const MacroTracker = () => {
       }
     };
 
-    //Clear table before loading with user Data
-    getUserMeals();
-
+    if (!currentDate) {
+      setDateError("Please enter a valid date");
+    } else {
+      //Clear table before loading with user Data
+      getUserMeals();
+    }
     return () => {
       form.reset();
+      setDateError("");
     };
   }, [currentDate, userID]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -138,14 +143,16 @@ const MacroTracker = () => {
       </Title>
       <form onSubmit={onSubmitHandler}>
         <SimpleGrid>
-          <DatePicker
+          <DatePickerInput
+            icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+            clearable
             value={currentDate}
             onChange={setCurrentDate}
-            allowFreeInput
             placeholder="Pick date"
-            label="Today's date"
+            label="Current date"
             required
             w="50%"
+            error={dateError}
           />
           <TextInput
             value={mealName}
@@ -179,7 +186,7 @@ const MacroTracker = () => {
             />
           </Stack>
 
-          <Button type="button" onClick={addMeal} mb={10} mt={10} sx={{ width: "50%" }}>
+          <Button type="button" onClick={addMeal} disabled={dateError} mb={10} mt={10} sx={{ width: "50%" }}>
             Add Meal
           </Button>
         </SimpleGrid>
@@ -199,7 +206,13 @@ const MacroTracker = () => {
           </Table>
         </ScrollArea>
 
-        <Button type="submit" disabled={isSubmitting ? true : false} mb={10} mt={10} sx={{ width: "50%", left: "25%" }}>
+        <Button
+          type="submit"
+          disabled={isSubmitting || dateError ? true : false}
+          mb={10}
+          mt={10}
+          sx={{ width: "50%", left: "25%" }}
+        >
           <LoadingOverlay visible={isSubmitting} overlayBlur={1} loaderProps={{ variant: "dots" }} />
           Save
         </Button>

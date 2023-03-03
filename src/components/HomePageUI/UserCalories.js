@@ -58,7 +58,7 @@ export function UserCalories({ title, values, macros }) {
   };
 
   return (
-    <Card withBorder p="xl" radius="md" className={classes.card}>
+    <Card withBorder p="xl" mb="10%" radius="md" className={classes.card}>
       <Title align="center" className={classes.label}>
         {title}
       </Title>

@@ -13,7 +13,7 @@ const LightAndDarkModeButton = (props) => {
       title="Toggle color scheme"
       className={props.className}
     >
-      {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
+      {dark ? <IconSun size="1.2rem" /> : <IconMoonStars size="1.2rem" />}
     </ActionIcon>
   );
 };

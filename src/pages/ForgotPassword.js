@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useRef } from "react";
 import { auth } from "../lib/init-firebase";
 import FormCard from "../components/UI/FormCard";
-import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
+import { Button, Center, Group, Stack, Text, Title, rem } from "@mantine/core";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ const ForgotPassword = () => {
       title: "Sending email request",
       message: "Please wait...",
       autoClose: false,
-      disallowClose: true,
+      withCloseButton: true,
     });
 
     try {
@@ -103,7 +103,7 @@ const ForgotPassword = () => {
           <Link to="/login">
             <Center inline>
               <IconArrowLeft stroke={1.5} size={20} />
-              <Text ml={5}>Back to login page</Text>
+              <Text ml={rem(5)}>Back to login page</Text>
             </Center>
           </Link>
 

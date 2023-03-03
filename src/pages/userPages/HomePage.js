@@ -43,7 +43,7 @@ const HomePage = () => {
         const userData = docSnap.data().userStatistics;
         setUserStatistics({
           currentWeight: userData.currentWeight,
-          dailyCaloriesGoal: userData.dailyCaloriesGoal,
+          dailyCaloriesGoal: Math.round(userData.dailyCaloriesGoal),
           dailyMaintenanceCalories: userData.dailyMaintenanceCalories,
           dietType: userData.dietType,
           proteinIntake: userData.proteinIntake,

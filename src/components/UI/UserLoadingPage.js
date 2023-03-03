@@ -1,12 +1,12 @@
-import { Skeleton } from "@mantine/core";
+import { Skeleton, rem } from "@mantine/core";
 
 const UserLoadingPage = () => {
   return (
     <>
-      <Skeleton height={50} circle mb="xl" />
-      <Skeleton height={20} radius="xl" />
-      <Skeleton height={20} mt={10} radius="xl" />
-      <Skeleton height={20} mt={10} width="70%" radius="xl" />
+      <Skeleton height={rem(50)} circle mb="xl" />
+      <Skeleton height={rem(20)} radius="xl" />
+      <Skeleton height={rem(20)} mt={rem(10)} radius="xl" />
+      <Skeleton height={rem(20)} mt={rem(10)} width="70%" radius="xl" />
     </>
   );
 };
