@@ -2,14 +2,26 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../lib/init-firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
-import classes from "./Login.module.css";
+import { Button, createStyles, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import FormCard from "../components/UI/FormCard";
 import AuthContext from "../components/store/auth-context";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { FloatingPasswordInput } from "../components/UI/FloatingPasswordInput";
 import { useForm } from "@mantine/form";
+
+const useStyles = createStyles(() => ({
+  link: {
+    textDecoration: "none",
+  },
+
+  subTextLink: {
+    fontWeight: 600,
+    "&:hover": {
+      textDecorationLine: "underline",
+    },
+  },
+}));
 
 const Login = () => {
   const [enteredEmail, setEmail] = useState("");
@@ -18,6 +30,7 @@ const Login = () => {
   const [tooManyRequests, setTooManyRequests] = useState(false);
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
+  const { classes } = useStyles();
 
   const [errorValidations, setErrorValidations] = useState({
     invalidEmail: "",
@@ -135,10 +148,10 @@ const Login = () => {
 
         <Group position="apart">
           <Link to="/forgot-password" className={classes.link}>
-            <Text weight={600}>Forgot Password?</Text>
+            <Text className={classes.subTextLink}>Forgot Password?</Text>
           </Link>
           <Link to="/register" className={classes.link}>
-            <Text weight={600}>Sign up</Text>
+            <Text className={classes.subTextLink}>Sign up</Text>
           </Link>
         </Group>
       </Flex>

@@ -1,12 +1,25 @@
 import React, { Fragment, useState, useRef } from "react";
 import { auth } from "../lib/init-firebase";
 import FormCard from "../components/UI/FormCard";
-import { Button, Center, Group, Stack, Text, Title, rem } from "@mantine/core";
+import { Button, Center, Group, Stack, Text, Title, rem, createStyles } from "@mantine/core";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { cleanNotifications, showNotification, updateNotification } from "@mantine/notifications";
+
+const useStyles = createStyles(() => ({
+  link: {
+    textDecoration: "none",
+  },
+
+  subTextLink: {
+    fontWeight: 600,
+    "&:hover": {
+      textDecorationLine: "underline",
+    },
+  },
+}));
 
 const ForgotPassword = () => {
   const forgotPassRef = useRef();
@@ -16,6 +29,7 @@ const ForgotPassword = () => {
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   const navigate = useNavigate();
+  const { classes } = useStyles();
 
   const resetPasswordHandler = async (event) => {
     event.preventDefault();
@@ -100,10 +114,12 @@ const ForgotPassword = () => {
         />
 
         <Group position="apart" pt="1rem">
-          <Link to="/login">
+          <Link to="/login" className={classes.link}>
             <Center inline>
               <IconArrowLeft stroke={1.5} size={20} />
-              <Text ml={rem(5)}>Back to login page</Text>
+              <Text ml={rem(5)} className={classes.subTextLink}>
+                Back to login page
+              </Text>
             </Center>
           </Link>
 

@@ -4,12 +4,24 @@ import { auth, db } from "../lib/init-firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import FormCard from "../components/UI/FormCard";
-import classes from "./Register.module.css";
-import { Button, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
+import { Button, createStyles, Flex, Group, LoadingOverlay, Text } from "@mantine/core";
 import { FloatingLabelInput } from "../components/UI/FloatingLabelInput";
 import { Title } from "@mantine/core";
 import { PasswordStrengthBar } from "../components/UI/PasswordStrengthBar";
 import { useForm } from "@mantine/form";
+
+const useStyles = createStyles(() => ({
+  link: {
+    textDecoration: "none",
+  },
+
+  subTextLink: {
+    fontWeight: 600,
+    "&:hover": {
+      textDecorationLine: "underline",
+    },
+  },
+}));
 
 const Register = () => {
   const [enteredEmail, setEmail] = useState("");
@@ -17,6 +29,8 @@ const Register = () => {
   const [enteredConfirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [validPassword, setValidPassword] = useState(false);
+  const { classes } = useStyles();
+
   const [errorValidations, setErrorValidations] = useState({
     credentialError: false,
     emailExists: false,
@@ -213,8 +227,8 @@ const Register = () => {
 
         <Group position="center" spacing="xs">
           <Text>Have an account?</Text>
-          <Link className={classes.signInLink} to="/login">
-            <Text weight={600}>Sign In</Text>
+          <Link to="/login" className={classes.link}>
+            <Text className={classes.subTextLink}>Sign In</Text>
           </Link>
         </Group>
       </Flex>
