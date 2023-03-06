@@ -28,7 +28,19 @@ function App() {
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider
+        theme={{
+          colorScheme,
+          globalStyles: () => ({
+            body: {
+              minHeight: "100%",
+              height: "100vh",
+            },
+          }),
+        }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
         <Notifications />
         <BrowserRouter>
           <Routes>

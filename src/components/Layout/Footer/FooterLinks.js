@@ -3,6 +3,7 @@ import { IconBarbell, IconBrandGithub, IconBrandLinkedin } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   footer: {
+    marginTop: "20%",
     paddingTop: `calc(${theme.spacing.xl} * 2)`,
     paddingBottom: `calc(${theme.spacing.xl} * 2)`,
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],

@@ -194,6 +194,9 @@ export function HeaderMegaMenu() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
+            <Link to="/get-started#roadmap" className={classes.link}>
+              RoadMap
+            </Link>
           </Group>
 
           <Group>

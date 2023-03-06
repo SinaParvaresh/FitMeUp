@@ -1,6 +1,5 @@
 import { Carousel } from "@mantine/carousel";
-import { useMediaQuery } from "@mantine/hooks";
-import { createStyles, Paper, Text, Title, useMantineTheme, rem } from "@mantine/core";
+import { createStyles, Paper, Text, Title, rem } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -73,8 +72,8 @@ const data = [
   },
 ];
 const CalorieTrackerCarousel = () => {
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const { theme } = useStyles();
+
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
       <Card {...item} />
@@ -83,11 +82,17 @@ const CalorieTrackerCarousel = () => {
 
   return (
     <Carousel
-      slideSize="50%"
       breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
       slideGap="xl"
       align="start"
-      slidesToScroll={mobile ? 1 : 2}
+      withIndicators
+      sx={{
+        flex: 1,
+        [theme.fn.smallerThan("md")]: {
+          maxWidth: "100%",
+          marginRight: 0,
+        },
+      }}
     >
       {slides}
     </Carousel>

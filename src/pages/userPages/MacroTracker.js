@@ -137,7 +137,7 @@ const MacroTracker = () => {
   }, [currentDate, userID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Paper shadow="lg" p="md" sx={{ width: "80%", margin: "auto", overflow: "hidden" }} withBorder>
+    <Paper shadow="lg" p="lg" mb="10%" sx={{ width: "80%", margin: "auto", overflow: "hidden" }} withBorder>
       <Title order={1} align="center" m="md">
         Keep track of your food!
       </Title>
