@@ -143,7 +143,7 @@ export function HeaderMegaMenu() {
             </Title>
           </Link>
           <Group sx={{ height: "100%" }}>
-            <Link to="/home-page" className={classes.link}>
+            <Link to={isLoggedIn ? "/home-page" : "/get-started"} className={classes.link}>
               Home
             </Link>
             <HoverCard

@@ -2,6 +2,13 @@ import { Carousel } from "@mantine/carousel";
 import { createStyles, Paper, Text, Title, rem } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
+  carousel: {
+    flex: 1,
+    [theme.fn.smallerThan("md")]: {
+      maxWidth: "100%",
+      marginRight: 0,
+    },
+  },
   card: {
     height: rem(440),
     display: "flex",
@@ -72,7 +79,7 @@ const data = [
   },
 ];
 const CalorieTrackerCarousel = () => {
-  const { theme } = useStyles();
+  const { classes } = useStyles();
 
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
@@ -86,13 +93,14 @@ const CalorieTrackerCarousel = () => {
       slideGap="xl"
       align="start"
       withIndicators
-      sx={{
-        flex: 1,
-        [theme.fn.smallerThan("md")]: {
-          maxWidth: "100%",
-          marginRight: 0,
-        },
-      }}
+      className={classes.carousel}
+      // sx={{
+      //   flex: 1,
+      //   [theme.fn.smallerThan("md")]: {
+      //     maxWidth: "100%",
+      //     marginRight: 0,
+      //   },
+      // }}
     >
       {slides}
     </Carousel>

@@ -1,11 +1,13 @@
 import {
   ActionIcon,
   Button,
+  Group,
   LoadingOverlay,
+  NumberInput,
   Paper,
   ScrollArea,
   SimpleGrid,
-  Stack,
+  // Stack,
   Table,
   TextInput,
   Title,
@@ -15,7 +17,6 @@ import { useForm } from "@mantine/form";
 import { useContext, useEffect, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/init-firebase";
-import { FloatingNumberInput } from "../../components/UI/FloatingNumberInput";
 import { IconCalendar, IconTrash } from "@tabler/icons";
 import AuthContext from "../../components/store/auth-context";
 
@@ -137,12 +138,12 @@ const MacroTracker = () => {
   }, [currentDate, userID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Paper shadow="lg" p="lg" mb="10%" sx={{ width: "80%", margin: "auto", overflow: "hidden" }} withBorder>
+    <Paper shadow="lg" p="lg" mb="10%" sx={{ maxWidth: "80%", margin: "auto", overflow: "hidden" }} withBorder>
       <Title order={1} align="center" m="md">
         Keep track of your food!
       </Title>
       <form onSubmit={onSubmitHandler}>
-        <SimpleGrid>
+        <SimpleGrid breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
           <DatePickerInput
             icon={<IconCalendar size="1.1rem" stroke={1.5} />}
             clearable
@@ -151,48 +152,36 @@ const MacroTracker = () => {
             placeholder="Pick date"
             label="Current date"
             required
-            w="50%"
+            maw="50%"
             error={dateError}
           />
-          <TextInput
-            value={mealName}
-            onChange={(event) => {
-              setMealName(event.target.value);
-            }}
-            placeholder="Meal name"
-            label="Meal name"
-            withAsterisk
-            w="50%"
-          />
-          <Stack align="flex-start">
-            <FloatingNumberInput
-              value={mealCalories}
-              onChangeHandler={setMealCalories}
-              placeholder="Calories"
-              label="Calories"
+          <Group grow>
+            <TextInput
+              value={mealName}
+              onChange={(event) => {
+                setMealName(event.target.value);
+              }}
+              placeholder="Meal name"
+              label="Meal name"
+              withAsterisk
+              maw="50%"
             />
-            <FloatingNumberInput
-              value={proteinAmount}
-              onChangeHandler={setProteinAmount}
-              placeholder="Protein"
-              label="Protein"
-            />
-            <FloatingNumberInput value={fatAmount} onChangeHandler={setFatAmount} placeholder="Fats" label="Fats" />
-            <FloatingNumberInput
+            <NumberInput value={mealCalories} onChange={setMealCalories} placeholder="Calories" label="Calories" />
+            <NumberInput value={proteinAmount} onChange={setProteinAmount} placeholder="Protein" label="Protein" />
+            <NumberInput value={fatAmount} onChange={setFatAmount} placeholder="Fats" label="Fats" />
+            <NumberInput
               value={carbAmount}
-              onChangeHandler={setCarbAmount}
+              onChange={setCarbAmount}
               placeholder="Carbohydrates"
               label="Carbohydrates"
             />
-          </Stack>
-
-          <Button type="button" onClick={addMeal} disabled={dateError} mb={10} mt={10} sx={{ width: "50%" }}>
-            Add Meal
-          </Button>
+          </Group>
         </SimpleGrid>
-
+        <Button type="button" onClick={addMeal} disabled={dateError} m="1rem">
+          Add Meal
+        </Button>
         <ScrollArea type="auto" style={{ width: "auto" }} offsetScrollbars>
-          <Table striped highlightOnHover withColumnBorders horizontalSpacing="md">
+          <Table striped highlightOnHover withColumnBorders horizontalSpacing="md" my="2rem">
             <thead>
               <tr>
                 <th>Meal Name</th>
