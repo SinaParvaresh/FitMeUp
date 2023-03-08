@@ -6,14 +6,6 @@ import RoadMap from "./GetStartedComponents/RoadMap";
 import Features from "./GetStartedComponents/Features";
 
 const useStyles = createStyles((theme) => ({
-  icon: {
-    display: "inline-block",
-    marginRight: "1rem",
-    color: theme.colors.grape[9],
-    width: `calc(2rem)`,
-    height: `calc(2rem)`,
-  },
-
   inner: {
     display: "flex",
     justifyContent: "space-between",
@@ -46,18 +38,6 @@ const useStyles = createStyles((theme) => ({
     padding: `${rem(4)} ${rem(12)}`,
   },
 
-  features: {
-    paddingTop: 100,
-    paddingBottom: 100,
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
-  },
-
-  container: {
-    maxWidth: "70rem",
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-
   title: {
     display: "inline-block",
     position: "relative",
@@ -72,24 +52,6 @@ const useStyles = createStyles((theme) => ({
       fontSize: rem(42),
       lineHeight: 1.2,
     },
-  },
-
-  featureLabel: {
-    display: "flex",
-    position: "relative",
-    borderRadius: "0.5rem",
-    paddingLeft: "1.2rem",
-    paddingRight: "1.2rem",
-    paddingTop: "1rem",
-    paddingBottom: "1rem",
-    "&:hover": {
-      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
-    },
-  },
-
-  text: {
-    fontSize: theme.fontSizes.lg,
-    fontWeight: 700,
   },
 }));
 
@@ -151,7 +113,7 @@ const GetStarted = () => {
           </div>
         </div>
       </Container>
-      <Features />
+      <Features currentComponent="Calorie Tracker" />
       <RoadMap id="roadmap" />
     </Fragment>
   );

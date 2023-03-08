@@ -39,6 +39,7 @@ const useStyles = createStyles((theme) => ({
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontWeight: 500,
     fontSize: theme.fontSizes.sm,
+    transition: "all 0.25s ease-out",
 
     [theme.fn.smallerThan("sm")]: {
       height: rem(42),

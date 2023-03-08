@@ -7,7 +7,6 @@ import {
   Paper,
   ScrollArea,
   SimpleGrid,
-  // Stack,
   Table,
   TextInput,
   Title,
@@ -144,18 +143,18 @@ const MacroTracker = () => {
       </Title>
       <form onSubmit={onSubmitHandler}>
         <SimpleGrid breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
-          <DatePickerInput
-            icon={<IconCalendar size="1.1rem" stroke={1.5} />}
-            clearable
-            value={currentDate}
-            onChange={setCurrentDate}
-            placeholder="Pick date"
-            label="Current date"
-            required
-            maw="50%"
-            error={dateError}
-          />
           <Group grow>
+            <DatePickerInput
+              icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+              clearable
+              value={currentDate}
+              onChange={setCurrentDate}
+              placeholder="Pick date"
+              label="Current date"
+              required
+              maw="50%"
+              error={dateError}
+            />
             <TextInput
               value={mealName}
               onChange={(event) => {
@@ -166,6 +165,8 @@ const MacroTracker = () => {
               withAsterisk
               maw="50%"
             />
+          </Group>
+          <Group grow>
             <NumberInput value={mealCalories} onChange={setMealCalories} placeholder="Calories" label="Calories" />
             <NumberInput value={proteinAmount} onChange={setProteinAmount} placeholder="Protein" label="Protein" />
             <NumberInput value={fatAmount} onChange={setFatAmount} placeholder="Fats" label="Fats" />
