@@ -65,12 +65,14 @@ export function PasswordStrengthBar(props) {
           placeholder={props.firstPlaceholder}
           mt="md"
           onChangeHandler={props.onChangeHandler}
+          autoComplete={props.autoComplete}
         />
         <FloatingPasswordInput
           label={props.secondLabel}
           placeholder={props.secondPlaceholder}
           mt="md"
           onChangeHandler={props.onConfirmPasswordHandler}
+          autoComplete={props.autoComplete}
         />
       </Stack>
 

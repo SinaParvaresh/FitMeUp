@@ -196,6 +196,7 @@ const Register = () => {
           placeholder="First Name"
           onChangeHandler={firstNameHandler}
           validationCheck={errorValidations}
+          autoComplete="given-name"
           error={errorValidations.shortFirstName}
         />
         <FloatingLabelInput
@@ -203,6 +204,7 @@ const Register = () => {
           label="Last Name"
           placeholder="Last Name"
           onChangeHandler={lastNameHandler}
+          autoComplete="family-name"
           error={errorValidations.shortLastName}
         />
         <FloatingLabelInput
@@ -210,6 +212,7 @@ const Register = () => {
           label="Email"
           placeholder="Email"
           onChangeHandler={emailHandler}
+          autoComplete="email"
           error={errorValidations.invalidEmail || errorValidations.emailExists || errorValidations.firebaseEmailError}
         />
 
@@ -218,6 +221,7 @@ const Register = () => {
           confirmPasswordValue={enteredConfirmPassword}
           onChangeHandler={passwordHandler}
           onConfirmPasswordHandler={confirmPasswordHandler}
+          autoComplete="password"
         />
 
         <Button type="submit" disabled={isLoading || !validPassword ? true : false}>

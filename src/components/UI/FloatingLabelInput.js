@@ -64,6 +64,7 @@ export function FloatingLabelInput(props) {
       label={props.label}
       placeholder={props.placeholder}
       type={props.type}
+      name={props.type}
       required
       description={props.description}
       validation={props.validationCheck}
@@ -72,7 +73,7 @@ export function FloatingLabelInput(props) {
       onBlur={() => setFocused(false)}
       error={props.error}
       mt="md"
-      autoComplete="nope"
+      autoComplete={props.autoComplete || "nope"}
     />
   );
 }
