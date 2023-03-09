@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
   icon: {
     display: "inline-block",
     marginRight: "1rem",
-    color: theme.colors.grape[9],
+    color: theme.colors.blue[5],
     width: `calc(2rem)`,
     height: `calc(2rem)`,
   },
@@ -50,32 +50,35 @@ const useStyles = createStyles((theme) => ({
     paddingRight: "1.2rem",
     paddingTop: "1rem",
     paddingBottom: "1rem",
+    marginBottom: "0.5rem",
+    width: "auto",
     transition: "all 0.5s ease-out",
 
     "&:hover": {
-      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[2],
     },
   },
 
   featureActive: {
     "&, &:hover": {
-      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[0],
-      border: "0.03rem solid",
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
+      border: "0.02rem solid white",
       borderRadius: "0.5rem",
-      boxShadow: `${theme.colors.gray[9]} 0 0.07rem`,
-      //   transition: "transform 250ms ease 0s",
-      //   transform: "scale(1.05)",
-      //   transform: "translateY(0rem)",
+      boxShadow:
+        theme.colorScheme !== "dark"
+          ? `${theme.colors.gray[3]} 0 0.07rem 0.1875rem, ${theme.colors.gray[3]} 0px 1.25rem 1.5625rem -0.3125rem, ${theme.colors.gray[3]} 0px 0.625rem 0.625rem -0.3125rem`
+          : theme.colors.dark[5],
+      transform: "scale(1.05)",
     },
   },
 
+  featureAnimation: {
+    opacity: 0,
+    transition: "opacity 0.5s ease-in-out",
+  },
   text: {
     fontSize: theme.fontSizes.lg,
     fontWeight: 700,
-  },
-
-  activeComponent: {
-    display: "none",
   },
 }));
 
@@ -97,9 +100,9 @@ const data = [
   },
 ];
 
-const Features = ({ currentComponent }) => {
+const Features = () => {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState({ currentComponent });
+  const [active, setActive] = useState(data[0].text);
 
   const features = data.map((feature) => (
     <UnstyledButton

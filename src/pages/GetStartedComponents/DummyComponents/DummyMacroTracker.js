@@ -20,8 +20,10 @@ import { IconCalendar, IconTrash } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   paper: {
-    width: "100%",
-    maxWidth: rem(800),
+    maxWidth: rem(900),
+    margin: "auto",
+    marginBottom: "10%",
+    borderRadius: theme.spacing.md,
     padding: "1rem",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
@@ -98,9 +100,9 @@ const DummyMacroTracker = () => {
   ));
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} withBorder>
       <Title order={1} align="center" m="md">
-        Try it out!
+        Track your Macros
       </Title>
       <SimpleGrid breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
         <Group grow>

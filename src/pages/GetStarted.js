@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
   inner: {
     display: "flex",
     justifyContent: "space-between",
-    paddingTop: `calc(${theme.spacing.xl} * 4)`,
+    paddingTop: `calc(${theme.spacing.xl} * 2)`,
     paddingBottom: `calc(${theme.spacing.xl} * 4)`,
   },
 
@@ -99,7 +99,13 @@ const GetStarted = () => {
 
             <Group mt={30}>
               <Link to="/login">
-                <Button radius="xl" size="md" className={classes.control}>
+                <Button
+                  variant="gradient"
+                  gradient={{ from: "indigo", to: "cyan" }}
+                  radius="xl"
+                  size="md"
+                  className={classes.control}
+                >
                   Get started
                 </Button>
               </Link>
@@ -113,7 +119,7 @@ const GetStarted = () => {
           </div>
         </div>
       </Container>
-      <Features currentComponent="Calorie Tracker" />
+      <Features />
       <RoadMap id="roadmap" />
     </Fragment>
   );

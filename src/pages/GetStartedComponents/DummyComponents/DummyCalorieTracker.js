@@ -9,8 +9,10 @@ import DietCalculations from "../../../components/CalorieTracker/DietCalculation
 
 const useStyles = createStyles((theme) => ({
   paper: {
-    width: "100%",
-    maxWidth: rem(800),
+    maxWidth: rem(900),
+    margin: "auto",
+    marginBottom: "10%",
+    borderRadius: theme.spacing.md,
     padding: "1rem",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
@@ -24,7 +26,6 @@ const DummyCalorieTracker = () => {
   const [calorieAdjustedError, setCaloriesAdjustedError] = useState(false);
   const [proteinIntakeError, setProteinIntakeError] = useState(false);
   const [dietTypeError, setDietTypeError] = useState(false);
-
   const { classes } = useStyles();
 
   const form = useForm({
